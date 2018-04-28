@@ -195,11 +195,11 @@ toEuFormat_v1 <- function(header.info, inspections, observations)
     na = ""
   )
   
-  # Get index ranges of inspections (see kwb.event::hsEventsOnChange()
-  n <- length(inspno)
-  change_index <- which(inspno[1:(n - 1)] != inspno[2:n]) + 1 
+  # Get index ranges of inspections (see kwb.event::hsEventsOnChange())
+  n_obs <- length(inspno)
+  change_index <- which(inspno[1:(n_obs - 1)] != inspno[2:n_obs]) + 1 
   begin_index <- c(1, change_index)
-  end_index = c(change_index - 1, n)
+  end_index = c(change_index - 1, n_obs)
   
   # Loop through the inspections
   for (i in seq_len(n)) {
