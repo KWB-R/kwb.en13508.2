@@ -293,39 +293,28 @@ removeDuplicatedColumns <- function(x, dbg = TRUE)
 
 # cleanDuplicatedColumns -------------------------------------------------------
 
-cleanDuplicatedColumns <- function(results)
+cleanDuplicatedColumns <- function(x)
 {
-  captions <- names(results)
+  captions <- names(x)
   
-  pattern.x <- "^(.*)\\.x$" # ending with ".x"
+  # indices of captions ending with ".x" or ".y"
+  indices <- lapply(paste0("\\.", c("x", "y"), "$"), grep, captions)
   
-  pattern.y <- "^(.*)\\.y$" # ending with ".y"
-  
-  indices.x <- grep(pattern.x, captions)
-  
-  indices.y <- grep(pattern.y, captions)
-  
-  if (length(indices.x) + length(indices.x) > 0) {
+  if (length(all_indices <- unlist(indices))) {
     
     #message("There are columns with suffixes '.x' or '.y'")
 
-    if (length(indices.x) != length(indices.y)) {
-      
-      stop(
-        "Missing columns with suffix '.x' or '.y': ",
-        kwb.utils::stringList(captions[c(indices.x, indices.y)])
-      )
-    }
+    if (length(indices[[1]]) != length(indices[[2]])) stop(
+      "Missing columns with suffix '.x' or '.y':\n",
+      kwb.utils::stringList(captions[all_indices])
+    )
     
     # Remove suffixes ".x" or ".y" -> produce duplicated column names
-    captions <- gsub(pattern.x, "\\1", captions)
+    captions[all_indices] <- kwb.utils::removeExtension(captions[all_indices])
     
-    captions <- gsub(pattern.y, "\\1", captions)
+    x <- removeDuplicatedColumns(stats::setNames(x, captions))
     
-    names(results) <- captions
-
-    results <- removeDuplicatedColumns(results)
   }
   
-  results
+  x
 }
