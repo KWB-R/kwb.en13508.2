@@ -1,0 +1,11 @@
+Package: kwb.en13508.2
+Maintainer: Hauke Sonnenberg <hauke.sonnenberg@kompetenz-wasser.de>
+Author: Hauke Sonnenberg
+Version: 0.2.0
+Imports: kwb.utils
+Remotes: github::kwb-r/kwb.utils
+License: GPL
+Title: Read and Write CCTV Inspection Data According to Norm EN13508-2
+Description: functions to read and write CCTV inspections according to 
+    EN13508-2.
+RoxygenNote: 6.0.1

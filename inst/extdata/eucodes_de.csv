@@ -1,0 +1,15 @@
+Code,Name,class,meaning
+A,Code,character,Hauptkode
+B,char1,character,Charakterisierung 1
+C,char2,character,Charakterisierung 2
+D,Dimension1,character,Quantifizierung 1
+E,Dimension2,numeric,Quantifizierung 2
+F,Remarks,character,Anmerkungen
+G,ClockRefAtFrom,integer,Lage am Umfang 1
+H,ClockRefTo,integer,Lage am Umfang 2
+I,Distance,numeric,horizontale oder vertikale Lage
+J,LineDamage,character,Kode für Streckenschaden
+K,,character,Verbindung
+L,,character,Beschreibung der Schadensstelle (bei Schächten oder Inspektionsöffnungen)
+M,,character,Fotoreferenz
+N,VideoRef,character,Videoreferenz

@@ -1,0 +1,119 @@
+Table,Code,Name,Text_EN,Text_DE,Text_FR
+B3,A,MainCode,Main code,Hauptkode,
+B3,B,Char1,Characterisation 1,Charakterisierung 1,
+B3,C,Char2,Characterisation 2,Charakterisierung 2,
+B3,D,Quant1,Quantification 1,Quantifizierung 1,
+B3,E,Quant2,Quantification 2,Quantifizierung 2,
+B3,F,Remarks,Remarks,Anmerkungen,
+B3,G,Circum1,Circumferential location 1,Lage am Umfang 1,
+B3,H,Circum2,Circumferential location 2,Lage am Umfang 2,
+B3,I,LongOrVertLoc,Longitudinal or vertical location,horizontale oder vertikale Lage,
+B3,J,ContDefectCode,Continuous defect code,Kode für Streckenschaden,
+B3,K,Joint,Joint,Verbindung,
+B3,L,DescLocField,Descriptive location field,Beschreibung der Schadensstelle,
+B3,M,PhotoRef,Photograph reference,Fotoreferenz,
+B3,N,VideoRef,Video reference,Videoreferenz,
+C1,AAA,PipeRef,Pipeline length reference,Haltungsbezeichnung,Référence de tronçon
+C1,AAB,StartNodeRef,Start node reference,Anfangsknotenbezeichnung,Référence du noeud de départ
+C1,AAC,StartNodeCoord,Start node coordinate,Anfangsknotenkoordinaten,Coordonnées du noeud de départ
+C1,AAD,Node1Ref,Node 1 reference,Bezeichnung des Knotens 1,Référence du noeud 1
+C1,AAE,Node1Coord,Node 1 node coordinate,Koordinaten des Knoten 1,Coordonnées du noeud 1
+C1,AAF,Node2Ref,Node 2 reference,Bezeichnung des Knotens 2,Référence du noeud 2
+C1,AAG,Node2Coord,Node 2 node coordinate,Koordinaten des Knoten 2,Coordonnées du noeud 2
+C1,AAH,LongLocStart,Longitudinal location of start of lateral,Beginn einer Nebenleitung in Längsrichtung,Emplacement longitudinal du point de départ de la canalisation latérale
+C1,AAI,CircLocLatStart,Circumferential location of start of lateral,Lage des Beginns einer Nebenleitung am Umfang,Emplacement circonférentiel du point de départ de la canalisation latérale
+C1,AAJ,Location,Location,Örtliche Lage,Emplacement
+C1,AAK,Direction,Direction of inspection,Richtung der Inspektion,Sens de l'écoulement
+C1,AAL,LocationType,Location type,Angaben zur örtlichen Lage,Type d'emplacement
+C1,AAM,Authority,Employing authority,Auftraggeber,Autorité responsable
+C1,AAN,Town,Town or village,Gemeinde,Ville ou village
+C1,AAO,District,District,Bezirk,Quartier
+C1,AAP,SewSysName,Name of sewer system,Bezeichnung des Entwässerungssystems,Nom du réseau d'assainissement
+C1,AAQ,Ownership,Land ownership,Eigentumsverhältnisse Eigentumsverhältnisse,Propriété foncière
+C1,AAR,,Not used,,
+C1,AAS,,Not used,,
+C1,AAT,,,Bezeichnung des Knotens 3,
+C1,AAU,,,Koordinaten des Knotens 2,
+C1,AAV,,,Anfangspunkt der Inspektion der Nebenleitung,
+C2,ABA,Standard,Standard,Norm,Norme
+C2,ABB,OrigCodeSys,Original coding system,Ursprüngliches Kodiersystem,Système de codage initial
+C2,ABC,LongRefPoint,Longitudinal reference point,Bezugspunkt in Längsrichtung,Point de référence longitudinal
+C2,ABD,,Not used,nicht belegt,
+C2,ABE,InspMethod,Method of inspection,Inspektionsverfahren,Méthode d'inspection
+C2,ABF,InspDate,Date of inspection,Datum der Inspektion,Date d'inspection
+C2,ABG,InspTime,Time of inspection,Uhrzeit der Inspektion,Heure d'inspection
+C2,ABH,InspectorName,Name of inspector,Name des Untersuchenden,Nom de l'inspecteur
+C2,ABI,InspectorJob,Inspectors job reference,Inspektionskennung,Référence de fonction de l'inspecteur
+C2,ABJ,EmployerJob,Employers job reference,Auftragskennung,Référence de fonction de l'employeur
+C2,ABK,VideoMedia,Video image storage media,Video-Speichermedium,Stockage des images vidéo
+C2,ABL,PhotoFormat,Photograph image storage format,Foto-Speichermedium,Stockage des photographies
+C2,ABM,VideoLoc,Video image location system,Videozähler,Système de position sur la bande vidéo
+C2,ABN,PhotoVolRef,Photograph volume reference,Fotoablagereferenz,Référence de photographie
+C2,ABO,VideoVolRef,Video volume reference,Videoablagereferenz,Référence de vidéo
+C2,ABP,InspPurpose,Purpose of inspection,Inspektionszweck,Objet de l'inspection
+C2,ABQ,ExpectedLength,Anticipated length of inspection,Erwartete Inspektionslänge,Etendue d'inspection prévue
+C2,ABR,VideoFormat,Video Image Format,Video-Speicherformat,
+C2,ABS,VideoFile,Video Image Filename,Video-Speicherdateiname,
+C2,ABT,PhotoFile,Photograph Image Filename,Stand der Inspektion,
+C3,ACA,Shape,Shape,Querschnittsform,Forme
+C3,ACB,Height,Height,Höhe,Hauteur
+C3,ACC,Width,Width,Breite,Largeur
+C3,ACD,Material,Material,Werkstoff,Matériau
+C3,ACE,LiningType,Lining Type,Auskleidung,Type de revêtement
+C3,ACF,LinigMaterial,Lining material,Auskleidungswerkstoff,Matériau de revêtement
+C3,ACG,PipeUnitLength,Pipe unit length,Rohrlänge,Longueur unitaire de conduite
+C3,ACH,DepthStartNode,Depth at start node,Tiefe am Anfangsknoten,Profondeur au noeud de départ
+C3,ACI,DepthFinishNode,Depth at finish node,Tiefe am Endknoten,Profondeur au noeud d'arrivée
+C3,ACJ,SewerType,Type of sewer,Art der Abwasserleitung oder des Abwasserkanals,Type de collecteur
+C3,ACK,SewerUse,Use of sewer,Benutzung der Abwasserleitung oder des Abwasserkanals,Utilisation du collecteur
+C3,ACL,Strategic,Strategic,Strategische Bedeutung,Position stratégique
+C3,ACM,Cleaning,Cleaning,Reinigung,Nettoyage
+C3,ACN,OperationYear,Year came into operation,Jahr der Inbetriebnahme,Année de mise en service
+C5,ADA,Precipitation,Precipitation,Niederschlag,Précipitations
+C5,ADB,Temperature,Temperature,Temperatur,Température
+C5,ADC,FlowControlMeasures,Flow control measures,Wasserhaltung,Régulation du débit
+C5,ADD,,is not used,wird nicht verwendet,
+C5,ADE,Remarks,General remark,Allgemeine Anmerkungen,Remarque générale
+C6,AEA,,Change in Video volume reference,Aenderung Videoablagereferenz,Référence de vidéo
+C6,AEB,,Change in Photograph volume reference,Aenderung Fotoablagereferenz,Référence de photographie
+C6,AEC,,Change in Shape,Aenderung Form,Section transversale
+C6,AED,,Change in Material,Aenderung Werkstoff,Matériau
+C6,AEE,,Change in Lining,Aenderung Auskleidung,Revêtement
+C6,AEF,,Change in Pipe unit length,Aenderung Rohrlänge,Longueur unitaire de conduite
+C6,AEG,,Change in Precipitation,Aenderung Niederschlag,Précipitations
+T4,BAA,,Deformation,Verformung,Déformation
+T4,BAB,,Fissure,Rissbildung,Fissure
+T4,BAC,,Break/Collapse,Rohrbruch/Einsturz,Rupture/effondrement
+T4,BAD,,Defective brickwork or masonry,Defektes Mauerwerk,Briquetage ou éléments de maçonnerie défectueux
+T4,BAE,,Missing mortar,Fehlender Mörtel,Mortier manquant
+T4,BAF,,Surface damage,Oberflächenschaden,Dégradation de surface
+T4,BAG,,Intruding connection,Einragender Anschluss,Branchement pénétrant
+T4,BAH,,Defective connection,Schadhafter Anschluss,Raccordement défectueux
+T4,BAI,,Intruding sealing material,Einragendes Dichtungsmaterial,Joint d'étanchéité apparent
+T4,BAJ,,Displaced joint,Verschobene Verbindung,Déplacement d'assemblage
+T4,BAK,,Lining defect,Schadhafte Innenauskleidung,Défaut de revêtement
+T4,BAL,,Defective repair,Schadhafte Reparatur,Réparation défectueuse
+T4,BAM,,Weld failure,Schadhafte Schweißnaht,Défaut de soudage
+T4,BAN,,Porous pipe,Poröses Rohr,Conduite poreuse
+T4,BAO,,Soil visible through defect,Boden sichtbar,Sol visible par le défaut
+T4,BAP,,Void visible through defect,Hohlraum sichtbar,Vide visible par le défaut
+T5,BBA,,Roots,Wurzeln,Racines
+T5,BBB,,Attached deposits,Anhaftende Stoffe,Dépôts adhérents
+T5,BBC,,Settled deposits,Ablagerungen,Dépôts
+T5,BBD,,Ingress of soil,Eindringen von Bodenmaterial,Entrée de terre
+T5,BBE,,Other obstacles,Andere Hindernisse,Autres obstacles
+T5,BBF,,Infiltration,Infiltration,Infiltration
+T5,BBG,,Exfiltration,Exfiltration,Exfiltration
+T5,BBH,,Vermin,Ungeziefer,Vermine
+T6,BCA,,Connection,Anschluss,Raccordement
+T6,BCB,,Point repair,Punktuelle Reparatur,Réparation ponctuelle
+T6,BCC,,Curvature of sewer,Krümmung der Leitung,Courbure du collecteur
+T6,BCD,,Start node type,Anfangsknoten,Type du noeud de départ
+T6,BCE,,Finish node,Endknoten,Référence du noeud d'arrivée
+T7,BDA,,General photograph,Allgemeines Foto,Photographie générale
+T7,BDB,,General remark,Allgemeine Anmerkung,Remarque générale
+T7,BDC,,Inspection abandoned,Inspektion abgebrochen,Inspection abandonnée
+T7,BDD,,Water level,Wasserspiegel,Niveau d'eau
+T7,BDE,,Flow in incoming pipe,Zufluss aus einem Anschluss,Écoulement dans une canalisation entrante
+T7,BDF,,Atmosphere within the pipeline,Atmosphäre in der Leitung,Atmosphère au sein de la canalisation
+T7,BDG,,Loss of vision,Keine Sicht,Perte de visibilité
