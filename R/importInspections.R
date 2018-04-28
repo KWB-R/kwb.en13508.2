@@ -5,9 +5,9 @@ getInspectionsFromEuLines.new <- function(eu_lines, header.info, dbg = TRUE)
   x <- mergeInspectionBlocks(extractInspectionBlocks(
     eu_lines = eu_lines, 
     headerInfos = getInspectionHeaderInfo(eu_lines), 
-    sep = kwb.utils::selectElements(header.info, "separator"), 
-    dec = kwb.utils::selectElements(header.info, "decimal"), 
-    quoteCharacter = kwb.utils::selectElements(header.info, "quote"), 
+    sep = get_elements(header.info, "separator"), 
+    dec = get_elements(header.info, "decimal"), 
+    quoteCharacter = get_elements(header.info, "quote"), 
     dbg = dbg
   ))
 

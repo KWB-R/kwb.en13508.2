@@ -85,7 +85,7 @@ get_observations <- function(caption_line, c_body, header_info)
   # Select and rename elements from "header_info" into list "arguments"
   elements <- c(sep = "separator", dec = "decimal", quote = "quote")
 
-  arguments <- kwb.utils::selectElements(header_info, elements)
+  arguments <- get_elements(header_info, elements)
 
   # Split the caption line into column captions using the separator  
   captions <- strsplit(caption_line, arguments$sep)[[1]]

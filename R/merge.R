@@ -45,7 +45,7 @@ mergeInspectionData <- function(x)
   warnOnDifferingHeaders(x)
   
   # In any case, use the first header
-  header_info <- kwb.utils::selectElements(x[[1]], "header.info")
+  header_info <- get_elements(x[[1]], "header.info")
   
   # Join the inspections
   inspections_all <- kwb.utils::safeRowBindOfListElements(x, "inspections")
@@ -59,12 +59,12 @@ mergeInspectionData <- function(x)
   
   for (i in seq_along(x)) {
     
-    observations <- kwb.utils::selectElements(x[[i]], "observations")
+    observations <- get_elements(x[[i]], "observations")
           
     # Add inspection number offset (maximum value so far) to column "inspno"
     if (i > 1) {
       
-      inspno <- kwb.utils::selectColumns(observations, "inspno")
+      inspno <- get_columns(observations, "inspno")
       
       observations$inspno <- inspno + offsets[i - 1]
     }
@@ -86,7 +86,7 @@ warnOnDifferingHeaders <- function(x)
   # list to data frame
   header_infos <- do.call(rbind, lapply(x, function(x) {
     
-    as.data.frame(kwb.utils::selectElements(x, "header.info"))
+    as.data.frame(get_elements(x, "header.info"))
   }))
   
   # In which columns all the values are equal?

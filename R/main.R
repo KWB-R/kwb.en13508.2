@@ -1,3 +1,9 @@
+# get_columns ------------------------------------------------------------------
+get_columns <- kwb.utils::selectColumns
+
+# get_elements -----------------------------------------------------------------
+get_elements <- kwb.utils::selectElements
+
 # getCodes ---------------------------------------------------------------------
 
 #' Get EU Codes and Their Meaning
@@ -18,16 +24,16 @@ getCodes <- function(table = NULL, fields = NULL)
   codes <- readPackageFile("eucodes.csv")
   
   # Check if all codes are unique
-  stopifnot(! any(duplicated(kwb.utils::selectColumns(codes, "Code"))))
+  stopifnot(! any(duplicated(get_columns(codes, "Code"))))
   
   if (! is.null(table)) {
     
-    codes <- codes[kwb.utils::selectColumns(codes, "Table") == table, ]
+    codes <- codes[get_columns(codes, "Table") == table, ]
   }
   
   if (! is.null(fields)) {
     
-    codes <- kwb.utils::selectColumns(codes, fields)
+    codes <- get_columns(codes, fields)
   }
   
   codes
@@ -49,7 +55,7 @@ getCodes <- function(table = NULL, fields = NULL)
 #' 
 numberOfInspections <- function(x)
 {
-  sapply(x, function(xx) nrow(kwb.utils::selectElements(xx, "inspections")))
+  sapply(x, function(xx) nrow(get_elements(xx, "inspections")))
 }
 
 # inspectionDataFieldCodes -----------------------------------------------------
@@ -58,13 +64,13 @@ inspectionDataFieldCodes <- function()
 {
   codeInfo <- readPackageFile("eucodes_de.csv")
   
-  codes <- kwb.utils::selectColumns(codeInfo, "Code")
+  codes <- get_columns(codeInfo, "Code")
   
   columns <- c("class", "meaning")
   
   lapply(kwb.utils::toNamedList(codes), function(code) {
     
-    as.list(kwb.utils::selectColumns(codeInfo[codes == code, ], columns))
+    as.list(get_columns(codeInfo[codes == code, ], columns))
   })
 }
 

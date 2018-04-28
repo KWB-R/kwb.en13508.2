@@ -52,34 +52,37 @@ writeEuCodedFiles <- function(survey, file, blocksize = 100, dbg = TRUE)
 {
   stopifnot(kwb.utils::stringEndsWith(file, ".txt"))
   
-  N <- nrow(survey$inspections)
+  N <- nrow(get_elements(survey, "inspections"))
   
-  for (blocknumber in seq_len(ceiling(N / blocksize))) {
+  for (block_number in seq_len(ceiling(N / blocksize))) {
     
-    i <- (blocknumber - 1) * blocksize + 1
+    i <- (block_number - 1) * blocksize + 1
     
-    j <- min(blocknumber * blocksize, N)
+    j <- min(block_number * blocksize, N)
     
     pattern <- paste0("%0", nchar(N), "d")
     
     postfix <- sprintf(paste0("_", pattern, "_", pattern, ".txt"), i, j)
     
-    output.file <- gsub("\\.txt$", postfix, file)
+    output_file <- gsub("\\.txt$", postfix, file)
+
+    kwb.utils::.logstart(dbg, "Writing", output_file)
+
+    inspno <- get_columns(get_elements(survey, "observations"), "inspno")
     
     # Select inspections with numbers between i and j and select the 
     # corresponding observations
+    selected <- kwb.utils::inRange(inspno, i, j)
     
-    selected <- kwb.utils::inRange(survey$observations$inspno, i, j)
-    
-    block <- list(
-      header.info = survey$header.info,
-      inspections = survey$inspections[i:j, ],
-      observations = survey$observations[selected, ]
+    writeEuCodedFile(
+      inspection.data = list(
+        header.info = get_elements(survey, "header.info"),
+        inspections = get_elements(survey, "inspections")[i:j, ],
+        observations = get_elements(survey, "observations")[selected, ]
+      ), 
+      output.file = output_file, 
+      dbg = dbg
     )
-    
-    kwb.utils::.logstart(dbg, "Writing", output.file)
-    
-    writeEuCodedFile(block, output.file, dbg = dbg)
     
     kwb.utils::.logok(dbg)
   }
@@ -119,9 +122,9 @@ writeEuCodedFile <- function(
   output.lines <- if (version == 1) {
     
     toEuFormat_v1(
-      header.info = kwb.utils::selectElements(inspection.data, "header.info"), 
-      inspections = kwb.utils::selectElements(inspection.data, "inspections"), 
-      observations = kwb.utils::selectElements(inspection.data, "observations")
+      header.info = get_elements(inspection.data, "header.info"), 
+      inspections = get_elements(inspection.data, "inspections"), 
+      observations = get_elements(inspection.data, "observations")
     )
     
   } else if (version == 2) {
@@ -167,7 +170,7 @@ toEuFormat_v1 <- function(header.info, inspections, observations)
   sep <- header.info$separator
   
   # Save the inspection numbers
-  inspno <- kwb.utils::selectColumns(observations, "inspno")
+  inspno <- get_columns(observations, "inspno")
   
   # Remove the column containing the inspection numbers
   observations <- kwb.utils::removeColumns(observations, "inspno")
@@ -283,7 +286,6 @@ observationHeaderLine <- function(header.fields, separator)
 toEuFormat_v2 <- function(inspection.data, mycsv, ...)
 {
   #kwb.utils::assignPackageObjects("kwb.en13508.2")
-  get_elements <- kwb.utils::selectElements
 
   # Provide list elements in variables header_info, inspections, observations
   header_info <- get_elements(inspection.data, "header.info")
@@ -291,7 +293,7 @@ toEuFormat_v2 <- function(inspection.data, mycsv, ...)
   observations <- get_elements(inspection.data, "observations")
   
   # Save the inspection numbers in inspno
-  inspection_numbers <- kwb.utils::selectColumns(observations, "inspno")
+  inspection_numbers <- get_columns(observations, "inspno")
   
   # Remove the inspection numbers
   observations <- kwb.utils::removeColumns(observations, "inspno")
