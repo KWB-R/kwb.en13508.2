@@ -1,4 +1,4 @@
-utils::globalVariables(c("buffer")) # see toEuFormattedLines_v1
+utils::globalVariables(c("buffer")) # see toEuFormat_v1
 
 # euCodedFileHeader ------------------------------------------------------------
 
@@ -57,11 +57,13 @@ writeEuCodedFiles <- function(survey, file, blocksize = 100, dbg = TRUE)
   for (blocknumber in seq_len(ceiling(N / blocksize))) {
     
     i <- (blocknumber - 1) * blocksize + 1
+    
     j <- min(blocknumber * blocksize, N)
     
     pattern <- paste0("%0", nchar(N), "d")
     
     postfix <- sprintf(paste0("_", pattern, "_", pattern, ".txt"), i, j)
+    
     output.file <- gsub("\\.txt$", postfix, file)
     
     # Select inspections with numbers between i and j and select the 
@@ -98,49 +100,56 @@ writeEuCodedFiles <- function(survey, file, blocksize = 100, dbg = TRUE)
 #' @param output.file full path to output file
 #' @param version version of implementation. One of \code{c(1, 2, 3)}
 #' @param dbg if \code{TRUE} debug messages are shown
-#' @param \dots passed to \code{toEuFormattedLines_v2_3}
+#' @param \dots passed to \code{toEuFormat_v2}
+#' 
+#' @return if \code{output.file} is given, the path to the output file is 
+#'   returned, otherwise (\code{output.file = NULL}) the file content is
+#'   returned as a vector of character representing the lines of the file.
 #' 
 #' @export
 #' 
 writeEuCodedFile <- function(
-  inspection.data, output.file, version = 3, dbg = TRUE, ...
+  inspection.data, output.file = NULL, version = 3, dbg = TRUE, ...
 )
 {
   #kwb.utils::assignPackageObjects("kwb.en13508.2")
-  
-  columns <- c("header.info", "inspections", "observations")
-  
-  kwb.utils::checkForMissingColumns(inspection.data, columns)
   
   kwb.utils::.logstart(dbg, "Formatting lines")
   
   output.lines <- if (version == 1) {
     
-    toEuFormattedLines_v1(
-      header.info = inspection.data$header.info, 
-      inspections = inspection.data$inspections, 
-      observations = inspection.data$observations
+    toEuFormat_v1(
+      header.info = kwb.utils::selectElements(inspection.data, "header.info"), 
+      inspections = kwb.utils::selectElements(inspection.data, "inspections"), 
+      observations = kwb.utils::selectElements(inspection.data, "observations")
     )
     
   } else if (version == 2) {
     
-    toEuFormattedLines_v2_3(inspection.data, mycsv = FALSE, ...)
+    toEuFormat_v2(inspection.data, mycsv = FALSE, ...)
     
   } else {
     
-    toEuFormattedLines_v2_3(inspection.data, mycsv = TRUE, ...)
+    toEuFormat_v2(inspection.data, mycsv = TRUE, ...)
   }  
   
   kwb.utils::.logok(dbg)
-  
-  kwb.utils::.logstart(dbg, "Writing lines to", output.file)
-  
-  writeLines(output.lines, output.file)  
-  
-  kwb.utils::.logok(dbg)
+
+  if (! is.null(output.file)) {
+    
+    kwb.utils::.logstart(dbg, "Writing lines to", output.file)
+    
+    writeLines(output.lines, output.file)  
+    
+    kwb.utils::.logok(dbg)
+    
+  } else {
+    
+    output.lines
+  }
 }
 
-# toEuFormattedLines_v1 --------------------------------------------------------
+# toEuFormat_v1 ----------------------------------------------------------------
 
 #' Generate Lines in EU Export Format (v1)
 #' 
@@ -153,7 +162,7 @@ writeEuCodedFile <- function(
 #' @param observations according to list element "observations" of list returned
 #'   by \code{\link{readEuCodedFile}}
 #' 
-toEuFormattedLines_v1 <- function(header.info, inspections, observations)
+toEuFormat_v1 <- function(header.info, inspections, observations)
 {
   sep <- header.info$separator
   
@@ -259,7 +268,7 @@ observationHeaderLine <- function(header.fields, separator)
   ))
 }
 
-# toEuFormattedLines_v2_3 ------------------------------------------------------
+# toEuFormat_v2 ----------------------------------------------------------------
 
 #' Generate Lines in EU Export Format (v2)
 #' 
@@ -271,117 +280,71 @@ observationHeaderLine <- function(header.fields, separator)
 #'   otherwise CSV is written by means of write.table (slow)
 #' @param \dots further arguments passed to dataFrameContentToTextLines
 #'   
-toEuFormattedLines_v2_3 <- function(inspection.data, mycsv, ...)
+toEuFormat_v2 <- function(inspection.data, mycsv, ...)
 {
   #kwb.utils::assignPackageObjects("kwb.en13508.2")
-  columns <- c("header.info", "inspections", "observations")
+  get_elements <- kwb.utils::selectElements
+
+  # Provide list elements in variables header_info, inspections, observations
+  header_info <- get_elements(inspection.data, "header.info")
+  inspections <- get_elements(inspection.data, "inspections")
+  observations <- get_elements(inspection.data, "observations")
   
-  kwb.utils::checkForMissingColumns(inspection.data, columns)
+  # Save the inspection numbers in inspno
+  inspection_numbers <- kwb.utils::selectColumns(observations, "inspno")
   
-  header.info <- inspection.data$header.info
-  
-  inspections <- inspection.data$inspections
-  
-  observations <- inspection.data$observations
-  
-  kwb.utils::checkForMissingColumns(observations, "inspno")
-  
-  cumlen <- cumsum(numberOfObservations(observations$inspno))
-  
+  # Remove the inspection numbers
   observations <- kwb.utils::removeColumns(observations, "inspno")
+
+  # Build argument list for calling dataFrameContentToTextLines
+  elements <- c(sep = "separator", dec = "decimal", qchar = "quote")
+  arguments <- get_elements(header_info, elements)
   
-  columns <- c("separator", "decimal", "quote")
+  # Save the separator in its own variable for reusage
+  sep <- arguments$sep
+
+  # Helper function to create CSV lines
+  to_csv <- function(x) do.call(dataFrameContentToTextLines, c(
+    arguments, list(dframe = x, na = "", mycsv = mycsv, ...)
+  ))
+
+  # Start the output lines with the A-block
+  out_lines <- getHeaderLinesFromHeaderInfo(header_info)
+
+  # Offset of further rows
+  offset <- length(out_lines)
+
+  # Cumulative sizes (number of lines) of the C-blocks
+  c_sizes <- cumsum(unname(table(inspection_numbers)))
+
+  # Number of C-blocks (= number of inspections)
+  n <- length(c_sizes)
+
+  cat("ok.\n  Writing B-blocks (inspection data) ... ")
   
-  kwb.utils::checkForMissingColumns(header.info, columns)
+  b_indices <- offset + 1 + 4 * (seq_len(n) - 1) + c(0, c_sizes[-n])
   
-  sep <- header.info$separator
-  dec <- header.info$decimal
-  qchar <- header.info$quote
+  out_lines[b_indices] <- inspectionHeaderLine(names(inspections), sep)
+
+  out_lines[b_indices + 1] <- to_csv(inspections)
+
+  cat("ok.\n  Writing C-blocks (observation data) ... ")
+
+  out_lines[b_indices + 2] <- observationHeaderLine(names(observations), sep)
+
+  z_indices <- b_indices[-1] - 1
+
+  skip_indices <- c(b_indices, b_indices + 1, b_indices + 2, z_indices)
+
+  n_rows <- c_sizes[n] + 4 * n - 1 + offset
   
-  cat("\n  Writing inspections to buffer...")
+  c_body_indices <- setdiff(seq(offset + 1, n_rows), skip_indices)
   
-  inspections.buffer <- dataFrameContentToTextLines(
-    dframe = inspections, sep = sep, dec = dec, qchar = qchar, na = "", 
-    mycsv = mycsv, ...
-  )
+  out_lines[c_body_indices] <- to_csv(observations)
   
   cat("ok.\n")
   
-  cat("  Writing observations to buffer...")
-  
-  observations.buffer <- dataFrameContentToTextLines(
-    observations, sep = sep, dec = dec, qchar = qchar, na = "", mycsv = mycsv, 
-    ...
-  )
-  
-  cat("ok.\n")
-  
-  inspections.header <- inspectionHeaderLine(names(inspections), sep)    
-  observations.header <- observationHeaderLine(names(observations), sep)
-  
-  end.of.inspection.identifier <- "#Z"  
-  
-  a.lines <- getHeaderLinesFromHeaderInfo(header.info)
-  
-  offset <- length(a.lines)
-  a.header.indices <- 1:offset
-  b.header.indices <- get_B_Positions(cumlen) + offset
-  b.values.indices <- b.header.indices + 1
-  c.header.indices <- b.header.indices + 2
-  z.indices <- get_Z_Positions(cumlen) + offset
-  
-  skip.indices <- c(
-    a.header.indices, 
-    b.header.indices, b.values.indices, 
-    c.header.indices, 
-    z.indices
-  )
-  
-  num.rows <- numberOfNeededRows(cumlen) + offset
-  c.values.indices <- setdiff(1:num.rows, skip.indices)
-  
-  out.buffer <- character()
-  out.buffer[a.header.indices] <- a.lines
-  out.buffer[b.header.indices] <- inspections.header
-  out.buffer[b.values.indices] <- inspections.buffer
-  out.buffer[c.header.indices] <- observations.header
-  out.buffer[c.values.indices] <- observations.buffer
-  out.buffer[z.indices] <- end.of.inspection.identifier
-  out.buffer
-}
+  out_lines[z_indices] <- "#Z"
 
-# numberOfObservations ---------------------------------------------------------
-
-numberOfObservations <- function(inspection.numbers)
-{
-  counts <- stats::aggregate(
-    inspection.numbers, by = list(inspection.numbers), FUN = length
-  )
-  
-  counts$x
-}
-
-# numberOfNeededRows -----------------------------------------------------------
-
-numberOfNeededRows <- function(cumlen)
-{
-  n <- length(cumlen)
-  
-  cumlen[n] + 4 * n - 1
-}
-
-# get_B_Positions --------------------------------------------------------------
-
-get_B_Positions <- function(cumlen) 
-{
-  n <- length(cumlen)
-  
-  1 + 4 * seq(0, n - 1) + c(0, cumlen[-n])
-}
-
-# get_Z_Positions --------------------------------------------------------------
-
-get_Z_Positions <- function(cumlen)
-{
-  (get_B_Positions(cumlen) - 1)[-1]
+  out_lines
 }

@@ -4,7 +4,8 @@
 \alias{writeEuCodedFile}
 \title{Write Inspection Data to File in EU Format}
 \usage{
-writeEuCodedFile(inspection.data, output.file, version = 3, dbg = TRUE, ...)
+writeEuCodedFile(inspection.data, output.file = NULL, version = 3,
+  dbg = TRUE, ...)
 }
 \arguments{
 \item{inspection.data}{inspection data as retrieved by e.g.
@@ -22,7 +23,12 @@ with required columns \code{inspno} (inspection number)}
 
 \item{dbg}{if \code{TRUE} debug messages are shown}
 
-\item{\dots}{passed to \code{toEuFormattedLines_v2_3}}
+\item{\dots}{passed to \code{toEuFormat_v2}}
+}
+\value{
+if \code{output.file} is given, the path to the output file is 
+  returned, otherwise (\code{output.file = NULL}) the file content is
+  returned as a vector of character representing the lines of the file.
 }
 \description{
 Write Inspection Data to File in EU Format
