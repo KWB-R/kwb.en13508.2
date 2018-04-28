@@ -4,105 +4,136 @@ getObservationsFromEuLines <- function(
   eu_lines, header.info, old.version = FALSE, dbg = TRUE
 )
 {
-  indices.A <- grep("^#A", eu_lines)
+  block_letters <- c("A", "B", "C", "Z")
   
-  indices.B <- grep("^#B", eu_lines)
+  patterns <- paste0("^#", block_letters)
   
-  indices.C <- grep("^#C", eu_lines)
-  
-  indices.Z <- grep("^#Z", eu_lines)
+  indices <- stats::setNames(lapply(patterns, grep, eu_lines), block_letters)
   
   # If the file does not end with #Z add "number of lines + 1" to the vector of
   # #Z-indices
-  lastIndex.Z <- if (kwb.utils::isNullOrEmpty(indices.Z)) {
+  last_z_index <- if (kwb.utils::isNullOrEmpty(indices$Z)) {
     
     -1
     
   } else {
     
-    indices.Z[length(indices.Z)]
+    kwb.utils::lastElement(indices$Z)
   }
 
-  if (lastIndex.Z != length(eu_lines)) {
+  n_lines <- length(eu_lines)
+  
+  if (last_z_index != n_lines) {
     
-    indices.Z <- c(indices.Z, length(eu_lines) + 1)
+    indices$Z <- c(indices$Z, n_lines + 1)
     
     kwb.utils::catIf(
       dbg, "A 'virtual' inspection block end '#Z' has been added.\n"
     )
   }
-    
-  c.caption.lines <- getValueFromKeyValueString(eu_lines[indices.C])
   
-  stopifnot(kwb.utils::allAreEqual(c.caption.lines))
+  #kwb.utils::assignPackageObjects("kwb.en13508.2")  
+  c_headers <- getValueFromKeyValueString(eu_lines[indices$C])
   
-  indices.remove <- c(
-    indices.A, indices.B, indices.B + 1, indices.C, indices.Z
+  stopifnot(kwb.utils::allAreEqual(c_headers))
+  
+  indices_remove <- c(indices$A, indices$B, indices$B + 1, indices$C, indices$Z)
+  
+  #header.info <- kwb.en13508.2::euCodedFileHeader()
+  observations <- get_observations(
+    caption_line = c_headers[1], 
+    c_body = eu_lines[-indices_remove], 
+    header_info = header.info
   )
   
-  observations <- getObservationsAsDataFrame(
-    captionLine = c.caption.lines[1], c.value.lines = eu_lines[-indices.remove], 
-    header.info = header.info
-  )
+  indices$B01 <- indices$B[grep("^#B01=", eu_lines[indices$B])]
   
-  indices.B01 <- indices.B[grep("^#B01=", eu_lines[indices.B])]
-  
-  numberOfInspections <- length(indices.B01)
+  n_inspections <- length(indices$B01)
   
   # Try to generate a vector of inspection numbers assigning to each observation
   # the number of inspection that it belongs to 
-  inspectionNumbers <- try(if (old.version) {
+  inspection_numbers <- try(if (old.version) {
+    
     getInspectionNumbers.old(
-      indices.C, indices.Z, numberOfInspections, maxline = length(eu_lines)
-    )      
+      indices$C, indices$Z, n_inspections, maxline = length(eu_lines)
+    )
+    
   } else {
-    getInspectionNumbers(indices.C, indices.B01, indices.B, indices.Z)
+    
+    getInspectionNumbers(indices$C, indices$B01, indices$B, indices$Z)
   })
   
-  stopifnot(length(inspectionNumbers) == nrow(observations))
+  stopifnot(length(inspection_numbers) == nrow(observations))
   
-  if (is.null(inspectionNumbers)) {
+  if (is.null(inspection_numbers)) {
     
     message(
       "I could not determine the inspection numbers so I put NA into ",
       "column 'inspno'!"
     )
     
-    inspectionNumbers <- NA
+    inspection_numbers <- NA
   }
   
-  kwb.utils::setColumns(observations, inspno = inspectionNumbers)
+  kwb.utils::setColumns(observations, inspno = inspection_numbers)
 }
 
-# getObservationsAsDataFrame ---------------------------------------------------
+# get_observations -------------------------------------------------------------
 
-getObservationsAsDataFrame <- function(captionLine, c.value.lines, header.info)
-{  
-  c.captions <- strsplit(captionLine, header.info$separator)[[1]]
+get_observations <- function(caption_line, c_body, header_info)
+{
+  # Select and rename elements from "header_info" into list "arguments"
+  elements <- c(sep = "separator", dec = "decimal", quote = "quote")
+
+  arguments <- kwb.utils::selectElements(header_info, elements)
+
+  # Split the caption line into column captions using the separator  
+  captions <- strsplit(caption_line, arguments$sep)[[1]]
+
+  # Try to find the column types for the given captions
+  colClasses <- sapply(captions, FUN = inspectionDataFieldCodeClass)
+
+  # Which columns are unknown (the type is NULL)
+  is_null <- sapply(colClasses, is.null)
+
+  # Are all columns unknown?
+  all_null <- all(is_null)
   
-  colClasses <- sapply(c.captions, FUN = inspectionDataFieldCodeClass)
-  
-  nullClasses <- colClasses[sapply(colClasses, is.null)]
-  
-  if (length(nullClasses) > 0) {
+  if (all_null) {
     
-    skippedColumns <- names(nullClasses)
+    codes <- inspectionDataFieldCodes()
+    
+    warning(
+      "None of the column names of the C-blocks is known.\n", 
+      "Expected column names are:\n  ", paste0(
+        names(codes), " (", sapply(codes, "[[", "meaning"), ")",
+        collapse = "\n  "
+      ), call. = FALSE
+    )
+    
+  } else if (sum(is_null)) {
     
     warning(
       "The following columns of the 'C-blocks' are skipped since their ", 
-      "meaning is unknown:\n", kwb.utils::stringList(skippedColumns)
+      "meaning is unknown:\n", kwb.utils::stringList(names(which(is_null))), 
+      call. = FALSE
     )
-    
-    c.captions <- setdiff(c.captions, skippedColumns)
   }
   
-  observations <- kwb.utils::csvTextToDataFrame(
-    text = paste(c.value.lines, collapse = "\n"), sep = header.info$separator, 
-    dec = header.info$decimal, quote = header.info$quote, comment.char = "", 
+  # If all column names are unknown, read all columns by setting colClasses
+  # to NA, otherwise let read.table skip the unknown columns
+  colClasses <- if (all(is_null)) NA else unname(colClasses)
+
+  observations <- utils::read.table(
+    text = paste(c_body, collapse = "\n"), sep = arguments$sep, 
+    dec = arguments$dec, quote = arguments$quote, comment.char = "", 
     blank.lines.skip = FALSE, stringsAsFactors = FALSE, colClasses = colClasses
   )
   
-  stats::setNames(observations, c.captions)
+  # Set the column names to the captions
+  names(observations) <- if (all(is_null)) captions else captions[! is_null]
+  
+  observations
 }
 
 # getInspectionNumbers ---------------------------------------------------------
