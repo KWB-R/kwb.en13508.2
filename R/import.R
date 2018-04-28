@@ -96,20 +96,20 @@ readEuCodedFile <- function(
 {
   kwb.utils::.logstart(dbg, "Reading input file", input.file)
   
-  eu.lines <- readLines(input.file, encoding = encoding)
+  eu_lines <- readLines(input.file, encoding = encoding)
   
   kwb.utils::.logok(dbg)
   
   kwb.utils::.logstart(dbg, "Removing empty lines (if any)")
   
-  eu.lines <- removeEmptyLines(eu.lines)
+  eu_lines <- removeEmptyLines(eu_lines)
   
   kwb.utils::.logok(dbg)
   
   kwb.utils::.logstart(dbg, "Extracting file header")
   
   header.info <- getHeaderInfoFromHeaderLines(
-    getHeaderLinesFromEuCodedLines(eu.lines),
+    getHeaderLinesFromEuCodedLines(eu_lines),
     warn = warn
   )  
   
@@ -123,7 +123,7 @@ readEuCodedFile <- function(
     
     if (simple.algorithm) {
       
-      inspections <- getInspectionsFromEuLines(eu.lines, header.info)
+      inspections <- getInspectionsFromEuLines(eu_lines, header.info)
     }
     
     # If the inspections could not be read with the simple algorithm (due to
@@ -132,7 +132,7 @@ readEuCodedFile <- function(
     if (is.null(inspections)) {
       
       inspections <- getInspectionsFromEuLines.new(
-        eu.lines, header.info, dbg = dbg
+        eu_lines, header.info, dbg = dbg
       )
     }
     
@@ -149,14 +149,14 @@ readEuCodedFile <- function(
       
     )
     
-    inspections <- length(grep("^#B01", eu.lines))
+    inspections <- length(grep("^#B01", eu_lines))
   }
   
   kwb.utils::.logok(dbg)
   
   kwb.utils::.logstart(dbg, "Extracting observation records")
   
-  observations <- getObservationsFromEuLines(eu.lines, header.info, dbg = dbg)
+  observations <- getObservationsFromEuLines(eu_lines, header.info, dbg = dbg)
   
   kwb.utils::catIf(
     dbg, sprintf("%d observations extracted. ", nrow(observations))
@@ -248,7 +248,7 @@ findKeyAndExtractValue <- function(keyvalues, key, default = NA, warn = TRUE)
 
 # getInspectionsFromEuLines ----------------------------------------------------
 
-getInspectionsFromEuLines <- function(eu.lines, header.info)
+getInspectionsFromEuLines <- function(eu_lines, header.info)
 {
   inspections.complete <- NULL
   
@@ -256,20 +256,20 @@ getInspectionsFromEuLines <- function(eu.lines, header.info)
   
   continue <- TRUE
   
-  indices.B <- grep("^#B01", eu.lines)
+  indices.B <- grep("^#B01", eu_lines)
   
   aborted <- FALSE
   
   while (! aborted && length(indices.B) > 0) {
     
-    b.caption.lines <- getValueFromKeyValueString(eu.lines[indices.B])
+    b.caption.lines <- getValueFromKeyValueString(eu_lines[indices.B])
     
     b.captions <- strsplit(b.caption.lines, header.info$separator)
     
     if (kwb.utils::allAreEqual(b.captions)) {
       
       inspections <- extractInspectionData(
-        b.lines = eu.lines[indices.B + 1],
+        b.lines = eu_lines[indices.B + 1],
         header.info = header.info,
         captions = b.captions[[1]]
       )
@@ -290,7 +290,7 @@ getInspectionsFromEuLines <- function(eu.lines, header.info)
     
     header.line.number <- header.line.number + 1
     
-    indices.B <- grep(sprintf("^#B%02d", header.line.number), eu.lines)    
+    indices.B <- grep(sprintf("^#B%02d", header.line.number), eu_lines)    
   }  
   
   if (! aborted) {

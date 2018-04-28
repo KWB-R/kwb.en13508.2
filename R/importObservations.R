@@ -1,16 +1,16 @@
 # getObservationsFromEuLines ---------------------------------------------------
 
 getObservationsFromEuLines <- function(
-  eu.lines, header.info, old.version = FALSE, dbg = TRUE
+  eu_lines, header.info, old.version = FALSE, dbg = TRUE
 )
 {
-  indices.A <- grep("^#A", eu.lines)
+  indices.A <- grep("^#A", eu_lines)
   
-  indices.B <- grep("^#B", eu.lines)
+  indices.B <- grep("^#B", eu_lines)
   
-  indices.C <- grep("^#C", eu.lines)
+  indices.C <- grep("^#C", eu_lines)
   
-  indices.Z <- grep("^#Z", eu.lines)
+  indices.Z <- grep("^#Z", eu_lines)
   
   # If the file does not end with #Z add "number of lines + 1" to the vector of
   # #Z-indices
@@ -23,16 +23,16 @@ getObservationsFromEuLines <- function(
     indices.Z[length(indices.Z)]
   }
 
-  if (lastIndex.Z != length(eu.lines)) {
+  if (lastIndex.Z != length(eu_lines)) {
     
-    indices.Z <- c(indices.Z, length(eu.lines) + 1)
+    indices.Z <- c(indices.Z, length(eu_lines) + 1)
     
     kwb.utils::catIf(
       dbg, "A 'virtual' inspection block end '#Z' has been added.\n"
     )
   }
     
-  c.caption.lines <- getValueFromKeyValueString(eu.lines[indices.C])
+  c.caption.lines <- getValueFromKeyValueString(eu_lines[indices.C])
   
   stopifnot(kwb.utils::allAreEqual(c.caption.lines))
   
@@ -41,11 +41,11 @@ getObservationsFromEuLines <- function(
   )
   
   observations <- getObservationsAsDataFrame(
-    captionLine = c.caption.lines[1], c.value.lines = eu.lines[-indices.remove], 
+    captionLine = c.caption.lines[1], c.value.lines = eu_lines[-indices.remove], 
     header.info = header.info
   )
   
-  indices.B01 <- indices.B[grep("^#B01=", eu.lines[indices.B])]
+  indices.B01 <- indices.B[grep("^#B01=", eu_lines[indices.B])]
   
   numberOfInspections <- length(indices.B01)
   
@@ -53,7 +53,7 @@ getObservationsFromEuLines <- function(
   # the number of inspection that it belongs to 
   inspectionNumbers <- try(if (old.version) {
     getInspectionNumbers.old(
-      indices.C, indices.Z, numberOfInspections, maxline = length(eu.lines)
+      indices.C, indices.Z, numberOfInspections, maxline = length(eu_lines)
     )      
   } else {
     getInspectionNumbers(indices.C, indices.B01, indices.B, indices.Z)
