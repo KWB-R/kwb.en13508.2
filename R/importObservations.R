@@ -90,8 +90,11 @@ get_observations <- function(caption_line, c_body, header_info)
   # Split the caption line into column captions using the separator  
   captions <- strsplit(caption_line, arguments$sep)[[1]]
 
+  # Get codes of inspection data columns
+  codes <- inspectionDataFieldCodes()
+  
   # Try to find the column types for the given captions
-  colClasses <- sapply(captions, FUN = inspectionDataFieldCodeClass)
+  colClasses <- sapply(captions, FUN = function(x) codes[[x]]$class)
 
   # Which columns are unknown (the type is NULL)
   is_null <- sapply(colClasses, is.null)
@@ -100,8 +103,6 @@ get_observations <- function(caption_line, c_body, header_info)
   all_null <- all(is_null)
   
   if (all_null) {
-    
-    codes <- inspectionDataFieldCodes()
     
     warning(
       "None of the column names of the C-blocks is known.\n", 
