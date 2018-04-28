@@ -251,7 +251,8 @@ mergeInspectionBlocks <- function(inspectionBlocks)
     }
   }
   
-  results[, orderedColumnNames(names(results))]  
+  # Order columns by name but put "row" column first
+  results[, kwb.utils::moveToFront(sort(names(results)), "row")]  
 }
 
 # removeDuplicatedColumns ------------------------------------------------------
@@ -327,13 +328,4 @@ cleanDuplicatedColumns <- function(results)
   }
   
   results
-}
-
-# orderedColumnNames -----------------------------------------------------------
-
-orderedColumnNames <- function(x)
-{
-  firstColumn <- "row"
-  
-  c(firstColumn, sort(setdiff(x, firstColumn)))
 }
