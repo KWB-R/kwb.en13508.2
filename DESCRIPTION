@@ -4,7 +4,7 @@ Author: Hauke Sonnenberg
 Version: 0.2.0
 Imports: kwb.utils
 Remotes: github::kwb-r/kwb.utils
-License: GPL
+License: MIT + file LICENSE
 Title: Read and Write CCTV Inspection Data According to Norm EN13508-2
 Description: functions to read and write CCTV inspections according to 
     EN13508-2.
