@@ -1,71 +1,66 @@
 # getInspectionsFromEuLines.new ------------------------------------------------
 
-getInspectionsFromEuLines.new <- function(eu.lines, header.info, dbg = TRUE)
+getInspectionsFromEuLines.new <- function(eu_lines, header.info, dbg = TRUE)
 {
-  headerInfos <- getInspectionHeaderInfo(eu.lines)
-  
-  inspectionBlocks <- extractInspectionBlocks(
-    eu.lines = eu.lines, 
-    headerInfos = headerInfos, 
-    sep = header.info$separator, 
-    dec = header.info$decimal, 
-    quoteCharacter = header.info$quote, 
+  x <- mergeInspectionBlocks(extractInspectionBlocks(
+    eu_lines = eu_lines, 
+    headerInfos = getInspectionHeaderInfo(eu_lines), 
+    sep = kwb.utils::selectElements(header.info, "separator"), 
+    dec = kwb.utils::selectElements(header.info, "decimal"), 
+    quoteCharacter = kwb.utils::selectElements(header.info, "quote"), 
     dbg = dbg
-  )
-  
-  x <- mergeInspectionBlocks(inspectionBlocks)
-  
-  inspectionNumbers <- seq_len(nrow(x))
+  ))
 
-  B.rows <- data.frame(inspno = inspectionNumbers, rows = x$row)
-  
-  structure(kwb.utils::removeColumns(x,  "row"), B.rows = B.rows)
+  structure(
+    kwb.utils::removeColumns(x, "row"), 
+    B.rows = data.frame(inspno = seq_len(nrow(x)), rows = x$row)
+  )
 }
 
 # getInspectionHeaderInfo ------------------------------------------------------
 
-getInspectionHeaderInfo <- function(eu.lines)
+getInspectionHeaderInfo <- function(eu_lines)
 {
   pattern <- "^#B(\\d\\d)=(.*)$"
   
-  matchInfo <- regexec(pattern, eu.lines)
+  match_info <- regexec(pattern, eu_lines)
   
-  # indices of header lines
-  header.indices <- which(sapply(matchInfo, "[", 1) != -1)
+  # Indices of header lines
+  header_indices <- which(sapply(match_info, "[", 1) != -1)
   
   # Number of header (#B01 = 1, #B02 = 2)
-  headerNumbers <- as.numeric(
-    getMatchingElements(eu.lines, matchInfo, header.indices, position = 2)
+  header_numbers <- as.numeric(
+    getMatchingElements(eu_lines, match_info, header_indices, position = 2)
   )
   
   # Only the header (right of equal sign)
-  headerLines <- getMatchingElements(
-    eu.lines, matchInfo, header.indices, position = 3
+  header_lines <- getMatchingElements(
+    eu_lines, match_info, header_indices, position = 3
   )
   
-  uniqueHeaders <- unique(headerLines)
+  unique_headers <- unique(header_lines)
   
   # For each different type of header, determine the line numbers in which it
   # occurs
-  headerRows <- lapply(uniqueHeaders, function(x) {
+  header_rows <- lapply(unique_headers, function(x) {
     
-    indices <- which(headerLines == x)
+    indices <- which(header_lines == x)
     
-    headerNumber <- unique(headerNumbers[indices])
+    header_number <- unique(header_numbers[indices])
     
-    stopifnot(length(headerNumber) == 1)
+    stopifnot(length(header_number) == 1)
     
-    list(line = headerNumber, rows = header.indices[indices])
+    list(line = header_number, rows = header_indices[indices])
   })
   
-  stats::setNames(headerRows, uniqueHeaders)
+  stats::setNames(header_rows, unique_headers)
 }
 
 # getMatchingElements ----------------------------------------------------------
 
-getMatchingElements <- function(x, matchInfo, indices, position)
+getMatchingElements <- function(x, match_info, indices, position)
 {
-  matches <- matchInfo[indices]  
+  matches <- match_info[indices]  
   
   startpos <- sapply(matches, "[", position)
   
@@ -77,40 +72,36 @@ getMatchingElements <- function(x, matchInfo, indices, position)
 # extractInspectionBlocks ------------------------------------------------------
 
 extractInspectionBlocks <- function(
-  eu.lines, headerInfos, sep, dec, quoteCharacter, dbg = TRUE
+  eu_lines, headerInfos, sep, dec, quoteCharacter, dbg = TRUE
 )
 {
-  inspectionBlocks <- list()
+  blocks <- list()
   
-  uniqueHeaders <- names(headerInfos)
+  unique_headers <- names(headerInfos)
   
-  for (i in seq_len(length(headerInfos))) {
+  for (i in seq_along(headerInfos)) {
     
-    rowNumbers <- headerInfos[[i]]$rows + 1
-    
-    textlines <- eu.lines[rowNumbers]
+    row_numbers <- headerInfos[[i]]$rows + 1
     
     x <- textblockToDataframe(
-      textblock = paste(textlines, collapse = "\n"), sep = sep, dec = dec,
-      quoteCharacter = quoteCharacter, captionLine = uniqueHeaders[i],
-      rowNumbers = rowNumbers, dbg = dbg
+      textblock = paste(eu_lines[row_numbers], collapse = "\n"), 
+      sep = sep, dec = dec, quoteCharacter = quoteCharacter, 
+      captionLine = unique_headers[i], rowNumbers = row_numbers, dbg = dbg
     )
     
-    lineNumber <- headerInfos[[i]]$line
+    line_number <- headerInfos[[i]]$line
     
-    if (length(inspectionBlocks) < lineNumber) {
+    if (length(blocks) < line_number) {
       
-      inspectionBlocks[[lineNumber]] <- list(
-        line = lineNumber, dataFrames = list()
-      )
+      blocks[[line_number]] <- list(line = line_number, dataFrames = list())
     }
     
-    lastIndex <- length(inspectionBlocks[[lineNumber]]$dataFrames)
+    last_index <- length(blocks[[line_number]]$dataFrames)
     
-    inspectionBlocks[[lineNumber]]$dataFrames[[lastIndex + 1]] <- x
+    blocks[[line_number]]$dataFrames[[last_index + 1]] <- x
   }
   
-  inspectionBlocks
+  blocks
 }
 
 # textblockToDataframe ---------------------------------------------------------
@@ -153,14 +144,12 @@ textblockToDataframe <- function(
   # give unique names by appending ".1", ".2"
   names(x) <- kwb.utils::makeUnique(names(x), warn = FALSE)
   
-  x$row <- rowNumbers
-  
-  x
+  kwb.utils::setColumns(x, row = rowNumbers, dbg = FALSE)
 }
 
-# determineColumnsToRemove -----------------------------------------------------
+# getColumnsToRemove -----------------------------------------------------------
 
-determineColumnsToRemove <- function(x, captions, duplicates, dbg = TRUE)
+getColumnsToRemove <- function(x, captions, duplicates, dbg = TRUE)
 {
   columnsToRemove <- numeric()
   
@@ -265,18 +254,14 @@ removeDuplicatedColumns <- function(x, dbg = TRUE)
   
   if (length(duplicates) > 0) {
     
-    columnsToRemove <- determineColumnsToRemove(
-      x, captions, duplicates, dbg = dbg
-    )
+    columns <- getColumnsToRemove(x, captions, duplicates, dbg = dbg)
     
     # if there is any column to remove, remove it
-    if (length(columnsToRemove) > 0) {
+    if (length(columns)) {
       
-      message(
-        "Removing columns: ", kwb.utils::stringList(captions[columnsToRemove])
-      )
+      message("Removing columns: ", kwb.utils::stringList(captions[columns]))
       
-      x <- x[, -columnsToRemove]
+      x <- x[, -columns]
       
     } else {
       
