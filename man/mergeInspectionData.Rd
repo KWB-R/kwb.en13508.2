@@ -4,12 +4,11 @@
 \alias{mergeInspectionData}
 \title{Merge Inspection Data}
 \usage{
-mergeInspectionData(inspectionDataList)
+mergeInspectionData(x)
 }
 \arguments{
-\item{inspectionDataList}{list of elements each of which represents
-inspection data read from an EN13508.2-encoded file by means of
-\code{\link{readEuCodedFile}}.}
+\item{x}{list of elements each of which represents inspection data read from
+an EN13508.2-encoded file by means of \code{\link{readEuCodedFile}}.}
 }
 \value{
 list with elements \code{header.info}, \code{inspections}, 

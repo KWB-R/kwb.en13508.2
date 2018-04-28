@@ -15,7 +15,7 @@ readAndMergeEuCodedFiles <- function(input.files, dbg = FALSE)
 {
   # by setting simple.algorithm = FALSE we get unique column names, e.g. "ADE"
   # and "ADE.1"    
-  mergeInspectionData(inspectionDataList = readEuCodedFiles(
+  mergeInspectionData(readEuCodedFiles(
     input.files = input.files, simple.algorithm = FALSE, dbg = dbg
   ))  
 }
@@ -26,87 +26,83 @@ readAndMergeEuCodedFiles <- function(input.files, dbg = FALSE)
 #' 
 #' Merge inspections and observations provided in a list
 #' 
-#' @param inspectionDataList list of elements each of which represents
-#'   inspection data read from an EN13508.2-encoded file by means of
-#'   \code{\link{readEuCodedFile}}.
+#' @param x list of elements each of which represents inspection data read from
+#'   an EN13508.2-encoded file by means of \code{\link{readEuCodedFile}}.
 #'   
 #' @return list with elements \code{header.info}, \code{inspections}, 
 #'   \code{observations}.
 #' 
 #' @export
 #' 
-mergeInspectionData <- function(inspectionDataList)
+mergeInspectionData <- function(x)
 {
-  if (length(inspectionDataList) == 1) {
+  if (length(x) == 1) {
     
-    return (inspectionDataList[[1]])
+    return (x[[1]])
   }
   
   # Check if there are differences in the file headers
-  warnOnDifferingHeaders(inspectionDataList)
+  warnOnDifferingHeaders(x)
   
   # In any case, use the first header
-  header.info <- inspectionDataList[[1]]$header.info
+  header_info <- kwb.utils::selectElements(x[[1]], "header.info")
   
   # Join the inspections
-  inspections.all <- kwb.utils::safeRowBindOfListElements(
-    inspectionDataList, "inspections"
-  )
+  inspections_all <- kwb.utils::safeRowBindOfListElements(x, "inspections")
   
   # Join the observations
-  observations.all <- NULL
+  observations_all <- NULL
   
   # Prepare vector of offsets to be added to the inspection number (= row number
   # in list element "inspections")
-  offsets <- cumsum(numberOfInspections(inspectionDataList))
+  offsets <- cumsum(numberOfInspections(x))
   
-  for (i in seq_along(inspectionDataList)) {
+  for (i in seq_along(x)) {
     
-    observations <- inspectionDataList[[i]]$observations
+    observations <- kwb.utils::selectElements(x[[i]], "observations")
           
     # Add inspection number offset (maximum value so far) to column "inspno"
     if (i > 1) {
       
-      observations$inspno <- observations$inspno + offsets[i - 1]
+      inspno <- kwb.utils::selectColumns(observations, "inspno")
+      
+      observations$inspno <- inspno + offsets[i - 1]
     }
     
-    observations.all <- kwb.utils::safeRowBind(observations.all, observations)    
+    observations_all <- kwb.utils::safeRowBind(observations_all, observations)
   }  
     
   list(
-    header.info = header.info, 
-    inspections = inspections.all,
-    observations = observations.all
+    header.info = header_info, 
+    inspections = inspections_all,
+    observations = observations_all
   )
 }
 
 # warnOnDifferingHeaders -------------------------------------------------------
 
-warnOnDifferingHeaders <- function(inspectionDataList)
+warnOnDifferingHeaders <- function(x)
 {
-  header.infos.list <- lapply(inspectionDataList, function(x) {
-    
-    as.data.frame(x$header.info)
-  })
-  
   # list to data frame
-  header.infos <- do.call(rbind, header.infos.list)
+  header_infos <- do.call(rbind, lapply(x, function(x) {
+    
+    as.data.frame(kwb.utils::selectElements(x, "header.info"))
+  }))
   
-  # In which columns are all the values equal?
-  equalInColumn <- sapply(header.infos, kwb.utils::allAreEqual)
+  # In which columns all the values are equal?
+  equal_in_column <- sapply(header_infos, kwb.utils::allAreEqual)
     
-  if (! all(equalInColumn)) {
+  if (! all(equal_in_column)) {
     
-    warningText <- paste0(
+    text <- paste0(
       "The file headers are differing in the folowing fields:\n\n",
       paste(
-        utils::capture.output(print(unique(header.infos[, !equalInColumn]))), 
+        utils::capture.output(print(unique(header_infos[, ! equal_in_column]))), 
         collapse = "\n"
       ),
       "\n\nI will use the first header."
     )
     
-    #message(warningText)
-    warning(warningText)
+    warning(text)
   }
 }
