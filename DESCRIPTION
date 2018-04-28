@@ -1,7 +1,7 @@
 Package: kwb.en13508.2
 Maintainer: Hauke Sonnenberg <hauke.sonnenberg@kompetenz-wasser.de>
 Author: Hauke Sonnenberg
-Version: 0.2.0
+Version: 0.2.99
 Imports: kwb.utils
 Remotes: github::kwb-r/kwb.utils
 License: MIT + file LICENSE
