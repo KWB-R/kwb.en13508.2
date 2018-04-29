@@ -21,30 +21,28 @@ getInspectionsFromEuLines.new <- function(eu_lines, header.info, dbg = TRUE)
 
 getInspectionHeaderInfo <- function(eu_lines)
 {
-  pattern <- "^#B(\\d\\d)=(.*)$"
-  
-  match_info <- regexec(pattern, eu_lines)
+  # Get list of matching sub expressions
+  matches <- kwb.utils::subExpressionMatches("^#B(\\d\\d)=(.*)$", eu_lines)
   
   # Indices of header lines
-  header_indices <- which(sapply(match_info, "[", 1) != -1)
+  header_indices <- which(! sapply(matches, is.null))
+  
+  # Keep only the sub expressions of matching rows
+  matches <- matches[header_indices]
   
   # Number of header (#B01 = 1, #B02 = 2)
-  header_numbers <- as.numeric(
-    getMatchingElements(eu_lines, match_info, header_indices, position = 2)
-  )
-  
+  header_numbers <- as.numeric(sapply(matches, "[[", 1))
+
   # Only the header (right of equal sign)
-  header_lines <- getMatchingElements(
-    eu_lines, match_info, header_indices, position = 3
-  )
-  
+  header_lines <- sapply(matches, "[[", 2)
+
   unique_headers <- unique(header_lines)
   
   # For each different type of header, determine the line numbers in which it
   # occurs
-  header_rows <- lapply(unique_headers, function(x) {
+  header_rows <- lapply(unique_headers, function(header) {
     
-    indices <- which(header_lines == x)
+    indices <- which(header_lines == header)
     
     header_number <- unique(header_numbers[indices])
     
@@ -54,19 +52,6 @@ getInspectionHeaderInfo <- function(eu_lines)
   })
   
   stats::setNames(header_rows, unique_headers)
-}
-
-# getMatchingElements ----------------------------------------------------------
-
-getMatchingElements <- function(x, match_info, indices, position)
-{
-  matches <- match_info[indices]  
-  
-  startpos <- sapply(matches, "[", position)
-  
-  stringlength <- sapply(matches, function(x) attr(x, "match.length")[position])
-  
-  substr(x[indices], start = startpos, stop = startpos + stringlength - 1)
 }
 
 # extractInspectionBlocks ------------------------------------------------------
