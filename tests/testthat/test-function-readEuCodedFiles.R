@@ -4,24 +4,8 @@
 
 test_that("readEuCodedFiles() works", {
 
-  kwb.en13508.2:::readEuCodedFiles(input.files = "a", ... = 1)
-   kwb.en13508.2:::readEuCodedFiles(input.files = "a", ... = 1:2)
-   kwb.en13508.2:::readEuCodedFiles(input.files = "a", ... = "a")
-   kwb.en13508.2:::readEuCodedFiles(input.files = "a", ... = c("a", "b"))
-   kwb.en13508.2:::readEuCodedFiles(input.files = "a", ... = TRUE)
-   kwb.en13508.2:::readEuCodedFiles(input.files = "a", ... = FALSE)
-   kwb.en13508.2:::readEuCodedFiles(input.files = "a", ... = as.POSIXct("2018-06-03 23:50:00"))
-   kwb.en13508.2:::readEuCodedFiles(input.files = "a", ... = list(key = c("a", "b"), value = 1:2))
-   kwb.en13508.2:::readEuCodedFiles(input.files = c("a", "b"), ... = 1)
-   kwb.en13508.2:::readEuCodedFiles(input.files = c("a", "b"), ... = 1:2)
-   kwb.en13508.2:::readEuCodedFiles(input.files = c("a", "b"), ... = "a")
-   kwb.en13508.2:::readEuCodedFiles(input.files = c("a", "b"), ... = c("a", "b"))
-   kwb.en13508.2:::readEuCodedFiles(input.files = c("a", "b"), ... = TRUE)
-   kwb.en13508.2:::readEuCodedFiles(input.files = c("a", "b"), ... = FALSE)
-   kwb.en13508.2:::readEuCodedFiles(input.files = c("a", "b"), ... = as.POSIXct("2018-06-03 23:50:00"))
-   kwb.en13508.2:::readEuCodedFiles(input.files = c("a", "b"), ... = list(key = c("a", "b"), value = 1:2))
    expect_error(
-    kwb.en13508.2:::readEuCodedFiles(input.files = 1, ... = 1)
+    kwb.en13508.2:::readEuCodedFiles(input.files = 1)
     # a character vector argument expected
   )
 
