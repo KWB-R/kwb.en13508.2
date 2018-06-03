@@ -6,10 +6,10 @@ test_that("getInspectionHeaderInfo() works", {
 
   kwb.en13508.2:::getInspectionHeaderInfo(eu_lines = "a")
    kwb.en13508.2:::getInspectionHeaderInfo(eu_lines = c("a", "b"))
-   expect_error(
-    kwb.en13508.2:::getInspectionHeaderInfo(eu_lines = 1)
-    # invalid 'text' argument
-  )
+  #  expect_error(
+  #   kwb.en13508.2:::getInspectionHeaderInfo(eu_lines = 1)
+  #   # invalid 'text' argument
+  # )
 
 })
 
