@@ -122,7 +122,6 @@ The information on the inspection is found in the `inspno`-th row
 survey$inspections[3, ]
 ```
 
-
 ## Write a File Encoded in EN 13508.2 Format
 
 Once you have prepared a list with the three components `header.info`, 

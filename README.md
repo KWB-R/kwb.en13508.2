@@ -3,7 +3,7 @@
 kwb.en13508.2
 =============
 
-[![Build Status](https://travis-ci.org/KWB-R/kwb.en13508.2.svg?branch=master)](https://travis-ci.org/KWB-R/kwb.en13508.2)
+[![Appveyor build status](https://ci.appveyor.com/api/projects/status/i5xx4npr86rg783h/branch/master?svg=true)](https://ci.appveyor.com/project/KWB-R/kwb-en13508-2/branch/master) [![Build Status](https://travis-ci.org/KWB-R/kwb.en13508.2.svg?branch=master)](https://travis-ci.org/KWB-R/kwb.en13508.2) [![codecov](https://codecov.io/github/KWB-R/kwb.en13508.2/branch/master/graphs/badge.svg)](https://codecov.io/github/KWB-R/kwb.en13508.2) [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/kwb.en13508.2)](http://cran.r-project.org/package=kwb.en13508.2)
 
 This R package allows you to read and write data on sewerage inspections in the text format described in the European Norm [EN 13508-2](http://www.dwa.de/dwa/shop/shop.nsf/Produktanzeige?openform&produktid=P-DWAA-8KTG5R).
 
@@ -187,7 +187,7 @@ survey$inspections[3, ]
 Write a File Encoded in EN 13508.2 Format
 -----------------------------------------
 
-Once you have prepared a list with the three components `header.info`, `inspections` and `observations` as described above, you can use the function `writeEuCodedFile()` to write a file formatted in EN-format:
+Once you have prepared a list with the three components `header.info`, `inspections` and `observations` as described above, you can use the function `writeEuCodedFile()` to write a file formatted in EN 13508.2-format:
 
 ``` r
 # Define the path to an output file
@@ -199,10 +199,10 @@ writeEuCodedFile(survey, output_file)
 #>   Writing B-blocks (inspection data) ... ok.
 #>   Writing C-blocks (observation data) ... ok.
 #> *** ok.
-#> *** Writing lines to /tmp/RtmpWbedKx/example_en13508.2.txt ... *** ok.
+#> *** Writing lines to /tmp/RtmpJrlXSQ/example_en13508.2.txt ... *** ok.
 ```
 
-The first 20 lines of the file produced read like that:
+The first 20 lines of the file produced read:
 
 ``` r
 kwb.utils::catLines(readLines(output_file, 20))
