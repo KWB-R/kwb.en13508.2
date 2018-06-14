@@ -1,0 +1,416 @@
+#A1=ISO-8859-1
+#A2=de
+#A3=,
+#A4=.
+#A5="
+#A6=2010
+#B01=ACC,ACB,ABC,ABA,ABQ,AAD,AAB,AAK,AAF,ABF,ABG,ABH,AAA
+400,400,A,EN 13508-2:2003+A1:2011,23.5,6,2925,A,2925,2007-07-19,09:05,Mr. Clean/Mrs. Perfect,1
+#C=I,N,A,B,C,D,G,H,K,F,M,J
+0,,BCD,X,P,2925,,,,,,
+0.5,,BAC,B,,59,12,12,A,,4,
+3.4,,BAB,A,A,1,12,,A,[Chr1 Y->A] [Chr2 Y->A],,
+3.4,,BAB,B,A,2,6,,A,[Chr1 Y->B] [Chr2 Y->A],5,
+4.4,,BAB,B,A,2,6,,,[Chr1 Y->B],,A2
+4.4,,BAB,B,A,2,12,,,[Chr1 Y->B],6,A1
+5.1,,BAB,B,A,2,6,,,[Chr1 Y->B],,B2
+5.4,,BAB,B,A,2,12,,,[Chr1 Y->B],,B1
+6.4,,BAB,A,A,1,6,,A,[Chr1 Y->A] [Chr2 Y->A],,
+9.4,,BAB,A,A,1,6,,,[Chr1 Y->A],,A3
+9.4,,BAB,A,A,1,12,,,[Chr1 Y->A],,A4
+10.9,,BAB,A,A,1,12,,,[Chr1 Y->A],,B4
+11.3,,BAB,A,A,1,6,,,[Chr1 Y->A],,B3
+14.3,,BAB,A,A,1,3,,A,[Chr1 Y->A] [Chr2 Y->A],,
+14.3,,BBB,A,,1,3,,,,,
+16.4,,BBB,A,,2,12,12,,,,
+16.6,,BCA,A,B,,3,,,,,
+17,,BAB,A,A,1,12,,A,[Chr1 Y->A] [Chr2 Y->A],,
+17,,BBB,A,,3,12,12,,,,
+17,,BBF,A,,,12,,A,,,
+17,,BBF,A,,,12,12,,,,
+17,,BBF,A,,,12,12,A,,7,
+19,,BAB,B,A,2,12,,A,[Chr1 Y->B] [Chr2 Y->A],,
+19.9,,BBB,A,,2,12,12,,,,
+19.9,,BBF,A,,,12,12,,,,
+19.9,,BBF,A,,,12,12,A,,,
+20.9,,BAB,B,C,2,12,12,,Scherbenbildung [Chr1 Y->B],8,A6
+20.9,,BBB,A,,2,12,12,,,,
+20.9,,BBF,A,,,12,12,,,,
+20.9,,BBF,A,,,12,12,,,8,A5
+20.9,,BBF,A,,,12,12,A,,,
+20.9,,BDB,,,,,,,[cm->mm],8,
+21.6,,BAB,B,C,2,12,12,,Scherbenbildung [Chr1 Y->B],,B6
+21.6,,BBF,A,,,12,12,,,,B5
+21.6,,BDB,,,,,,,[cm->mm],,
+22,,BAB,A,A,1,9,,A,[Chr1 Y->A] [Chr2 Y->A],,
+22,,BBF,A,,,9,,A,,,
+22.9,,BAB,A,A,1,3,,A,[Chr1 Y->A] [Chr2 Y->A],,
+22.9,,BBB,A,,1,3,,,,,
+22.9,,BBF,A,,,3,,,,,
+22.9,,BBF,A,,,3,,A,,,
+23.5,,BBB,A,,2,12,12,,,,
+23.5,,BBF,A,,,12,12,,,,
+23.5,,BBF,A,,,12,12,A,,,
+23.5,,BCE,X,P,6,,,,,,
+#Z
+#B01=ACC,ACB,ABC,ABA,ABQ,AAD,AAB,AAK,AAF,ABF,ABG,ABH,AAA
+300,300,A,EN 13508-2:2003+A1:2011,12.3,6,2942,A,2942,1999-02-25,12:51,Mr. Incredible,2
+#C=I,N,A,B,C,D,G,H,K,F,M,J
+0,,BCD,X,P,2942,,,,,,
+0,,BDB,,,,,,,[gen. aus HA bei 14.52m],,
+12.3,,BCE,X,P,6,,,,,,
+12.3,,BDB,,,,,,,[gen. aus EH bei 1.22m],,
+#Z
+#B01=ACC,ACB,ABC,ABA,ABQ,AAD,AAB,AAK,AAF,ABF,ABG,ABH,AAA
+200,200,A,EN 13508-2:2003+A1:2011,49.1,8,8,B,7,2001-01-02,14:51,Mrs. Perfect,3
+#C=I,N,A,B,C,D,G,H,K,F,M,J
+0,4617,BCD,X,P,8,,,,,,
+1.6,4645,BAB,A,A,1,12,,A,[Chr1 Y->A] [Chr2 Y->A],,
+1.6,4651,BAC,B,,39,12,,A,,,
+1.6,4657,BAJ,B,,15,6,,A,,,
+3.6,4720,BAJ,B,,15,6,,A,,,
+4.6,4732,BAJ,B,,20,6,,A,,,
+14,4820,BBC,C,,6,12,12,,,,
+15.5,4855,BBA,A,,3,12,12,,[Chr1 Y->A],,A1
+18.6,4923,BBA,A,,3,12,12,,[Chr1 Y->A],,B1
+30.8,5028,BBA,A,,2,12,12,,[Chr1 Y->A],,
+48.4,5211,BAC,B,,45,12,12,A,,,
+49.1,5225,BCE,X,P,7,,,,,,
+#Z
+#B01=ACC,ACB,ABC,ABA,ABQ,AAD,AAB,AAK,AAF,ABF,ABG,ABH,AAA
+200,200,A,EN 13508-2:2003+A1:2011,49.5,8,7,A,7,2009-08-14,11:19,Mr. Clean,4
+#C=I,N,A,B,C,D,G,H,K,F,M,J
+0,29,BCD,X,P,7,,,,,,
+22.8,538,BAJ,B,,10,12,,A,,,
+33,754,BBA,A,,1,9,,,[Chr1 Y->A],12,
+34,846,BBA,A,,15,9,,,[Chr1 Y->A],13,
+35.7,1116,BAB,A,A,1,12,,,[Chr1 Y->A],14,A1
+36.1,1144,BAB,A,A,1,12,,,[Chr1 Y->A],,B1
+49.5,1419,BCE,X,P,8,,,,,,
+#Z
+#B01=ACC,ACB,ABC,ABA,ABQ,AAD,AAB,AAK,AAF,ABF,ABG,ABH,AAA
+400,400,A,EN 13508-2:2003+A1:2011,32.7,11,11,B,10,2001-01-03,21:19,Mrs. Perfect,9
+#C=I,N,A,B,C,D,G,H,K,F,M,J
+0,,BAJ,B,,20,6,,A,,,A3
+0,5316,BAJ,C,,30,6,,A,,,A2
+0,5316,BDB,,,,,,,[war LB-U(A) bei 0m] [Num1 aus STRESCHADEN = E],,
+0,5316,BDD,A,,8,6,,A,Unterbogen [Chr1 ->A],,A1
+0,5331,BCD,X,P,11,,,,,,
+3,5416,BDB,,,,,,,[war LV-O(G)],,
+6,5449,BAB,A,A,1,12,,A,[Chr1 Y->A] [Chr2 Y->A],,
+10.3,5524,BCA,A,A,,9,,,,,
+18,5603,BCA,A,A,,12,,,,,
+18.3,5612,BAJ,C,,30,6,,A,,,B2
+18.3,5612,BDD,A,,8,6,,A,Unterbogen [Chr1 ->A],,B1
+21.5,5635,BCA,A,A,,9,,,,,
+24.8,5719,BAB,A,A,1,6,,,[Chr1 Y->A],,
+28.05,,BAB,A,A,1,12,12,,[Chr1 Y->A],,A4
+28.8,5807,BAJ,A,,20,12,12,A,,,
+28.8,5815,BDB,,,,,,,[war RL--(R)],,
+29.05,,BAB,A,A,1,12,12,,[Chr1 Y->A],,A5
+29.55,,BAB,A,A,1,12,12,,[Chr1 Y->A],,B4
+29.8,5835,BAJ,A,,20,12,12,A,,,
+29.8,5854,BDB,,,,,,,[war RL--(R)],,
+30.55,,BAB,A,A,1,12,12,,[Chr1 Y->A],,B5
+32.7,,BAJ,B,,20,6,,A,,,B3
+32.7,5910,BCE,X,P,10,,,,,,
+#Z
+#B01=ACC,ACB,ABC,ABA,ABQ,AAD,AAB,AAK,AAF,ABF,ABG,ABH,AAA
+400,400,A,EN 13508-2:2003+A1:2011,13.1,14,14,B,13,2001-02-14,22:37,Mrs. Pragmatic,15
+#C=I,N,A,B,C,D,G,H,K,F,M,J
+0,14808,BCD,X,P,14,,,,,,
+2.6,14835,BAJ,C,,40,6,,A,,,A2
+2.6,14835,BDB,,,,,,, [Num1 aus STRESCHADEN = E],,
+2.6,14835,BDD,A,,10,6,,A,Unterbogen [Chr1 ->A],,A1
+6.2,14947,BAB,B,A,2,12,,,[Chr1 Y->B],,A3
+6.6,15007,BAB,A,A,1,6,,,[Chr1 Y->A],,
+11.6,15100,BAB,B,A,2,12,,,[Chr1 Y->B],,B3
+12.5,15121,BAJ,C,,40,6,,A,,,B2
+12.5,15121,BDD,A,,10,6,,A,Unterbogen [Chr1 ->A],,B1
+13.1,15155,BAB,A,A,1,12,,A,[Chr1 Y->A] [Chr2 Y->A],,
+13.1,15204,BCE,X,P,13,,,,,,
+#Z
+#B01=ACC,ACB,ABC,ABA,ABQ,AAD,AAB,AAK,AAF,ABF,ABG,ABH,AAA
+400,400,A,EN 13508-2:2003+A1:2011,13.1,14,14,B,13,2010-09-03,01:19,Mr. Perfect,16
+#C=I,N,A,B,C,D,G,H,K,F,M,J
+0,,BCD,X,P,14,,,,,,
+5.5,,BAB,B,A,2,6,,,[Chr1 Y->B],10,A1
+5.5,,BAB,B,A,2,9,,A,[Chr1 Y->B] [Chr2 Y->A],,
+6.1,,BAB,B,A,2,12,,,[Chr1 Y->B],,A2
+6.5,,BAB,A,C,1,6,,,Scherbenbildung [Chr1 Y->A],,
+6.5,,BDB,,,,,,,[cm->mm],,
+7,,BAB,A,A,1,12,,,[Chr1 Y->A],,
+7.5,,BAB,A,A,1,9,,,[Chr1 Y->A],,
+7.5,,BAB,A,C,1,6,,,Scherbenbildung [Chr1 Y->A],11,
+7.5,,BDB,,,,,,,[cm->mm],11,
+11.5,,BAC,B,,22,12,,A,,,
+12.4,,BAC,B,,45,12,12,A,,,
+12.9,,BAB,B,A,2,6,,,[Chr1 Y->B],,B1
+12.9,,BAB,B,A,2,12,,,[Chr1 Y->B],,B2
+13.1,,BCE,X,P,13,,,,,,
+13.1,,BDB,,,,,,,[gen. aus EH bei 14.1m],,
+#Z
+#B01=ACC,ACB,ABC,ABA,ABQ,AAD,AAB,AAK,AAF,ABF,ABG,ABH,AAA
+400,400,A,EN 13508-2:2003+A1:2011,0.7,15,14,A,14,2001-03-05,07:49,Mr. X,17
+#C=I,N,A,B,C,D,G,H,K,F,M,J
+0,,BCD,X,P,14,,,,,,
+0,,BDB,,,,,,,[gen. aus HA bei 2.32m],,
+0.7,,BCE,X,P,15,,,,,,
+0.7,,BDB,,,,,,,[gen. aus EH bei 0.62m],,
+#Z
+#B01=ACC,ACB,ABC,ABA,ABQ,AAD,AAB,AAK,AAF,ABF,ABG,ABH,AAA
+400,400,A,EN 13508-2:2003+A1:2011,0.6,15,14,A,14,2010-09-03,01:26,Mr. Perfect/Mrs. Y,18
+#C=I,N,A,B,C,D,G,H,K,F,M,J
+0,,BCD,X,P,14,,,,,,
+0.3,,BBB,A,,2,6,,,,9,
+0.6,,BCE,X,P,15,,,,,,
+#Z
+#B01=ACC,ACB,ABC,ABA,ABQ,AAD,AAB,AAK,AAF,ABF,ABG,ABH,AAA
+400,400,A,EN 13508-2:2003+A1:2011,22.3,17,16,A,16,2001-03-05,08:39,Mr. X,21
+#C=I,N,A,B,C,D,G,H,K,F,M,J
+0,,BAJ,B,,10,12,,A,,,A1
+0,,BCD,X,P,16,,,,,,
+0,,BDB,,,,,,,[gen. aus HA bei 23.3m],,
+1.5,1058,BBA,A,,3,12,12,,[Chr1 Y->A],,
+8.1,1131,BCA,A,B,,9,,,,,
+8.7,1146,BCA,A,B,,3,,,,,
+9.2,1209,BAG,,,8,3,,,,11,
+9.2,1209,BCA,F,A,,3,,,,11,
+14,1244,BBA,A,,2,12,12,,[Chr1 Y->A],,
+14.9,1302,BBA,A,,5,12,12,,[Chr1 Y->A],12,A2
+17,1331,BBA,A,,5,12,12,,[Chr1 Y->A],,B2
+20,1350,BBA,A,,2,9,,,[Chr1 Y->A],,
+20.8,1418,BAH,D,,,3,,,Nicht fachgerecht eingebaut [Chr1 Y->D],,
+20.8,1418,BCA,F,A,,3,,,,,
+20.8,1420,BAH,E,,,3,,,,13,
+20.8,1420,BBA,A,,60,3,,,Wurzeleinwuchs durch den Stutzen [Chr1 Y->A],13,
+20.8,1420,BCA,F,A,,3,,,,13,
+22.3,,BAJ,B,,10,12,,A,,,B1
+22.3,,BCE,X,P,17,,,,,,
+22.3,,BDB,,,,,,,[gen. aus EH bei 0m],,
+22.3,,BDB,,,,,,,[war LV-U(G)] [war II bei 0m],,
+#Z
+#B01=ACC,ACB,ABC,ABA,ABQ,AAD,AAB,AAK,AAF,ABF,ABG,ABH,AAA
+400,400,A,EN 13508-2:2003+A1:2011,21.6,17,16,A,16,2010-06-21,12:33,Mr. Perfect/Mrs. Y,22
+#C=I,N,A,B,C,D,G,H,K,F,M,J
+0,10,BCD,X,P,16,,,,,,
+0.5,20,BBA,A,,2,3,,,[Chr1 Y->A],34,
+0.5,30,BAC,B,,45,12,12,A,,35,
+1.5,40,BBA,A,,1,9,,,[Chr1 Y->A],,
+1.5,50,BAJ,A,,20,12,12,A,,,
+2.2,100,BBA,A,,1,3,,,[Chr1 Y->A],,
+2.2,110,BAJ,A,,20,12,12,A,,,
+7.5,120,BAH,E,,,9,,,,36,
+7.5,120,BCA,A,A,,9,,,,36,
+8.1,130,BCA,A,A,,3,,,,,
+8.7,140,BAG,,,5,3,,,,37,
+8.7,140,BCA,F,A,,3,,,,37,
+9.4,220,BAB,A,A,1,12,,,[Chr1 Y->A],,
+10.5,150,BBA,A,,1,12,,,[Chr1 Y->A],,
+10.5,200,BBA,A,,1,3,,,[Chr1 Y->A],,
+11.2,210,BAB,A,A,1,12,,,[Chr1 Y->A],,
+13.5,230,BBA,A,,1,9,,,[Chr1 Y->A],38,
+13.5,240,BBA,A,,1,3,,,[Chr1 Y->A],,
+14.5,250,BBA,A,,2,9,,,[Chr1 Y->A],39,
+15.5,300,BBA,A,,1,9,,,[Chr1 Y->A],,
+16.3,330,BAJ,B,,20,12,,A,,40,
+16.5,310,BBA,A,,1,9,,,[Chr1 Y->A],,
+16.5,320,BBA,A,,1,3,,,[Chr1 Y->A],,
+19.6,340,BBA,A,,1,3,,,[Chr1 Y->A],,
+20.2,350,BAH,E,,,3,,,,41,
+20.2,350,BBA,A,,80,3,,,Wurzeleinwuchs durch den Stutzen [Chr1 Y->A],41,
+20.2,350,BCA,F,A,,3,,,,41,
+20.6,400,BBA,A,,1,3,,,[Chr1 Y->A],,
+20.6,410,BBA,A,,1,9,,,[Chr1 Y->A],,
+21.6,420,BCE,X,P,17,,,,,,
+#Z
+#B01=ACC,ACB,ABC,ABA,ABQ,AAD,AAB,AAK,AAF,ABF,ABG,ABH,AAA
+400,400,A,EN 13508-2:2003+A1:2011,53.3,18,17,A,17,2001-03-05,08:51,Mr. X,23
+#C=I,N,A,B,C,D,G,H,K,F,M,J
+0,,BAJ,B,,10,12,,A,,,A1
+0,,BCD,X,P,17,,,,,,
+0,,BDB,,,,,,,[gen. aus HA bei 54.3m],,
+1.2,1536,BAB,C,A,3,12,12,,[Chr1 Y->C],14,A2
+5.2,1617,BAB,C,A,3,12,12,,[Chr1 Y->C],,B2
+11.2,1711,BAB,C,A,3,12,12,,[Chr1 Y->C],15,A3
+12.3,1734,BAB,C,A,3,12,12,,[Chr1 Y->C],,B3
+13.2,1749,BAB,C,A,3,12,12,,[Chr1 Y->C],17,A4
+13.7,1808,BCA,A,B,,9,,,,,
+14,1824,BAB,C,A,3,12,12,,[Chr1 Y->C],,B4
+14.3,1832,BCA,A,A,,3,,,,,
+17.3,1901,BAB,A,A,1,12,,A,[Chr1 Y->A] [Chr2 Y->A],,
+32.1,2005,BCA,A,B,,9,,,,,
+32.6,2019,BCA,A,B,,3,,,,,
+53.3,,BAJ,B,,10,12,,A,,,B1
+53.3,,BCE,X,P,18,,,,,,
+53.3,,BDB,,,,,,,[gen. aus EH bei 0m],,
+53.3,,BDB,,,,,,,[war LV-U(G)] [war II bei 0m],,
+#Z
+#B01=ACC,ACB,ABC,ABA,ABQ,AAD,AAB,AAK,AAF,ABF,ABG,ABH,AAA
+400,400,A,EN 13508-2:2003+A1:2011,40.8,19,18,A,18,2001-03-05,10:31,Mr. X,25
+#C=I,N,A,B,C,D,G,H,K,F,M,J
+0,,BAJ,B,,30,12,,A,,,A1
+0,,BCD,X,P,18,,,,,,
+0,,BDB,,,,,,,[gen. aus HA bei 41.8m],,
+14.2,2253,BCA,A,B,,9,,,,,
+14.7,2307,BCA,A,A,,3,,,,,
+30.5,2400,BAJ,C,,30,6,,A,,17,A2
+30.5,2400,BDD,A,,8,6,,A,Unterbogen [Chr1 ->A],17,A3
+37.4,2434,BCA,A,A,,3,,,,,
+38,2450,BCA,A,B,,9,,,,,
+40.8,,BAJ,B,,30,12,,A,,,B1
+40.8,,BAJ,C,,30,6,,A,,,B2
+40.8,,BCE,X,P,19,,,,,,
+40.8,,BDB,,,,,,,[gen. aus EH bei 0m],,
+40.8,,BDB,,,,,,,[war LB-U(E) bei 0m],,
+40.8,,BDB,,,,,,,[war LV-U(G)] [war II bei 0m],,
+40.8,,BDD,A,,8,6,,A,Unterbogen [Chr1 ->A],,B3
+#Z
+#B01=ACC,ACB,ABC,ABA,ABQ,AAD,AAB,AAK,AAF,ABF,ABG,ABH,AAA
+400,400,A,EN 13508-2:2003+A1:2011,16.6,20,19,A,19,2001-03-05,10:38,Mr. X,27
+#C=I,N,A,B,C,D,G,H,K,F,M,J
+0,,BAJ,B,,10,12,,A,,,A3
+0,,BCD,X,P,19,,,,,,
+0,,BDB,,,,,,,[gen. aus HA bei 17.6m],,
+0,2543,BAJ,C,,30,6,,A,,18,A2
+0,2543,BDB,,,,,,,[war LB-U(A) bei 17.6m],18,
+0,2543,BDD,A,,8,6,,A,Unterbogen [Chr1 ->A],18,A1
+16.6,,BAJ,B,,10,12,,A,,,B3
+16.6,,BCE,X,P,20,,,,,,
+16.6,,BDB,,,,,,,[gen. aus EH bei 0m],,
+16.6,,BDB,,,,,,,[war LV-U(G)] [war II bei 0m],,
+16.6,2710,BAJ,C,,30,6,,A,,,B2
+16.6,2710,BDB,,,,,,,[war LB-U(E) bei 0m],,
+16.6,2710,BDD,A,,8,6,,A,Unterbogen [Chr1 ->A],,B1
+#Z
+#B01=ACC,ACB,ABC,ABA,ABQ,AAD,AAB,AAK,AAF,ABF,ABG,ABH,AAA
+400,400,A,EN 13508-2:2003+A1:2011,16.2,20,19,A,19,2010-06-21,13:36,Mr. Perfect/Mrs. Y,28
+#C=I,N,A,B,C,D,G,H,K,F,M,J
+0,,BAJ,C,,40,6,,A,,,A2
+0,,BDB,,,,,,,[gen. aus LB-U(G) bei 17.12m],,
+0,,BDD,A,,10,6,,A,Unterbogen [Chr1 ->A],,A1
+0,10,BCD,X,P,19,,,,,,
+0.1,40,BDB,,,,,,,[war LB-U(G)],,
+2.2,20,BAB,A,A,1,12,,,[Chr1 Y->A],,
+2.9,30,BAB,B,A,2,9,,,[Chr1 Y->B],,
+8.2,50,BBA,A,,1,9,,,[Chr1 Y->A],,
+16.2,,BAJ,C,,40,6,,A,,,B2
+16.2,,BDB,,,,,,,[gen. aus LB-U(G) bei 17.12m],,
+16.2,,BDD,A,,10,6,,A,Unterbogen [Chr1 ->A],,B1
+16.2,100,BCE,X,P,20,,,,,,
+#Z
+#B01=ACC,ACB,ABC,ABA,ABQ,AAD,AAB,AAK,AAF,ABF,ABG,ABH,AAA
+500,500,A,EN 13508-2:2003+A1:2011,41,21,20,A,20,2001-03-05,10:42,Mr. X,29
+#C=I,N,A,B,C,D,G,H,K,F,M,J
+0,,BAJ,B,,10,12,,A,,,A1
+0,,BCD,X,P,20,,,,,,
+0,,BDB,,,,,,,[gen. aus HA bei 42m],,
+12.4,2820,BBA,A,,5,12,12,,[Chr1 Y->A],19,A2
+19.5,2904,BBA,A,,5,12,12,,[Chr1 Y->A],,B2
+19.9,2921,BCA,A,B,,9,,,,,
+23.1,2950,BBA,A,,3,9,,,[Chr1 Y->A],,
+24.2,3006,BBA,A,,3,9,,,[Chr1 Y->A],,
+25.3,3031,BBA,A,,2,12,12,,[Chr1 Y->A],,
+26,3040,BBA,A,,2,9,,,[Chr1 Y->A],,
+28.2,3102,BBA,A,,2,3,,,[Chr1 Y->A],,
+30.2,3121,BBA,A,,3,12,12,,[Chr1 Y->A],,
+31.1,3137,BBA,A,,5,12,12,,[Chr1 Y->A],20,
+32.1,3153,BBA,A,,3,12,12,,[Chr1 Y->A],,
+33.5,3209,BCA,A,A,,3,,,,21,
+41,,BAJ,B,,10,12,,A,,,B1
+41,,BCE,X,P,21,,,,,,
+41,,BDB,,,,,,,[gen. aus EH bei 0m],,
+41,,BDB,,,,,,,[war LV-U(G)] [war II bei 0m],,
+#Z
+#B01=ACC,ACB,ABC,ABA,ABQ,AAD,AAB,AAK,AAF,ABF,ABG,ABH,AAA
+500,500,A,EN 13508-2:2003+A1:2011,40.4,21,20,A,20,2010-06-21,13:32,Mr. Perfect/Mrs. Y,30
+#C=I,N,A,B,C,D,G,H,K,F,M,J
+0,10,BCD,X,P,20,,,,,,
+0.4,20,BAC,B,,63,12,12,A,,46,
+0.4,30,BAI,Z,,1,3,,,Einragende Dichtmasse,,
+1.4,40,BAI,Z,,1,3,,,Einragende Dichtmasse,,
+3.5,50,BAB,B,A,2,12,,,[Chr1 Y->B],,A1
+3.5,100,BAB,B,A,2,6,,,[Chr1 Y->B],,A2
+4.5,110,BAB,A,A,1,9,,,[Chr1 Y->A],,
+5.5,120,BAB,B,A,2,12,,,[Chr1 Y->B],,B1
+5.5,130,BAB,B,A,2,6,,,[Chr1 Y->B],,B2
+12.4,140,BBA,A,,1,9,,,[Chr1 Y->A],,
+16.4,150,BBA,A,,1,9,,,[Chr1 Y->A],,
+16.4,200,BBA,A,,1,3,,,[Chr1 Y->A],,
+17.4,210,BBA,A,,1,3,,,[Chr1 Y->A],,
+18.5,220,BBA,A,,1,9,,,[Chr1 Y->A],,
+19.4,230,BAJ,C,,10,6,,A,,,A3
+19.4,230,BDD,A,,2,6,,A,Unterbogen [Chr1 ->A],,A4
+19.4,240,BBA,A,,1,12,,,[Chr1 Y->A],,
+19.7,250,BAH,E,,,9,,,,,
+19.7,250,BCA,A,A,,9,,,,,
+20,300,BBA,A,,1,3,,,[Chr1 Y->A],,
+20.9,310,BBA,A,,1,3,,,[Chr1 Y->A],,
+23.9,320,BBA,A,,1,9,,,[Chr1 Y->A],,
+24.9,330,BBA,A,,1,12,,,[Chr1 Y->A],,
+25.9,350,BBA,A,,1,3,,,[Chr1 Y->A],,
+26,340,BBA,A,,1,9,,,[Chr1 Y->A],,
+29.9,400,BBA,A,,1,3,,,[Chr1 Y->A],,
+29.9,410,BBA,A,,1,12,,,[Chr1 Y->A],,
+30.9,420,BBA,A,,1,9,,,[Chr1 Y->A],47,
+30.9,430,BBA,A,,1,3,,,[Chr1 Y->A],,
+31.9,440,BBA,A,,1,3,,,[Chr1 Y->A],,
+33.1,500,BAH,E,,,3,,,,48,
+33.1,500,BCA,A,A,,3,,,,48,
+33.5,510,BAI,A,B,1,9,,,[Chr2 Y->B],,
+38.5,520,BAJ,A,,30,12,12,A,,49,
+40.4,530,BCE,X,P,21,,,,,,
+40.4,600,BAJ,C,,30,6,,A,,,B3
+40.4,600,BDD,A,,6,6,,A,Unterbogen [Chr1 ->A],,B4
+#Z
+#B01=ACC,ACB,ABC,ABA,ABQ,AAD,AAB,AAK,AAF,ABF,ABG,ABH,AAA
+400,400,A,EN 13508-2:2003+A1:2011,57,22,21,A,21,2001-03-05,10:58,Mr. X,31
+#C=I,N,A,B,C,D,G,H,K,F,M,J
+0,,BCD,X,P,21,,,,,,
+0,,BDB,,,,,,,[gen. aus HA bei 58m],,
+1.4,3322,BCA,A,B,,12,,,,,
+2,3337,BCA,A,B,,12,,,,,
+2.7,3352,BCA,A,B,,12,,,,,
+3.2,3405,BCA,A,B,,12,,,,,
+3.7,3417,BCA,A,B,,12,,,,,
+4.3,3429,BCA,A,B,,12,,,,,
+5.1,3443,BCA,A,B,,12,,,,,
+5.6,3457,BCA,A,B,,12,,,,,
+6.3,3512,BCA,A,B,,12,,,,,
+6.8,3524,BCA,A,B,,12,,,,,
+7.3,3536,BCA,A,B,,12,,,,,
+8,3548,BCA,A,B,,12,,,,,
+8.5,3601,BCA,A,B,,12,,,,,
+9.2,3614,BCA,A,B,,12,,,,,
+9.8,3626,BCA,A,B,,12,,,,,
+10.4,3637,BCA,A,B,,12,,,,,
+11,3649,BCA,A,B,,12,,,,,
+11.6,3659,BCA,A,B,,12,,,,,
+12.2,3711,BCA,A,B,,9,,,,,
+30.1,3831,BAH,D,,,3,,,Nicht fachgerecht eingebaut [Chr1 Y->D],,
+30.1,3831,BCA,F,A,,3,,,,,
+33,3855,BCA,A,B,,9,,,,,
+34.6,3911,BCA,A,A,,3,,,,,
+57,,BCE,X,P,22,,,,,,
+57,,BDB,,,,,,,[gen. aus EH bei 0m],,
+#Z
+#B01=ACC,ACB,ABC,ABA,ABQ,AAD,AAB,AAK,AAF,ABF,ABG,ABH,AAA
+400,400,A,EN 13508-2:2003+A1:2011,42,23,22,A,22,2001-03-05,11:35,Mr. X,33
+#C=I,N,A,B,C,D,G,H,K,F,M,J
+0,,BAJ,B,,10,12,,A,,,A1
+0,,BCD,X,P,22,,,,,,
+0,,BDB,,,,,,,[gen. aus HA bei 58.56m],,
+3.9,4128,BAB,A,A,1,12,,A,[Chr1 Y->A] [Chr2 Y->A],,
+16.3,4256,BBA,A,,1,12,,,[Chr1 Y->A],,
+27.7,4311,BCA,A,B,,9,,,,,
+28.3,4322,BCA,A,B,,3,,,,22,
+36.6,4401,BBA,A,,10,12,12,,[Chr1 Y->A],23,
+38.5,4412,BAJ,C,,30,6,,A,,24,A3
+38.5,4412,BDD,A,,8,6,,A,Unterbogen [Chr1 ->A],24,A2
+42,,BAJ,B,,10,12,,A,,,B1
+42,,BAJ,C,,30,6,,A,,,B3
+42,,BCE,X,P,23,,,,,,
+42,,BDB,,,,,,,[gen. aus EH bei 15.56m],,
+42,,BDB,,,,,,,[war LB-U(E) bei 15.56m],,
+42,,BDB,,,,,,,[war LV-U(G)] [war II bei 15.56m],,
+42,,BDD,A,,8,6,,A,Unterbogen [Chr1 ->A],,B2
