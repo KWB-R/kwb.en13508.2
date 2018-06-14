@@ -5,7 +5,7 @@ kwb.en13508.2
 
 [![Appveyor build status](https://ci.appveyor.com/api/projects/status/i5xx4npr86rg783h/branch/master?svg=true)](https://ci.appveyor.com/project/KWB-R/kwb-en13508-2/branch/master) [![Build Status](https://travis-ci.org/KWB-R/kwb.en13508.2.svg?branch=master)](https://travis-ci.org/KWB-R/kwb.en13508.2) [![codecov](https://codecov.io/github/KWB-R/kwb.en13508.2/branch/master/graphs/badge.svg)](https://codecov.io/github/KWB-R/kwb.en13508.2) [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/kwb.en13508.2)](http://cran.r-project.org/package=kwb.en13508.2)
 
-This R package allows you to read and write data on sewerage inspections in the text format described in the European Norm [EN 13508-2](http://www.dwa.de/dwa/shop/shop.nsf/Produktanzeige?openform&produktid=P-DWAA-8KTG5R).
+This R package provides functions to read and write data on CCTV sewerage inspections. The format expected when reading and generated when writing is the text format that is described in the European Norm [EN 13508-2](http://www.dwa.de/dwa/shop/shop.nsf/Produktanzeige?openform&produktid=P-DWAA-8KTG5R).
 
 Install the Package
 -------------------
@@ -138,7 +138,7 @@ head(survey$observations)
 Again, let's have a look at what the columns mean:
 
 ``` r
-# Show the meanings for the codes that are used in the table of inspections
+# Show the meanings for the codes that are used in the table of observations
 code_info[code_info$Code %in% names(survey$observations), ]
 #>    Code                           Text_EN
 #> 1     A                         Main code
@@ -199,7 +199,7 @@ writeEuCodedFile(survey, output_file)
 #>   Writing B-blocks (inspection data) ... ok.
 #>   Writing C-blocks (observation data) ... ok.
 #> *** ok.
-#> *** Writing lines to /tmp/RtmpJrlXSQ/example_en13508.2.txt ... *** ok.
+#> *** Writing lines to /tmp/RtmpOk4Rjx/example_en13508.2.txt ... *** ok.
 ```
 
 The first 20 lines of the file produced read:

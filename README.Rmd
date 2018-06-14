@@ -20,8 +20,9 @@ knitr::opts_chunk$set(
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/kwb.en13508.2)](http://cran.r-project.org/package=kwb.en13508.2)
 
-This R package allows you to read and write data on sewerage inspections in
-the text format described in the European Norm 
+This R package provides functions to read and write data on CCTV sewerage 
+inspections. The format expected when reading and generated when writing is the 
+text format that is described in the European Norm 
 [EN 13508-2](http://www.dwa.de/dwa/shop/shop.nsf/Produktanzeige?openform&produktid=P-DWAA-8KTG5R).
 
 ## Install the Package
@@ -100,7 +101,7 @@ head(survey$observations)
 Again, let's have a look at what the columns mean:
 
 ```{r}
-# Show the meanings for the codes that are used in the table of inspections
+# Show the meanings for the codes that are used in the table of observations
 code_info[code_info$Code %in% names(survey$observations), ]
 ```
 
