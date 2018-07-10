@@ -74,26 +74,196 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#kwb-en13508-2" class="anchor"></a>kwb.en13508.2</h1></div>
 
-<p>This R package allows you to read and write data on sewerage inspections in the text format described in the European Norm EN 13508-2.</p>
-<div id="installation" class="section level2">
+<p>This R package provides functions to read and write data on CCTV sewerage inspections. The format expected when reading and generated when writing is the text format that is described in the European Norm <a href="http://www.dwa.de/dwa/shop/shop.nsf/Produktanzeige?openform&amp;produktid=P-DWAA-8KTG5R">EN 13508-2</a>.</p>
+<div id="install-the-package" class="section level2">
 <h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install kwb.en13508.2 from github with:</p>
+<a href="#install-the-package" class="anchor"></a>Install the Package</h2>
+<p>You can install the latest development version of the package from GitHub with:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("devtools")</span>
-devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"kwb-r/kwb.en13508.2"</span>, <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>)</code></pre></div>
+devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"KWB-R/kwb.en13508.2"</span>, <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>)</code></pre></div>
 </div>
 <div id="load-the-package" class="section level2">
 <h2 class="hasAnchor">
 <a href="#load-the-package" class="anchor"></a>Load the Package</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(kwb.en13508.<span class="dv">2</span>)</code></pre></div>
 </div>
-<div id="main-functionality" class="section level2">
+<div id="read-a-file-encoded-in-en-13508-2-format" class="section level2">
 <h2 class="hasAnchor">
-<a href="#main-functionality" class="anchor"></a>Main Functionality</h2>
-<p>You can read a file formatted in EN-format using <code><a href="reference/readEuCodedFile.html">readEuCodedFile()</a></code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">inspection_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/readEuCodedFile.html">readEuCodedFile</a></span>(input_file)</code></pre></div>
-<p>You can write a file formatted in EN-format using <code><a href="reference/readEuCodedFile.html">readEuCodedFile()</a></code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/writeEuCodedFile.html">writeEuCodedFile</a></span>(inspection_data, output_file)</code></pre></div>
+<a href="#read-a-file-encoded-in-en-13508-2-format" class="anchor"></a>Read a File Encoded in EN 13508.2 Format</h2>
+<p>You can read a file formatted in EN 13508.2 text format using <code><a href="reference/readEuCodedFile.html">readEuCodedFile()</a></code>.</p>
+<p>For the purpose of demonstration, we load an example file that is contained in the package:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set the relative path to the example file</span>
+file_path &lt;-<span class="st"> "extdata/example_13508_2.txt"</span>
+
+<span class="co"># Set the absolute path to the example file in the package folder</span>
+input_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(file_path, <span class="dt">package =</span> <span class="st">"kwb.en13508.2"</span>)
+
+<span class="co"># Read the example file</span>
+survey &lt;-<span class="st"> </span><span class="kw"><a href="reference/readEuCodedFile.html">readEuCodedFile</a></span>(input_file)
+<span class="co">#&gt; *** Reading input file /home/hsonne/R/packages/kwb.en13508.2/extdata/example_13508_2.txt ... *** ok.</span>
+<span class="co">#&gt; *** Removing empty lines (if any) ... *** ok.</span>
+<span class="co">#&gt; *** Extracting file header ... *** ok.</span>
+<span class="co">#&gt; *** Extracting inspection records ... 19 inspections extracted. *** ok.</span>
+<span class="co">#&gt; *** Extracting observation records ... A 'virtual' inspection block end '#Z' has been added.</span>
+<span class="co">#&gt; Provide column 'inspno' to data frame 'observations'... ok.</span>
+<span class="co">#&gt; 335 observations extracted. *** ok.</span></code></pre></div>
+<p>The result is a list with the three components representing the A-, B- and C- parts, respectively, of the file:</p>
+<ul>
+<li>
+<code>header.info</code>: A-part containing information on the file format</li>
+<li>
+<code>inspections</code>: B-parts containing information on the inspections as a whole</li>
+<li>
+<code>observations</code>: C-parts containing information on the detailed observations that were made during the inspections</li>
+</ul>
+<div id="part-a-information-on-the-file-format" class="section level3">
+<h3 class="hasAnchor">
+<a href="#part-a-information-on-the-file-format" class="anchor"></a>Part A: Information on the file format</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">survey<span class="op">$</span>header.info
+<span class="co">#&gt; $encoding</span>
+<span class="co">#&gt; [1] "ISO-8859-1"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $language</span>
+<span class="co">#&gt; [1] "de"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $separator</span>
+<span class="co">#&gt; [1] ","</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $decimal</span>
+<span class="co">#&gt; [1] "."</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $quote</span>
+<span class="co">#&gt; [1] "\""</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $year</span>
+<span class="co">#&gt; [1] "2010"</span></code></pre></div>
+</div>
+<div id="part-b-inspections" class="section level3">
+<h3 class="hasAnchor">
+<a href="#part-b-inspections" class="anchor"></a>Part B: Inspections</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(survey<span class="op">$</span>inspections)
+<span class="co">#&gt;   ACC ACB ABC                     ABA  ABQ AAD  AAB AAK  AAF        ABF</span>
+<span class="co">#&gt; 1 400 400   A EN 13508-2:2003+A1:2011 23.5   6 2925   A 2925 2007-07-19</span>
+<span class="co">#&gt; 2 300 300   A EN 13508-2:2003+A1:2011 12.3   6 2942   A 2942 1999-02-25</span>
+<span class="co">#&gt; 3 200 200   A EN 13508-2:2003+A1:2011 49.1   8    8   B    7 2001-01-02</span>
+<span class="co">#&gt; 4 200 200   A EN 13508-2:2003+A1:2011 49.5   8    7   A    7 2009-08-14</span>
+<span class="co">#&gt; 5 400 400   A EN 13508-2:2003+A1:2011 32.7  11   11   B   10 2001-01-03</span>
+<span class="co">#&gt; 6 400 400   A EN 13508-2:2003+A1:2011 13.1  14   14   B   13 2001-02-14</span>
+<span class="co">#&gt;     ABG                    ABH AAA</span>
+<span class="co">#&gt; 1 09:05 Mr. Clean/Mrs. Perfect   1</span>
+<span class="co">#&gt; 2 12:51         Mr. Incredible   2</span>
+<span class="co">#&gt; 3 14:51           Mrs. Perfect   3</span>
+<span class="co">#&gt; 4 11:19              Mr. Clean   4</span>
+<span class="co">#&gt; 5 21:19           Mrs. Perfect   9</span>
+<span class="co">#&gt; 6 22:37         Mrs. Pragmatic  15</span></code></pre></div>
+<p>The codes used as column names correspond to the codes defined in the norm. We provide a function <code><a href="reference/getCodes.html">getCodes()</a></code> in the package that returns a table mapping these codes to their meanings:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Get all codes and meanings defined in the European Norm</span>
+code_info &lt;-<span class="st"> </span><span class="kw"><a href="reference/getCodes.html">getCodes</a></span>(<span class="dt">fields =</span> <span class="kw">c</span>(<span class="st">"Code"</span>, <span class="st">"Text_EN"</span>))
+
+<span class="co"># Show the meanings for the codes that are used in the table of inspections</span>
+code_info[code_info<span class="op">$</span>Code <span class="op">%in%</span><span class="st"> </span><span class="kw">names</span>(survey<span class="op">$</span>inspections), ]
+<span class="co">#&gt;    Code                          Text_EN</span>
+<span class="co">#&gt; 15  AAA        Pipeline length reference</span>
+<span class="co">#&gt; 16  AAB             Start node reference</span>
+<span class="co">#&gt; 18  AAD                 Node 1 reference</span>
+<span class="co">#&gt; 20  AAF                 Node 2 reference</span>
+<span class="co">#&gt; 25  AAK          Direction of inspection</span>
+<span class="co">#&gt; 37  ABA                         Standard</span>
+<span class="co">#&gt; 39  ABC     Longitudinal reference point</span>
+<span class="co">#&gt; 42  ABF               Date of inspection</span>
+<span class="co">#&gt; 43  ABG               Time of inspection</span>
+<span class="co">#&gt; 44  ABH                Name of inspector</span>
+<span class="co">#&gt; 53  ABQ Anticipated length of inspection</span>
+<span class="co">#&gt; 58  ACB                           Height</span>
+<span class="co">#&gt; 59  ACC                            Width</span></code></pre></div>
+</div>
+<div id="part-c-observations" class="section level3">
+<h3 class="hasAnchor">
+<a href="#part-c-observations" class="anchor"></a>Part C: Observations</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(survey<span class="op">$</span>observations)
+<span class="co">#&gt;     I N   A B C    D  G  H K                       F M  J inspno</span>
+<span class="co">#&gt; 1 0.0   BCD X P 2925 NA NA                                     1</span>
+<span class="co">#&gt; 2 0.5   BAC B     59 12 12 A                         4         1</span>
+<span class="co">#&gt; 3 3.4   BAB A A    1 12 NA A [Chr1 Y-&gt;A] [Chr2 Y-&gt;A]           1</span>
+<span class="co">#&gt; 4 3.4   BAB B A    2  6 NA A [Chr1 Y-&gt;B] [Chr2 Y-&gt;A] 5         1</span>
+<span class="co">#&gt; 5 4.4   BAB B A    2  6 NA               [Chr1 Y-&gt;B]   A2      1</span>
+<span class="co">#&gt; 6 4.4   BAB B A    2 12 NA               [Chr1 Y-&gt;B] 6 A1      1</span></code></pre></div>
+<p>Again, let’s have a look at what the columns mean:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Show the meanings for the codes that are used in the table of observations</span>
+code_info[code_info<span class="op">$</span>Code <span class="op">%in%</span><span class="st"> </span><span class="kw">names</span>(survey<span class="op">$</span>observations), ]
+<span class="co">#&gt;    Code                           Text_EN</span>
+<span class="co">#&gt; 1     A                         Main code</span>
+<span class="co">#&gt; 2     B                Characterisation 1</span>
+<span class="co">#&gt; 3     C                Characterisation 2</span>
+<span class="co">#&gt; 4     D                  Quantification 1</span>
+<span class="co">#&gt; 6     F                           Remarks</span>
+<span class="co">#&gt; 7     G        Circumferential location 1</span>
+<span class="co">#&gt; 8     H        Circumferential location 2</span>
+<span class="co">#&gt; 9     I Longitudinal or vertical location</span>
+<span class="co">#&gt; 10    J            Continuous defect code</span>
+<span class="co">#&gt; 11    K                             Joint</span>
+<span class="co">#&gt; 13    M              Photograph reference</span>
+<span class="co">#&gt; 14    N                   Video reference</span></code></pre></div>
+<p>The column <code>inspno</code> groups together observations that belong to the same inspection. The number in the column refers to the row number in the table of inspections (<code>survey$inspections</code>). For example, to get all the observations that belong to the third inspection, you may filter <code>survey$observations</code> like in the following. For a more compact output we exclude the tenth column (“F”) containing the remarks:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">survey<span class="op">$</span>observations[survey<span class="op">$</span>observations<span class="op">$</span>inspno <span class="op">==</span><span class="st"> </span><span class="dv">3</span>, <span class="op">-</span><span class="dv">10</span>]
+<span class="co">#&gt;       I    N   A B C  D  G  H K M  J inspno</span>
+<span class="co">#&gt; 50  0.0 4617 BCD X P  8 NA NA             3</span>
+<span class="co">#&gt; 51  1.6 4645 BAB A A  1 12 NA A           3</span>
+<span class="co">#&gt; 52  1.6 4651 BAC B   39 12 NA A           3</span>
+<span class="co">#&gt; 53  1.6 4657 BAJ B   15  6 NA A           3</span>
+<span class="co">#&gt; 54  3.6 4720 BAJ B   15  6 NA A           3</span>
+<span class="co">#&gt; 55  4.6 4732 BAJ B   20  6 NA A           3</span>
+<span class="co">#&gt; 56 14.0 4820 BBC C    6 12 12             3</span>
+<span class="co">#&gt; 57 15.5 4855 BBA A    3 12 12     A1      3</span>
+<span class="co">#&gt; 58 18.6 4923 BBA A    3 12 12     B1      3</span>
+<span class="co">#&gt; 59 30.8 5028 BBA A    2 12 12             3</span>
+<span class="co">#&gt; 60 48.4 5211 BAC B   45 12 12 A           3</span>
+<span class="co">#&gt; 61 49.1 5225 BCE X P  7 NA NA             3</span></code></pre></div>
+<p>The information on the inspection is found in the <code>inspno</code>-th row (here: third row) of <code>config$inspections</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">survey<span class="op">$</span>inspections[<span class="dv">3</span>, ]
+<span class="co">#&gt;   ACC ACB ABC                     ABA  ABQ AAD AAB AAK AAF        ABF</span>
+<span class="co">#&gt; 3 200 200   A EN 13508-2:2003+A1:2011 49.1   8   8   B   7 2001-01-02</span>
+<span class="co">#&gt;     ABG          ABH AAA</span>
+<span class="co">#&gt; 3 14:51 Mrs. Perfect   3</span></code></pre></div>
+</div>
+</div>
+<div id="write-a-file-encoded-in-en-13508-2-format" class="section level2">
+<h2 class="hasAnchor">
+<a href="#write-a-file-encoded-in-en-13508-2-format" class="anchor"></a>Write a File Encoded in EN 13508.2 Format</h2>
+<p>Once you have prepared a list with the three components <code>header.info</code>, <code>inspections</code> and <code>observations</code> as described above, you can use the function <code><a href="reference/writeEuCodedFile.html">writeEuCodedFile()</a></code> to write a file formatted in EN 13508.2-format:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Define the path to an output file</span>
+output_file &lt;-<span class="st"> </span><span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">"example_en13508.2.txt"</span>)
+
+<span class="co"># Write the CCTV survey data to the file</span>
+<span class="kw"><a href="reference/writeEuCodedFile.html">writeEuCodedFile</a></span>(survey, output_file)
+<span class="co">#&gt; *** Formatting lines ... Removing column 'inspno' from 'observations'.</span>
+<span class="co">#&gt; ok.</span>
+<span class="co">#&gt;   Writing B-blocks (inspection data) ... ok.</span>
+<span class="co">#&gt;   Writing C-blocks (observation data) ... ok.</span>
+<span class="co">#&gt; *** ok.</span>
+<span class="co">#&gt; *** Writing lines to /tmp/Rtmpxyr0DW/example_en13508.2.txt ... *** ok.</span></code></pre></div>
+<p>The first 20 lines of the file produced read:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.utils<span class="op">::</span><span class="kw">catLines</span>(<span class="kw">readLines</span>(output_file, <span class="dv">20</span>))
+<span class="co">#&gt; #A1=ISO-8859-1</span>
+<span class="co">#&gt; #A2=de</span>
+<span class="co">#&gt; #A3=,</span>
+<span class="co">#&gt; #A4=.</span>
+<span class="co">#&gt; #A5="</span>
+<span class="co">#&gt; #A6=2010</span>
+<span class="co">#&gt; #B01=ACC,ACB,ABC,ABA,ABQ,AAD,AAB,AAK,AAF,ABF,ABG,ABH,AAA</span>
+<span class="co">#&gt; 400,400,A,EN 13508-2:2003+A1:2011,23.5,6,2925,A,2925,2007-07-19,09:05,Mr. Clean/Mrs. Perfect,1</span>
+<span class="co">#&gt; #C=I,N,A,B,C,D,G,H,K,F,M,J</span>
+<span class="co">#&gt; 0,,BCD,X,P,2925,,,,,,</span>
+<span class="co">#&gt; 0.5,,BAC,B,,59,12,12,A,,4,</span>
+<span class="co">#&gt; 3.4,,BAB,A,A,1,12,,A,[Chr1 Y-&gt;A] [Chr2 Y-&gt;A],,</span>
+<span class="co">#&gt; 3.4,,BAB,B,A,2,6,,A,[Chr1 Y-&gt;B] [Chr2 Y-&gt;A],5,</span>
+<span class="co">#&gt; 4.4,,BAB,B,A,2,6,,,[Chr1 Y-&gt;B],,A2</span>
+<span class="co">#&gt; 4.4,,BAB,B,A,2,12,,,[Chr1 Y-&gt;B],6,A1</span>
+<span class="co">#&gt; 5.1,,BAB,B,A,2,6,,,[Chr1 Y-&gt;B],,B2</span>
+<span class="co">#&gt; 5.4,,BAB,B,A,2,12,,,[Chr1 Y-&gt;B],,B1</span>
+<span class="co">#&gt; 6.4,,BAB,A,A,1,6,,A,[Chr1 Y-&gt;A] [Chr2 Y-&gt;A],,</span>
+<span class="co">#&gt; 9.4,,BAB,A,A,1,6,,,[Chr1 Y-&gt;A],,A3</span>
+<span class="co">#&gt; 9.4,,BAB,A,A,1,12,,,[Chr1 Y-&gt;A],,A4</span></code></pre></div>
 </div>
 </div>
   </div>
@@ -118,7 +288,7 @@ devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocument
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Hauke Sonnenberg <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Hauke Sonnenberg <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-9134-2871" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" height="16"></a> </li>
 <li><a href="authors.html">All authors...</a></li>
 </ul>
 </div>
