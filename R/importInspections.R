@@ -66,7 +66,8 @@ extractInspectionBlocks <- function(
   
   for (i in seq_along(headerInfos)) {
     
-    #i <- 1
+    print(i)
+    #i <- 5
     row_numbers <- headerInfos[[i]]$rows + 1
     
     x <- textblockToDataframe(
@@ -96,9 +97,12 @@ textblockToDataframe <- function(
   textblock, sep, dec, quoteCharacter, captionLine, rowNumbers, dbg = TRUE
 )
 {
+  #kwb.utils::catLines(textblock)
+  
   x <- utils::read.table(
     text = textblock, sep = sep, dec = dec, quote = quoteCharacter, 
     comment.char = "", stringsAsFactors = FALSE
+    #, fill = TRUE
   )
   
   captions <- strsplit(captionLine, sep)[[1]]

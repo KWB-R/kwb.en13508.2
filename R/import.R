@@ -12,9 +12,12 @@
 #'   \code{read.inspections}, \code{simple.algorithm}, \code{warn}, see there.
 #'   
 #' @return list of sublists each of which is the result of a call to 
-#'   \code{\link{readEuCodedFile}}. The names of the list elements are the file 
-#'   names of the input files, with a preceding letter "x" and special 
-#'   characters replaces with underscore.
+#'   \code{\link{readEuCodedFile}}. The names of the list elements are 
+#'   constructed from the file names of the input files. Special characters 
+#'   in the file names are replaced with underscore. Names will get a preceding 
+#'   letter "x" if they start with a digit or with underscore. If files could
+#'   not be read correctly, their indices are returnded in attribute
+#'   \code{which_failed}.
 #'
 #' @export
 #' 
@@ -62,11 +65,14 @@ readEuCodedFiles <- function(
   elements <- kwb.utils::hsSubstSpecChars(basename(input.files))
   
   # Prepend an "x" to element names that start with a digit
-  starts_with_digit <- grepl("^\\d", elements)
+  starts_with_digit <- grepl("^[0-9_]", elements)
   elements[starts_with_digit] <- paste0("x", elements[starts_with_digit])
 
   # Set list element names
-  stats::setNames(result[! failed], elements[! failed])
+  result <- stats::setNames(result[! failed], elements[! failed])
+  
+  # Return the indices of the files that could not be read correctly
+  structure(result, which_failed = which(failed))
 }
 
 # readEuCodedFile --------------------------------------------------------------

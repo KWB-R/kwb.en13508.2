@@ -20,9 +20,10 @@ column \code{file} in the \code{inspections} element of the result list}
 }
 \value{
 list of sublists each of which is the result of a call to 
-  \code{\link{readEuCodedFile}}. The names of the list elements are the file 
-  names of the input files, with a preceding letter "x" and special 
-  characters replaces with underscore.
+  \code{\link{readEuCodedFile}}. The names of the list elements are 
+  constructed from the file names of the input files. Special characters 
+  in the file names are replaced with underscore. Names will get a preceding 
+  letter "x" if they start with a digit or with underscore.
 }
 \description{
 Read CCTV inspection data from multiple files coded according to EN13508-2
