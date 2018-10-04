@@ -22,46 +22,51 @@ readEuCodedFiles <- function(
   input.files, dbg = TRUE, append.file.names = TRUE, ...
 )
 {
-  result <- list()
-  
-  numberOfFiles <- length(input.files)
-  
-  for (i in seq_len(numberOfFiles)) {
+  result <- lapply(seq_along(input.files), function(i) {
     
     input.file <- input.files[i]
     
     kwb.utils::catIf(
-      dbg, sprintf("input file %d/%d: %s\n", i, numberOfFiles, input.file)
+      dbg, sprintf("input file %d/%d: %s\n", i, length(input.files), input.file)
     )
 
-    inspectionData <- try(
-      readEuCodedFile(input.file, dbg = dbg, ...)
-    )
+    inspectionData <- try(readEuCodedFile(input.file, dbg = dbg, ...))
     
-    # Give a warning if an error occurred
-    if ("try-error" %in% class(inspectionData)) {
-      
-      warning(sprintf(
-        "readEuCodedFile('%s') returned with error!", basename(input.file)
-      ))
-      
-    } else {
-      
+    # Skip the following if an error occurred
+    if (! inherits(inspectionData, "try-error")) {
+
       # Append inspection data to result list
       filename <- basename(input.file)
       
       if (append.file.names) {
         
-        inspectionData$inspections$file <- filename  
+        inspectionData$inspections$file <- filename
       }
       
-      elementName <- paste0("x", kwb.utils::hsSubstSpecChars(filename))
-      
-      result[[elementName]] <- inspectionData          
+      inspectionData
     }
-  }
+  })
+
+  failed <- sapply(result, is.null)
   
-  result
+  # Give a warning about occurred errors
+  if (any(failed)) {
+    
+    warning(call. = FALSE, sprintf(
+      "readEuCodedFile() returned with error for the following %d files:\n%s", 
+      sum(failed), kwb.utils::stringList(basename(input.files[failed]))
+    ))
+  }
+
+  # Create valid list element names
+  elements <- kwb.utils::hsSubstSpecChars(basename(input.files))
+  
+  # Prepend an "x" to element names that start with a digit
+  starts_with_digit <- grepl("^\\d", elements)
+  elements[starts_with_digit] <- paste0("x", elements[starts_with_digit])
+
+  # Set list element names
+  stats::setNames(result[! failed], elements[! failed])
 }
 
 # readEuCodedFile --------------------------------------------------------------
