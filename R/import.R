@@ -200,12 +200,26 @@ getHeaderLinesFromEuCodedLines <- function(lines)
 
 getHeaderInfoFromHeaderLines <- function(header.lines, warn = TRUE)
 {
+  # original_fields <- do.call(kwb.utils::toLookupList, kwb.utils::toKeysAndValues(
+  #   kwb.utils::collapsed(gsub("^#", "", header.lines), "@"),
+  #   separators = c("@", "=")
+  # ))
+  # 
+  # renamed_fields <- kwb.utils::renameColumns(original_fields, list(
+  #   A1 = "encoding", A2 = "language", A3 = "separator", A4 = "decimal",
+  #   A5 = "quote", A6 = "year"
+  # ))
+
+  # Set quote to "" instead of NA because read.table will give strange results
+  quote <- findKeyAndExtractValue(header.lines, "A5", warn = warn)
+  quote <- kwb.utils::defaultIfNA(quote, "")
+  
   list(
     encoding = findKeyAndExtractValue(header.lines, "A1", warn = warn),
     language = findKeyAndExtractValue(header.lines, "A2", warn = warn),
     separator = findKeyAndExtractValue(header.lines, "A3", warn = warn),
     decimal = findKeyAndExtractValue(header.lines, "A4", warn = warn),
-    quote = findKeyAndExtractValue(header.lines, "A5", warn = warn),
+    quote = quote,
     year = findKeyAndExtractValue(header.lines, "A6", warn = warn)
   )
 }
