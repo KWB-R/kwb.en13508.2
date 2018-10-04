@@ -73,18 +73,18 @@ readEuCodedFiles <- function(
 #' @param input.file full path to text file containing CCTV inspection results
 #'   in the format described in DIN EN 13508-2
 #' @param encoding default: "latin1"
-#' @param read.inspections if TRUE, general inspection data (in #B-blocks) are
-#'   read, otherwise skipped (use if function fails)
-#' @param simple.algorithm if TRUE (default), a simple (and faster) algorithm is
-#'   used to extract the general information about the inspections from the
-#'   #B-headers. It requires that all #B-headers have the same number and order
-#'   of fields. If FALSE, another algorithm being able to treat differing
-#'   #B-header rows is used.
-#' @param warn if TRUE, warnings are shown (e.g. if not all #A-header fields
-#'   were found)
-#' @param dbg if TRUE, debug messages are shown, else not
-#'   
-#' @return list with elements \code{header.info}, \code{inspections}, 
+#' @param read.inspections if \code{TRUE}, general inspection data (in
+#'   #B-blocks) are read, otherwise skipped (use if function fails)
+#' @param simple.algorithm if \code{TRUE} (default), a simple (and faster)
+#'   algorithm is used to extract the general information about the inspections
+#'   from the #B-headers. It requires that all #B-headers have the same number
+#'   and order of fields. If \code{FALSE}, another algorithm being able to treat
+#'   differing #B-header rows is used.
+#' @param warn if \code{TRUE}, warnings are shown (e.g. if not all #A-header
+#'   fields were found)
+#' @param dbg if \code{TRUE}, debug messages are shown, else not
+#'
+#' @return list with elements \code{header.info}, \code{inspections},
 #'   \code{observations}
 #' 
 #' @export
@@ -94,27 +94,26 @@ readEuCodedFile <- function(
   simple.algorithm = TRUE, warn = TRUE, dbg = TRUE
 )
 {
-  kwb.utils::.logstart(dbg, "Reading input file", input.file)
+  #kwb.utils::assignArgumentDefaults(kwb.en13508.2::readEuCodedFile)
+  #kwb.utils::assignPackageObjects("kwb.en13508.2")
   
-  eu_lines <- readLines(input.file, encoding = encoding)
+  eu_lines <- kwb.utils::catAndRun(
+    dbg = dbg, paste("Reading input file", input.file),
+    readLines(input.file, encoding = encoding)
+  )
+
+  eu_lines <- kwb.utils::catAndRun(
+    dbg = dbg, "Removing empty lines (if any)",
+    removeEmptyLines(eu_lines)
+  )
   
-  kwb.utils::.logok(dbg)
-  
-  kwb.utils::.logstart(dbg, "Removing empty lines (if any)")
-  
-  eu_lines <- removeEmptyLines(eu_lines)
-  
-  kwb.utils::.logok(dbg)
-  
-  kwb.utils::.logstart(dbg, "Extracting file header")
-  
-  header.info <- getHeaderInfoFromHeaderLines(
-    getHeaderLinesFromEuCodedLines(eu_lines),
-    warn = warn
-  )  
-  
-  kwb.utils::.logok(dbg)
-  
+  header.info <- kwb.utils::catAndRun(dbg = dbg, "Extracting file header", {
+    getHeaderInfoFromHeaderLines(
+      header.lines = getHeaderLinesFromEuCodedLines(eu_lines),
+      warn = warn
+    )
+  })
+    
   kwb.utils::.logstart(dbg, "Extracting inspection records")
 
   if (read.inspections) {
@@ -146,7 +145,6 @@ readEuCodedFile <- function(
       "I (yet) cannot read the inspection data (#B-blocks). ",
       "So I just returned the number of inspections instead of a ",
       "data frame with all informatin on the inspection!"
-      
     )
     
     inspections <- length(grep("^#B01", eu_lines))
