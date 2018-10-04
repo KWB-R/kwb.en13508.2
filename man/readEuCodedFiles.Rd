@@ -4,7 +4,8 @@
 \alias{readEuCodedFiles}
 \title{Read Multiple CCTV Inspection Files}
 \usage{
-readEuCodedFiles(input.files, dbg = TRUE, append.file.names = TRUE, ...)
+readEuCodedFiles(input.files, dbg = TRUE, append.file.names = TRUE,
+  ...)
 }
 \arguments{
 \item{input.files}{vector of character paths to input files}
