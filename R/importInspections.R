@@ -66,6 +66,7 @@ extractInspectionBlocks <- function(
   
   for (i in seq_along(headerInfos)) {
     
+    #i <- 1
     row_numbers <- headerInfos[[i]]$rows + 1
     
     x <- textblockToDataframe(
@@ -95,9 +96,9 @@ textblockToDataframe <- function(
   textblock, sep, dec, quoteCharacter, captionLine, rowNumbers, dbg = TRUE
 )
 {
-  x <- kwb.utils::csvTextToDataFrame(
-    textblock, sep = sep, dec = dec, quote = quoteCharacter, comment.char = "",
-    stringsAsFactors = FALSE
+  x <- utils::read.table(
+    text = textblock, sep = sep, dec = dec, quote = quoteCharacter, 
+    comment.char = "", stringsAsFactors = FALSE
   )
   
   captions <- strsplit(captionLine, sep)[[1]]
@@ -110,10 +111,11 @@ textblockToDataframe <- function(
         "The number of captions (%d) is not equal to the number of columns ",
         "in the data block (%d). \nCaptions: %s\nFirst data row: %s\n"
       ), 
-      length(captions), ncol(x), captions, x[1, ]
+      length(captions), ncol(x), kwb.utils::stringList(captions), 
+      kwb.utils::stringList(x[1, ])
     )
     
-    stop(textmessage)
+    stop(textmessage, call. = FALSE)
     
   } else {
     
