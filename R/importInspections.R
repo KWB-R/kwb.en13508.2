@@ -66,26 +66,45 @@ extractInspectionBlocks <- function(
   
   for (i in seq_along(headerInfos)) {
     
-    print(i)
+    #print(i)
     #i <- 5
     row_numbers <- headerInfos[[i]]$rows + 1
     
-    x <- textblockToDataframe(
-      textblock = paste(eu_lines[row_numbers], collapse = "\n"), 
-      sep = sep, dec = dec, quoteCharacter = quoteCharacter, 
-      captionLine = unique_headers[i], rowNumbers = row_numbers, dbg = dbg
-    )
+    textblock <- paste(eu_lines[row_numbers], collapse = "\n")
     
-    line_number <- headerInfos[[i]]$line
+    try_result <- try(silent = TRUE, x <- textblockToDataframe(
+      textblock, sep, dec, quoteCharacter, captionLine = unique_headers[i], 
+      rowNumbers = row_numbers, dbg = dbg
+    ))
     
-    if (length(blocks) < line_number) {
+    if (! inherits(try_result, "try-error")) {
       
-      blocks[[line_number]] <- list(line = line_number, dataFrames = list())
+      line_number <- headerInfos[[i]]$line
+      
+      if (length(blocks) < line_number) {
+        
+        blocks[[line_number]] <- list(line = line_number, dataFrames = list())
+      }
+      
+      last_index <- length(blocks[[line_number]]$dataFrames)
+      
+      blocks[[line_number]]$dataFrames[[last_index + 1]] <- x
+      
+    } else {
+      
+      # Handle the error
+      stop(
+        sprintf(
+          "\nError reading #B-block number %d (lines %s):\n>>>\n%s\n<<<\n", 
+          i, kwb.utils::collapsed(row_numbers, ", "), textblock
+        ), 
+        sprintf(
+          "Original error message: >>>%s<<<\n", 
+          attr(try_result, "condition")$message
+        ),
+        call. = FALSE
+      )
     }
-    
-    last_index <- length(blocks[[line_number]]$dataFrames)
-    
-    blocks[[line_number]]$dataFrames[[last_index + 1]] <- x
   }
   
   blocks

@@ -23,7 +23,9 @@ list of sublists each of which is the result of a call to
   \code{\link{readEuCodedFile}}. The names of the list elements are 
   constructed from the file names of the input files. Special characters 
   in the file names are replaced with underscore. Names will get a preceding 
-  letter "x" if they start with a digit or with underscore.
+  letter "x" if they start with a digit or with underscore. If files could
+  not be read correctly, their indices are returnded in attribute
+  \code{which_failed}.
 }
 \description{
 Read CCTV inspection data from multiple files coded according to EN13508-2
