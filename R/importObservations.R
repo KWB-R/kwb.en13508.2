@@ -75,7 +75,9 @@ getObservationsFromEuLines <- function(
     inspection_numbers <- NA
   }
   
-  kwb.utils::setColumns(observations, inspno = inspection_numbers)
+  result <- kwb.utils::setColumns(observations, inspno = inspection_numbers)
+  
+  kwb.utils::moveColumnsToFront(result[, order(names(result))], "inspno")
 }
 
 # get_observations -------------------------------------------------------------
