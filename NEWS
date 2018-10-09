@@ -1,3 +1,0 @@
-Changes on 2018-10-08
-=====================
-* getObservationsFromEuLines: Order columns by name, put column "inspno" first.

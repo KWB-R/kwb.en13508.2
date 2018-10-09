@@ -21,9 +21,11 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
 
 
@@ -34,7 +36,6 @@
 <meta name="twitter:card" content="summary" />
 
 <meta name="robots" content="noindex">
-
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -75,11 +76,14 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/kwb-r/kwb.datetime">
+  <a href="https://github.com/kwb-r/kwb.en13508.2">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -97,7 +101,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Read CCTV Inspection Data in EN13508-2 Format</h1>
-    <small class="dont-index">Source: <a href='https://github.com/kwb-r/kwb.datetime/blob/master/R/import.R'><code>R/import.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/kwb-r/kwb.en13508.2/blob/master/R/import.R'><code>R/import.R</code></a></small>
     <div class="hidden name"><code>readEuCodedFile.Rd</code></div>
     </div>
 
@@ -107,8 +111,9 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>readEuCodedFile</span>(<span class='no'>input.file</span>, <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='st'>"latin1"</span>, <span class='kw'>read.inspections</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>simple.algorithm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>warn</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>dbg</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>readEuCodedFile</span>(<span class='no'>input.file</span>, <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='st'>"latin1"</span>,
+  <span class='kw'>read.inspections</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>simple.algorithm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>warn</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>dbg</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -124,31 +129,31 @@ in the format described in DIN EN 13508-2</p></td>
     </tr>
     <tr>
       <th>read.inspections</th>
-      <td><p>if TRUE, general inspection data (in #B-blocks) are
-read, otherwise skipped (use if function fails)</p></td>
+      <td><p>if <code>TRUE</code>, general inspection data (in
+#B-blocks) are read, otherwise skipped (use if function fails)</p></td>
     </tr>
     <tr>
       <th>simple.algorithm</th>
-      <td><p>if TRUE (default), a simple (and faster) algorithm is
-used to extract the general information about the inspections from the
-#B-headers. It requires that all #B-headers have the same number and order
-of fields. If FALSE, another algorithm being able to treat differing
-#B-header rows is used.</p></td>
+      <td><p>if <code>TRUE</code> (default), a simple (and faster)
+algorithm is used to extract the general information about the inspections
+from the #B-headers. It requires that all #B-headers have the same number
+and order of fields. If <code>FALSE</code>, another algorithm being able to treat
+differing #B-header rows is used.</p></td>
     </tr>
     <tr>
       <th>warn</th>
-      <td><p>if TRUE, warnings are shown (e.g. if not all #A-header fields
-were found)</p></td>
+      <td><p>if <code>TRUE</code>, warnings are shown (e.g. if not all #A-header
+fields were found)</p></td>
     </tr>
     <tr>
       <th>dbg</th>
-      <td><p>if TRUE, debug messages are shown, else not</p></td>
+      <td><p>if <code>TRUE</code>, debug messages are shown, else not</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list with elements <code>header.info</code>, <code>inspections</code>, 
+    <p>list with elements <code>header.info</code>, <code>inspections</code>,
   <code>observations</code></p>
     
 

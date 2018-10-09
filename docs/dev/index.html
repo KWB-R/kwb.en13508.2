@@ -8,8 +8,8 @@
 <title>Read and Write CCTV Inspection Data According to Norm EN13508-2 • kwb.en13508.2</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="jquery.sticky-kit.min.js"></script><script src="pkgdown.js"></script><meta property="og:title" content="Read and Write CCTV Inspection Data According to Norm EN13508-2">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="pkgdown.js"></script><meta property="og:title" content="Read and Write CCTV Inspection Data According to Norm EN13508-2">
 <meta property="og:description" content="functions to read and write CCTV inspections according to 
     EN13508-2.">
 <meta name="twitter:card" content="summary">
@@ -46,10 +46,13 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="news/index.html">Changelog</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/kwb-r/kwb.datetime">
+  <a href="https://github.com/kwb-r/kwb.en13508.2">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -79,34 +82,34 @@
 <h2 class="hasAnchor">
 <a href="#install-the-package" class="anchor"></a>Install the Package</h2>
 <p>You can install the latest development version of the package from GitHub with:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("devtools")</span>
-devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"KWB-R/kwb.en13508.2"</span>, <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># install.packages("devtools")</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"KWB-R/kwb.en13508.2"</span>, <span class="dt">build_vignettes =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 </div>
 <div id="load-the-package" class="section level2">
 <h2 class="hasAnchor">
 <a href="#load-the-package" class="anchor"></a>Load the Package</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(kwb.en13508.<span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(kwb.en13508<span class="fl">.2</span>)</a></code></pre></div>
 </div>
 <div id="read-a-file-encoded-in-en-13508-2-format" class="section level2">
 <h2 class="hasAnchor">
 <a href="#read-a-file-encoded-in-en-13508-2-format" class="anchor"></a>Read a File Encoded in EN 13508.2 Format</h2>
 <p>You can read a file formatted in EN 13508.2 text format using <code><a href="reference/readEuCodedFile.html">readEuCodedFile()</a></code>.</p>
 <p>For the purpose of demonstration, we load an example file that is contained in the package:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set the relative path to the example file</span>
-file_path &lt;-<span class="st"> "extdata/example_13508_2.txt"</span>
-
-<span class="co"># Set the absolute path to the example file in the package folder</span>
-input_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(file_path, <span class="dt">package =</span> <span class="st">"kwb.en13508.2"</span>)
-
-<span class="co"># Read the example file</span>
-survey &lt;-<span class="st"> </span><span class="kw"><a href="reference/readEuCodedFile.html">readEuCodedFile</a></span>(input_file)
-<span class="co">#&gt; *** Reading input file /home/hsonne/R/packages/kwb.en13508.2/extdata/example_13508_2.txt ... *** ok.</span>
-<span class="co">#&gt; *** Removing empty lines (if any) ... *** ok.</span>
-<span class="co">#&gt; *** Extracting file header ... *** ok.</span>
-<span class="co">#&gt; *** Extracting inspection records ... 19 inspections extracted. *** ok.</span>
-<span class="co">#&gt; *** Extracting observation records ... A 'virtual' inspection block end '#Z' has been added.</span>
-<span class="co">#&gt; Provide column 'inspno' to data frame 'observations'... ok.</span>
-<span class="co">#&gt; 335 observations extracted. *** ok.</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Set the relative path to the example file</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">file_path &lt;-<span class="st"> "extdata/example_13508_2.txt"</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co"># Set the absolute path to the example file in the package folder</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">input_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(file_path, <span class="dt">package =</span> <span class="st">"kwb.en13508.2"</span>)</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co"># Read the example file</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">survey &lt;-<span class="st"> </span><span class="kw"><a href="reference/readEuCodedFile.html">readEuCodedFile</a></span>(input_file)</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; Reading input file C:/Users/mrustl.KWB/Documents/R/win-library/3.5/kwb.en13508.2/extdata/example_13508_2.txt ... ok. </span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; Removing empty lines (if any) ... ok. </span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; Extracting file header ... ok. </span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; *** Extracting inspection records ... 19 inspections extracted. *** ok.</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; *** Extracting observation records ... A 'virtual' inspection block end '#Z' has been added.</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; Provide column 'inspno' to data frame 'observations'... ok.</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; 335 observations extracted. *** ok.</span></a></code></pre></div>
 <p>The result is a list with the three components representing the A-, B- and C- parts, respectively, of the file:</p>
 <ul>
 <li>
@@ -119,151 +122,150 @@ survey &lt;-<span class="st"> </span><span class="kw"><a href="reference/readEuC
 <div id="part-a-information-on-the-file-format" class="section level3">
 <h3 class="hasAnchor">
 <a href="#part-a-information-on-the-file-format" class="anchor"></a>Part A: Information on the file format</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">survey<span class="op">$</span>header.info
-<span class="co">#&gt; $encoding</span>
-<span class="co">#&gt; [1] "ISO-8859-1"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $language</span>
-<span class="co">#&gt; [1] "de"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $separator</span>
-<span class="co">#&gt; [1] ","</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $decimal</span>
-<span class="co">#&gt; [1] "."</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $quote</span>
-<span class="co">#&gt; [1] "\""</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $year</span>
-<span class="co">#&gt; [1] "2010"</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">survey<span class="op">$</span>header.info</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; $encoding</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; [1] "ISO-8859-1"</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; $language</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; [1] "de"</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; $separator</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; [1] ","</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; $decimal</span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; [1] "."</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt; $quote</span></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt; [1] "\""</span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; $year</span></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; [1] "2010"</span></a></code></pre></div>
 </div>
 <div id="part-b-inspections" class="section level3">
 <h3 class="hasAnchor">
 <a href="#part-b-inspections" class="anchor"></a>Part B: Inspections</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(survey<span class="op">$</span>inspections)
-<span class="co">#&gt;   ACC ACB ABC                     ABA  ABQ AAD  AAB AAK  AAF        ABF</span>
-<span class="co">#&gt; 1 400 400   A EN 13508-2:2003+A1:2011 23.5   6 2925   A 2925 2007-07-19</span>
-<span class="co">#&gt; 2 300 300   A EN 13508-2:2003+A1:2011 12.3   6 2942   A 2942 1999-02-25</span>
-<span class="co">#&gt; 3 200 200   A EN 13508-2:2003+A1:2011 49.1   8    8   B    7 2001-01-02</span>
-<span class="co">#&gt; 4 200 200   A EN 13508-2:2003+A1:2011 49.5   8    7   A    7 2009-08-14</span>
-<span class="co">#&gt; 5 400 400   A EN 13508-2:2003+A1:2011 32.7  11   11   B   10 2001-01-03</span>
-<span class="co">#&gt; 6 400 400   A EN 13508-2:2003+A1:2011 13.1  14   14   B   13 2001-02-14</span>
-<span class="co">#&gt;     ABG                    ABH AAA</span>
-<span class="co">#&gt; 1 09:05 Mr. Clean/Mrs. Perfect   1</span>
-<span class="co">#&gt; 2 12:51         Mr. Incredible   2</span>
-<span class="co">#&gt; 3 14:51           Mrs. Perfect   3</span>
-<span class="co">#&gt; 4 11:19              Mr. Clean   4</span>
-<span class="co">#&gt; 5 21:19           Mrs. Perfect   9</span>
-<span class="co">#&gt; 6 22:37         Mrs. Pragmatic  15</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">head</span>(survey<span class="op">$</span>inspections)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt;   ACC ACB ABC                     ABA  ABQ AAD  AAB AAK  AAF        ABF</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; 1 400 400   A EN 13508-2:2003+A1:2011 23.5   6 2925   A 2925 2007-07-19</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; 2 300 300   A EN 13508-2:2003+A1:2011 12.3   6 2942   A 2942 1999-02-25</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; 3 200 200   A EN 13508-2:2003+A1:2011 49.1   8    8   B    7 2001-01-02</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; 4 200 200   A EN 13508-2:2003+A1:2011 49.5   8    7   A    7 2009-08-14</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; 5 400 400   A EN 13508-2:2003+A1:2011 32.7  11   11   B   10 2001-01-03</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; 6 400 400   A EN 13508-2:2003+A1:2011 13.1  14   14   B   13 2001-02-14</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt;     ABG                    ABH AAA</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; 1 09:05 Mr. Clean/Mrs. Perfect   1</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; 2 12:51         Mr. Incredible   2</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; 3 14:51           Mrs. Perfect   3</span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; 4 11:19              Mr. Clean   4</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; 5 21:19           Mrs. Perfect   9</span></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; 6 22:37         Mrs. Pragmatic  15</span></a></code></pre></div>
 <p>The codes used as column names correspond to the codes defined in the norm. We provide a function <code><a href="reference/getCodes.html">getCodes()</a></code> in the package that returns a table mapping these codes to their meanings:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Get all codes and meanings defined in the European Norm</span>
-code_info &lt;-<span class="st"> </span><span class="kw"><a href="reference/getCodes.html">getCodes</a></span>(<span class="dt">fields =</span> <span class="kw">c</span>(<span class="st">"Code"</span>, <span class="st">"Text_EN"</span>))
-
-<span class="co"># Show the meanings for the codes that are used in the table of inspections</span>
-code_info[code_info<span class="op">$</span>Code <span class="op">%in%</span><span class="st"> </span><span class="kw">names</span>(survey<span class="op">$</span>inspections), ]
-<span class="co">#&gt;    Code                          Text_EN</span>
-<span class="co">#&gt; 15  AAA        Pipeline length reference</span>
-<span class="co">#&gt; 16  AAB             Start node reference</span>
-<span class="co">#&gt; 18  AAD                 Node 1 reference</span>
-<span class="co">#&gt; 20  AAF                 Node 2 reference</span>
-<span class="co">#&gt; 25  AAK          Direction of inspection</span>
-<span class="co">#&gt; 37  ABA                         Standard</span>
-<span class="co">#&gt; 39  ABC     Longitudinal reference point</span>
-<span class="co">#&gt; 42  ABF               Date of inspection</span>
-<span class="co">#&gt; 43  ABG               Time of inspection</span>
-<span class="co">#&gt; 44  ABH                Name of inspector</span>
-<span class="co">#&gt; 53  ABQ Anticipated length of inspection</span>
-<span class="co">#&gt; 58  ACB                           Height</span>
-<span class="co">#&gt; 59  ACC                            Width</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># Get all codes and meanings defined in the European Norm</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">code_info &lt;-<span class="st"> </span><span class="kw"><a href="reference/getCodes.html">getCodes</a></span>(<span class="dt">fields =</span> <span class="kw">c</span>(<span class="st">"Code"</span>, <span class="st">"Text_EN"</span>))</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co"># Show the meanings for the codes that are used in the table of inspections</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">code_info[code_info<span class="op">$</span>Code <span class="op">%in%</span><span class="st"> </span><span class="kw">names</span>(survey<span class="op">$</span>inspections), ]</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt;    Code                          Text_EN</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; 15  AAA        Pipeline length reference</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; 16  AAB             Start node reference</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; 18  AAD                 Node 1 reference</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; 20  AAF                 Node 2 reference</span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; 25  AAK          Direction of inspection</span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt; 37  ABA                         Standard</span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; 39  ABC     Longitudinal reference point</span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt; 42  ABF               Date of inspection</span></a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt; 43  ABG               Time of inspection</span></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt; 44  ABH                Name of inspector</span></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt; 53  ABQ Anticipated length of inspection</span></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt; 58  ACB                           Height</span></a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt; 59  ACC                            Width</span></a></code></pre></div>
 </div>
 <div id="part-c-observations" class="section level3">
 <h3 class="hasAnchor">
 <a href="#part-c-observations" class="anchor"></a>Part C: Observations</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(survey<span class="op">$</span>observations)
-<span class="co">#&gt;     I N   A B C    D  G  H K                       F M  J inspno</span>
-<span class="co">#&gt; 1 0.0   BCD X P 2925 NA NA                                     1</span>
-<span class="co">#&gt; 2 0.5   BAC B     59 12 12 A                         4         1</span>
-<span class="co">#&gt; 3 3.4   BAB A A    1 12 NA A [Chr1 Y-&gt;A] [Chr2 Y-&gt;A]           1</span>
-<span class="co">#&gt; 4 3.4   BAB B A    2  6 NA A [Chr1 Y-&gt;B] [Chr2 Y-&gt;A] 5         1</span>
-<span class="co">#&gt; 5 4.4   BAB B A    2  6 NA               [Chr1 Y-&gt;B]   A2      1</span>
-<span class="co">#&gt; 6 4.4   BAB B A    2 12 NA               [Chr1 Y-&gt;B] 6 A1      1</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">head</span>(survey<span class="op">$</span>observations)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt;   inspno   A B C    D                       F  G  H   I  J K M N</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; 1      1 BCD X P 2925                         NA NA 0.0         </span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; 2      1 BAC B     59                         12 12 0.5    A 4  </span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; 3      1 BAB A A    1 [Chr1 Y-&gt;A] [Chr2 Y-&gt;A] 12 NA 3.4    A    </span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; 4      1 BAB B A    2 [Chr1 Y-&gt;B] [Chr2 Y-&gt;A]  6 NA 3.4    A 5  </span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; 5      1 BAB B A    2             [Chr1 Y-&gt;B]  6 NA 4.4 A2      </span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; 6      1 BAB B A    2             [Chr1 Y-&gt;B] 12 NA 4.4 A1   6</span></a></code></pre></div>
 <p>Again, let’s have a look at what the columns mean:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Show the meanings for the codes that are used in the table of observations</span>
-code_info[code_info<span class="op">$</span>Code <span class="op">%in%</span><span class="st"> </span><span class="kw">names</span>(survey<span class="op">$</span>observations), ]
-<span class="co">#&gt;    Code                           Text_EN</span>
-<span class="co">#&gt; 1     A                         Main code</span>
-<span class="co">#&gt; 2     B                Characterisation 1</span>
-<span class="co">#&gt; 3     C                Characterisation 2</span>
-<span class="co">#&gt; 4     D                  Quantification 1</span>
-<span class="co">#&gt; 6     F                           Remarks</span>
-<span class="co">#&gt; 7     G        Circumferential location 1</span>
-<span class="co">#&gt; 8     H        Circumferential location 2</span>
-<span class="co">#&gt; 9     I Longitudinal or vertical location</span>
-<span class="co">#&gt; 10    J            Continuous defect code</span>
-<span class="co">#&gt; 11    K                             Joint</span>
-<span class="co">#&gt; 13    M              Photograph reference</span>
-<span class="co">#&gt; 14    N                   Video reference</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># Show the meanings for the codes that are used in the table of observations</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">code_info[code_info<span class="op">$</span>Code <span class="op">%in%</span><span class="st"> </span><span class="kw">names</span>(survey<span class="op">$</span>observations), ]</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;    Code                           Text_EN</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; 1     A                         Main code</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; 2     B                Characterisation 1</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; 3     C                Characterisation 2</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; 4     D                  Quantification 1</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; 6     F                           Remarks</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; 7     G        Circumferential location 1</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; 8     H        Circumferential location 2</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; 9     I Longitudinal or vertical location</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt; 10    J            Continuous defect code</span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt; 11    K                             Joint</span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; 13    M              Photograph reference</span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt; 14    N                   Video reference</span></a></code></pre></div>
 <p>The column <code>inspno</code> groups together observations that belong to the same inspection. The number in the column refers to the row number in the table of inspections (<code>survey$inspections</code>). For example, to get all the observations that belong to the third inspection, you may filter <code>survey$observations</code> like in the following. For a more compact output we exclude the tenth column (“F”) containing the remarks:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">survey<span class="op">$</span>observations[survey<span class="op">$</span>observations<span class="op">$</span>inspno <span class="op">==</span><span class="st"> </span><span class="dv">3</span>, <span class="op">-</span><span class="dv">10</span>]
-<span class="co">#&gt;       I    N   A B C  D  G  H K M  J inspno</span>
-<span class="co">#&gt; 50  0.0 4617 BCD X P  8 NA NA             3</span>
-<span class="co">#&gt; 51  1.6 4645 BAB A A  1 12 NA A           3</span>
-<span class="co">#&gt; 52  1.6 4651 BAC B   39 12 NA A           3</span>
-<span class="co">#&gt; 53  1.6 4657 BAJ B   15  6 NA A           3</span>
-<span class="co">#&gt; 54  3.6 4720 BAJ B   15  6 NA A           3</span>
-<span class="co">#&gt; 55  4.6 4732 BAJ B   20  6 NA A           3</span>
-<span class="co">#&gt; 56 14.0 4820 BBC C    6 12 12             3</span>
-<span class="co">#&gt; 57 15.5 4855 BBA A    3 12 12     A1      3</span>
-<span class="co">#&gt; 58 18.6 4923 BBA A    3 12 12     B1      3</span>
-<span class="co">#&gt; 59 30.8 5028 BBA A    2 12 12             3</span>
-<span class="co">#&gt; 60 48.4 5211 BAC B   45 12 12 A           3</span>
-<span class="co">#&gt; 61 49.1 5225 BCE X P  7 NA NA             3</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">survey<span class="op">$</span>observations[survey<span class="op">$</span>observations<span class="op">$</span>inspno <span class="op">==</span><span class="st"> </span><span class="dv">3</span>, <span class="dv">-10</span>]</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt;    inspno   A B C  D                       F  G  H    I K M    N</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; 50      3 BCD X P  8                         NA NA  0.0     4617</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; 51      3 BAB A A  1 [Chr1 Y-&gt;A] [Chr2 Y-&gt;A] 12 NA  1.6 A   4645</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; 52      3 BAC B   39                         12 NA  1.6 A   4651</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; 53      3 BAJ B   15                          6 NA  1.6 A   4657</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; 54      3 BAJ B   15                          6 NA  3.6 A   4720</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; 55      3 BAJ B   20                          6 NA  4.6 A   4732</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; 56      3 BBC C    6                         12 12 14.0     4820</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt; 57      3 BBA A    3             [Chr1 Y-&gt;A] 12 12 15.5     4855</span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt; 58      3 BBA A    3             [Chr1 Y-&gt;A] 12 12 18.6     4923</span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">#&gt; 59      3 BBA A    2             [Chr1 Y-&gt;A] 12 12 30.8     5028</span></a>
+<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt; 60      3 BAC B   45                         12 12 48.4 A   5211</span></a>
+<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; 61      3 BCE X P  7                         NA NA 49.1     5225</span></a></code></pre></div>
 <p>The information on the inspection is found in the <code>inspno</code>-th row (here: third row) of <code>config$inspections</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">survey<span class="op">$</span>inspections[<span class="dv">3</span>, ]
-<span class="co">#&gt;   ACC ACB ABC                     ABA  ABQ AAD AAB AAK AAF        ABF</span>
-<span class="co">#&gt; 3 200 200   A EN 13508-2:2003+A1:2011 49.1   8   8   B   7 2001-01-02</span>
-<span class="co">#&gt;     ABG          ABH AAA</span>
-<span class="co">#&gt; 3 14:51 Mrs. Perfect   3</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">survey<span class="op">$</span>inspections[<span class="dv">3</span>, ]</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt;   ACC ACB ABC                     ABA  ABQ AAD AAB AAK AAF        ABF</span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; 3 200 200   A EN 13508-2:2003+A1:2011 49.1   8   8   B   7 2001-01-02</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt;     ABG          ABH AAA</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; 3 14:51 Mrs. Perfect   3</span></a></code></pre></div>
 </div>
 </div>
 <div id="write-a-file-encoded-in-en-13508-2-format" class="section level2">
 <h2 class="hasAnchor">
 <a href="#write-a-file-encoded-in-en-13508-2-format" class="anchor"></a>Write a File Encoded in EN 13508.2 Format</h2>
 <p>Once you have prepared a list with the three components <code>header.info</code>, <code>inspections</code> and <code>observations</code> as described above, you can use the function <code><a href="reference/writeEuCodedFile.html">writeEuCodedFile()</a></code> to write a file formatted in EN 13508.2-format:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Define the path to an output file</span>
-output_file &lt;-<span class="st"> </span><span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">"example_en13508.2.txt"</span>)
-
-<span class="co"># Write the CCTV survey data to the file</span>
-<span class="kw"><a href="reference/writeEuCodedFile.html">writeEuCodedFile</a></span>(survey, output_file)
-<span class="co">#&gt; *** Formatting lines ... Removing column 'inspno' from 'observations'.</span>
-<span class="co">#&gt; ok.</span>
-<span class="co">#&gt;   Writing B-blocks (inspection data) ... ok.</span>
-<span class="co">#&gt;   Writing C-blocks (observation data) ... ok.</span>
-<span class="co">#&gt; *** ok.</span>
-<span class="co">#&gt; *** Writing lines to /tmp/Rtmpxyr0DW/example_en13508.2.txt ... *** ok.</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># Define the path to an output file</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">output_file &lt;-<span class="st"> </span><span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">"example_en13508.2.txt"</span>)</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co"># Write the CCTV survey data to the file</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="kw"><a href="reference/writeEuCodedFile.html">writeEuCodedFile</a></span>(survey, output_file)</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt; *** Formatting lines ... ok.</span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt;   Writing B-blocks (inspection data) ... ok.</span></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt;   Writing C-blocks (observation data) ... ok.</span></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; *** ok.</span></a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt; *** Writing lines to C:\Users\mrustl.KWB\AppData\Local\Temp\RtmpktpeA4/example_en13508.2.txt ... *** ok.</span></a></code></pre></div>
 <p>The first 20 lines of the file produced read:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kwb.utils<span class="op">::</span><span class="kw">catLines</span>(<span class="kw">readLines</span>(output_file, <span class="dv">20</span>))
-<span class="co">#&gt; #A1=ISO-8859-1</span>
-<span class="co">#&gt; #A2=de</span>
-<span class="co">#&gt; #A3=,</span>
-<span class="co">#&gt; #A4=.</span>
-<span class="co">#&gt; #A5="</span>
-<span class="co">#&gt; #A6=2010</span>
-<span class="co">#&gt; #B01=ACC,ACB,ABC,ABA,ABQ,AAD,AAB,AAK,AAF,ABF,ABG,ABH,AAA</span>
-<span class="co">#&gt; 400,400,A,EN 13508-2:2003+A1:2011,23.5,6,2925,A,2925,2007-07-19,09:05,Mr. Clean/Mrs. Perfect,1</span>
-<span class="co">#&gt; #C=I,N,A,B,C,D,G,H,K,F,M,J</span>
-<span class="co">#&gt; 0,,BCD,X,P,2925,,,,,,</span>
-<span class="co">#&gt; 0.5,,BAC,B,,59,12,12,A,,4,</span>
-<span class="co">#&gt; 3.4,,BAB,A,A,1,12,,A,[Chr1 Y-&gt;A] [Chr2 Y-&gt;A],,</span>
-<span class="co">#&gt; 3.4,,BAB,B,A,2,6,,A,[Chr1 Y-&gt;B] [Chr2 Y-&gt;A],5,</span>
-<span class="co">#&gt; 4.4,,BAB,B,A,2,6,,,[Chr1 Y-&gt;B],,A2</span>
-<span class="co">#&gt; 4.4,,BAB,B,A,2,12,,,[Chr1 Y-&gt;B],6,A1</span>
-<span class="co">#&gt; 5.1,,BAB,B,A,2,6,,,[Chr1 Y-&gt;B],,B2</span>
-<span class="co">#&gt; 5.4,,BAB,B,A,2,12,,,[Chr1 Y-&gt;B],,B1</span>
-<span class="co">#&gt; 6.4,,BAB,A,A,1,6,,A,[Chr1 Y-&gt;A] [Chr2 Y-&gt;A],,</span>
-<span class="co">#&gt; 9.4,,BAB,A,A,1,6,,,[Chr1 Y-&gt;A],,A3</span>
-<span class="co">#&gt; 9.4,,BAB,A,A,1,12,,,[Chr1 Y-&gt;A],,A4</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">kwb.utils<span class="op">::</span><span class="kw">catLines</span>(<span class="kw">readLines</span>(output_file, <span class="dv">20</span>))</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt; #A1=ISO-8859-1</span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt; #A2=de</span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; #A3=,</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; #A4=.</span></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt; #A5="</span></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt; #A6=2010</span></a>
+<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">#&gt; #B01=ACC,ACB,ABC,ABA,ABQ,AAD,AAB,AAK,AAF,ABF,ABG,ABH,AAA</span></a>
+<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt; 400,400,A,EN 13508-2:2003+A1:2011,23.5,6,2925,A,2925,2007-07-19,09:05,Mr. Clean/Mrs. Perfect,1</span></a>
+<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co">#&gt; #C=A,B,C,D,F,G,H,I,J,K,M,N</span></a>
+<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co">#&gt; BCD,X,P,2925,,,,0,,,,</span></a>
+<a class="sourceLine" id="cb12-12" data-line-number="12"><span class="co">#&gt; BAC,B,,59,,12,12,0.5,,A,4,</span></a>
+<a class="sourceLine" id="cb12-13" data-line-number="13"><span class="co">#&gt; BAB,A,A,1,[Chr1 Y-&gt;A] [Chr2 Y-&gt;A],12,,3.4,,A,,</span></a>
+<a class="sourceLine" id="cb12-14" data-line-number="14"><span class="co">#&gt; BAB,B,A,2,[Chr1 Y-&gt;B] [Chr2 Y-&gt;A],6,,3.4,,A,5,</span></a>
+<a class="sourceLine" id="cb12-15" data-line-number="15"><span class="co">#&gt; BAB,B,A,2,[Chr1 Y-&gt;B],6,,4.4,A2,,,</span></a>
+<a class="sourceLine" id="cb12-16" data-line-number="16"><span class="co">#&gt; BAB,B,A,2,[Chr1 Y-&gt;B],12,,4.4,A1,,6,</span></a>
+<a class="sourceLine" id="cb12-17" data-line-number="17"><span class="co">#&gt; BAB,B,A,2,[Chr1 Y-&gt;B],6,,5.1,B2,,,</span></a>
+<a class="sourceLine" id="cb12-18" data-line-number="18"><span class="co">#&gt; BAB,B,A,2,[Chr1 Y-&gt;B],12,,5.4,B1,,,</span></a>
+<a class="sourceLine" id="cb12-19" data-line-number="19"><span class="co">#&gt; BAB,A,A,1,[Chr1 Y-&gt;A] [Chr2 Y-&gt;A],6,,6.4,,A,,</span></a>
+<a class="sourceLine" id="cb12-20" data-line-number="20"><span class="co">#&gt; BAB,A,A,1,[Chr1 Y-&gt;A],6,,9.4,A3,,,</span></a>
+<a class="sourceLine" id="cb12-21" data-line-number="21"><span class="co">#&gt; BAB,A,A,1,[Chr1 Y-&gt;A],12,,9.4,A4,,,</span></a></code></pre></div>
 </div>
 </div>
   </div>
@@ -272,9 +274,9 @@ output_file &lt;-<span class="st"> </span><span class="kw">file.path</span>(<spa
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/kwb-r/kwb.datetime">https://​github.com/​kwb-r/​kwb.datetime</a>
+<li>Browse source code at <br><a href="https://github.com/kwb-r/kwb.en13508.2">https://​github.com/​kwb-r/​kwb.en13508.2</a>
 </li>
-<li>Report a bug at <br><a href="https://github.com/kwb-r/kwb.datetime/issues">https://​github.com/​kwb-r/​kwb.datetime/​issues</a>
+<li>Report a bug at <br><a href="https://github.com/kwb-r/kwb.en13508.2/issues">https://​github.com/​kwb-r/​kwb.en13508.2/​issues</a>
 </li>
 </ul>
 </div>
