@@ -14,5 +14,8 @@ RoxygenNote: 6.1.0
 URL: https://github.com/kwb-r/kwb.en13508.2
 BugReports: https://github.com/kwb-r/kwb.en13508.2/issues
 Suggests: 
-    testthat
+    testthat,
+    ggplot2, 
+    ggplus,
+    kwb.rerau
 Encoding: UTF-8
