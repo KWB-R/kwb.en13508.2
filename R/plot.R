@@ -1,5 +1,31 @@
-# plot_observations ------------------------------------------------------------
-plot_observations <- function(survey, to_pdf = TRUE)
+# plotObservations -------------------------------------------------------------
+
+#' Plot Observations per Pipe
+#' 
+#' @param survey list with elements \code{inspections} and \code{observations}
+#'   as e.g. returned by \code{kwb.en13508.2:::readEuCodedFile}
+#' @param to_pdf if \code{TRUE} (default) the output goes into a temporary PDF
+#'   file
+#' @param matrix_dim vector of two specifying the number of rows and columns,
+#'   respectivly of the matrix in which to arrange the single plots.
+#' 
+#' @export
+#' 
+#' @examples 
+#' # Install packages if not yet installed
+#' \dontrun{
+#' install.packages("ggplot2")
+#' devtools::install_github("guiastrennec/ggplus")
+#' }
+#' 
+#' # Load example data
+#' file <- system.file("extdata/example_13508_2.txt", package = "kwb.en13508.2")
+#' survey <- kwb.en13508.2::readEuCodedFile(file)
+#' 
+#' # Create one plot per inspection in "survey"
+#' kwb.en13508.2::plotObservations(survey, to_pdf = FALSE)
+#' 
+plotObservations <- function(survey, to_pdf = TRUE, matrix_dim = c(3, 2))
 {
   # Prepare data frame "x" for plotting
   x <- get_extended_observations(survey)
@@ -11,20 +37,40 @@ plot_observations <- function(survey, to_pdf = TRUE)
   x$Observation[x$A == "PIP"] <- OBS_PIPE
   
   x$Inspection <- sprintf("Pipe \"%s\", %s %s", x$AAA, x$ABF, x$ABG)
+
+  # Define plot function  
+  plot_x <- function(x) {
+    ggplot2::ggplot(x, ggplot2::aes_string("I", "Observation")) + 
+      ggplot2::geom_point() + 
+      ggplot2::geom_line(
+        data = remove_point_damages, ggplot2::aes_string(
+          group = "ldid", col = "factor(ldidno)"
+        )
+      ) + 
+      ggplot2::xlab("Position (m)") +
+      ggplot2::ylab("") +
+      ggplot2::facet_wrap("Inspection", ncol = matrix_dim[2]) +
+      ggplot2::theme_minimal() +
+      ggplot2::theme(legend.position = "none")
+  }
+
+  inspection_numbers <- sort(unique(x$inspno))
   
-  # Create gg_object from data
-  gg_object <- ggplot2::ggplot(x, ggplot2::aes_string("I", "Observation")) + 
-    ggplot2::geom_point() + 
-    ggplot2::geom_line(
-    data = remove_point_damages, ggplot2::aes_string(
-      group = "ldid", col = "factor(ldidno)"
-    )
-  ) + ggplot2::theme(legend.position = "none")
+  n <- length(inspection_numbers)
   
+  groups <- rep(seq_len(n), each = prod(matrix_dim))[1:n]
+  
+  plots <- lapply(
+    X = split(inspection_numbers, groups),
+    FUN = function(inspnos) {
+      plot_x(x[x$inspno %in% inspnos, ])
+    }
+  )
+
   # Plot gg_objects into PDF-file
   pdf_file <- kwb.utils::preparePdfIf(to_pdf, landscape = FALSE)
   
-  ggplus::facet_multiple(gg_object, facets = "Inspection", ncol = 1, nrow = 6)
+  print(plots)
   
   kwb.utils::finishAndShowPdfIf(to_pdf, pdf_file)
 }
@@ -48,19 +94,30 @@ get_extended_observations <- function(survey)
   extremes <- get_extreme_positions(inspections)
   observations <- kwb.utils::safeRowBind(observations, extremes)
   
-  obs_columns <- c("inspno", "I", "A", "B", "C", "J")
+  # Define names of code columns
+  code_columns <- c("A", "B", "C")
+  
+  obs_columns <- c("inspno", "I", code_columns, "J")
   obs <- kwb.utils::selectColumns(observations, obs_columns)
 
   # Add start and end positions and code meanings to observations
   codes <- get_code_meanings()
   obs <- merge(obs, codes, by.x = "A", by.y = "Code", all.x = TRUE)
   obs <- merge(obs, ins, by = "inspno")
-  obs <- kwb.rerau::prepareForScoring(obs)
+  
+  #obs <- kwb.rerau::prepareForScoring(obs)
+
+  # Replace NA or empty string in columns B and C with dash "-"
+  for (column in c("B", "C")) {
+    
+    obs[[column]][kwb.utils::isNaOrEmpty(obs[[column]])] <- "-"
+  }
+
   obs$ldidno <- as.integer(gsub("^[AB]", "", obs$J))
   obs$ldid <- paste0(obs$A, obs$B, obs$C, sprintf("%02d", obs$ldidno))
   obs$ldid[kwb.utils::isNaOrEmpty(obs$J)] <- ""
 
-  key_columns <- c("inspno", "I", "A", "B", "C")
+  key_columns <- c("inspno", "I", code_columns)
   
   obs <- order_by(obs, key_columns)
   
