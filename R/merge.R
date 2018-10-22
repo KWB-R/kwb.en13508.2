@@ -8,15 +8,15 @@
 #' @param input.files full path to text file containing CCTV inspection results
 #'   in the format described in DIN EN 13508-2
 #' @param dbg if \code{TRUE} debug messages are shown
-#' 
+#' @param \dots further arguments passed to \code{\link{readEuCodedFiles}}
 #' @export
 #' 
-readAndMergeEuCodedFiles <- function(input.files, dbg = FALSE)
+readAndMergeEuCodedFiles <- function(input.files, dbg = FALSE, ...)
 {
   # by setting simple.algorithm = FALSE we get unique column names, e.g. "ADE"
   # and "ADE.1"    
   mergeInspectionData(readEuCodedFiles(
-    input.files = input.files, simple.algorithm = FALSE, dbg = dbg
+    input.files = input.files, simple.algorithm = FALSE, dbg = dbg, ...
   ))  
 }
 
