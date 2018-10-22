@@ -4,7 +4,7 @@
 \alias{plotObservations}
 \title{Plot Observations per Pipe}
 \usage{
-plotObservations(survey, to_pdf = TRUE, matrix_dim = c(3, 2))
+plotObservations(survey, to_pdf = TRUE, matrix_dim = c(7, 1))
 }
 \arguments{
 \item{survey}{list with elements \code{inspections} and \code{observations}

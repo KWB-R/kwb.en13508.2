@@ -25,7 +25,7 @@
 #' # Create one plot per inspection in "survey"
 #' kwb.en13508.2::plotObservations(survey, to_pdf = FALSE)
 #' 
-plotObservations <- function(survey, to_pdf = TRUE, matrix_dim = c(3, 2))
+plotObservations <- function(survey, to_pdf = TRUE, matrix_dim = c(7, 1))
 {
   # Prepare data frame "x" for plotting
   x <- get_extended_observations(survey)
@@ -86,6 +86,10 @@ get_extended_observations <- function(survey)
     
     inspections$inspno <- seq_len(nrow(inspections))
   }
+  
+  # Make sure that numeric columns are numeric
+  inspections$ABQ <- as.numeric(inspections$ABQ)
+  observations$I <- as.numeric(observations$I)
   
   ins_columns <- c("inspno", "AAA", "ABF", "ABG")
   ins <- kwb.utils::selectColumns(inspections, ins_columns)
