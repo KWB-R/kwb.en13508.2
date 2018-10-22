@@ -49,7 +49,7 @@ plotObservations <- function(survey, to_pdf = TRUE, matrix_dim = c(7, 1))
       ) + 
       ggplot2::xlab("Position (m)") +
       ggplot2::ylab("") +
-      ggplot2::facet_wrap("Inspection", ncol = matrix_dim[2]) +
+      ggplot2::facet_wrap("Inspection", ncol = matrix_dim[2], scales = "free_y") +
       ggplot2::theme_minimal() +
       ggplot2::theme(legend.position = "none")
   }
