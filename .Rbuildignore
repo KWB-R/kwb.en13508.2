@@ -1,2 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+index\.md$
+README\.md$
+^\.travis\.yml$
