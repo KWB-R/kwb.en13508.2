@@ -1,19 +1,3 @@
----
-output: github_document
----
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, echo = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "README-"
-)
-```
-
-# kwb.en13508.2
-
 [![Appveyor build status](https://ci.appveyor.com/api/projects/status/i5xx4npr86rg783h/branch/master?svg=true)](https://ci.appveyor.com/project/KWB-R/kwb-en13508-2/branch/master)
 [![Build Status](https://travis-ci.org/KWB-R/kwb.en13508.2.svg?branch=master)](https://travis-ci.org/KWB-R/kwb.en13508.2)
 [![codecov](https://codecov.io/github/KWB-R/kwb.en13508.2/branch/master/graphs/badge.svg)](https://codecov.io/github/KWB-R/kwb.en13508.2)
@@ -25,18 +9,30 @@ inspections. The format expected when reading and generated when writing is the
 text format that is described in the European Norm 
 [EN 13508-2](http://www.dwa.de/dwa/shop/shop.nsf/Produktanzeige?openform&produktid=P-DWAA-8KTG5R).
 
-## Install the Package
+## Installation
 
-You can install the latest development version of the package from GitHub with:
+For details on how to install KWB-R packages checkout our [installation tutorial](https://kwb-r.github.io/kwb.pkgbuild/articles/install.html).
 
-```{r gh-installation, eval = FALSE}
-# install.packages("devtools")
-devtools::install_github("KWB-R/kwb.en13508.2", build_vignettes = TRUE)
+```r
+### Optionally: specify GitHub Personal Access Token (GITHUB_PAT)
+### See here why this might be important for you:
+### https://kwb-r.github.io/kwb.pkgbuild/articles/install.html#set-your-github_pat
+
+# Sys.setenv(GITHUB_PAT = "mysecret_access_token")
+
+# Install package "remotes" from CRAN
+if (! require("remotes")) {
+  install.packages("remotes", repos = "https://cloud.r-project.org")
+}
+
+# Install KWB package 'kwb.en13508.2' from GitHub
+
+remotes::install_github("kwb-r/kwb.en13508.2")
 ```
 
 ## Load the Package
 
-```{r}
+```r
 library(kwb.en13508.2)
 ```
 
@@ -48,7 +44,7 @@ You can read a file formatted in EN 13508.2 text format using
 For the purpose of demonstration, we load an example file that is contained 
 in the package:
 
-```{r}
+```r
 # Set the relative path to the example file
 file_path <- "extdata/example_13508_2.txt"
 
@@ -69,13 +65,13 @@ that were made during the inspections
 
 ### Part A: Information on the file format
 
-```{r}
+```r
 survey$header.info
 ```
 
 ### Part B: Inspections
 
-```{r}
+```r
 head(survey$inspections)
 ```
 
@@ -83,7 +79,7 @@ The codes used as column names correspond to the codes defined in the norm.
 We provide a function `getCodes()` in the package that returns a table mapping 
 these codes to their meanings:
 
-```{r}
+```r
 # Get all codes and meanings defined in the European Norm
 code_info <- getCodes(fields = c("Code", "Text_EN"))
 
@@ -94,13 +90,13 @@ code_info[code_info$Code %in% names(survey$inspections), ]
 
 ### Part C: Observations
 
-```{r}
+```r
 head(survey$observations)
 ```
 
 Again, let's have a look at what the columns mean:
 
-```{r}
+```r
 # Show the meanings for the codes that are used in the table of observations
 code_info[code_info$Code %in% names(survey$observations), ]
 ```
@@ -112,14 +108,14 @@ that belong to the third inspection, you may filter `survey$observations` like
 in the following. For a more compact output we exclude the tenth column ("F")
 containing the remarks:
 
-```{r}
+```r
 survey$observations[survey$observations$inspno == 3, -10]
 ```
 
 The information on the inspection is found in the `inspno`-th row 
 (here: third row) of `config$inspections`:
 
-```{r}
+```r
 survey$inspections[3, ]
 ```
 
@@ -129,7 +125,7 @@ Once you have prepared a list with the three components `header.info`,
 `inspections` and `observations` as described above, you can use the function
 `writeEuCodedFile()` to write a file formatted in EN 13508.2-format:
 
-```{r}
+```r
 # Define the path to an output file
 output_file <- file.path(tempdir(), "example_en13508.2.txt")
 
@@ -138,7 +134,6 @@ writeEuCodedFile(survey, output_file)
 ```
 The first 20 lines of the file produced read:
 
-```{r}
+```r
 kwb.utils::catLines(readLines(output_file, 20))
 ```
-
