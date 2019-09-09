@@ -3,3 +3,10 @@
 index\.md$
 README\.md$
 ^\.travis\.yml$
+^appveyor\.yml$
+^codecov\.yml$
+^_pkgdown\.yaml$
+^\.gitlab-ci\.yml$
+^LICENSE\.md$
+^\.gitignore$
+^docs$

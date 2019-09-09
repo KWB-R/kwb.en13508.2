@@ -1,19 +1,26 @@
 Package: kwb.en13508.2
-Authors@R: c(
-    person("Hauke", "Sonnenberg", , "hauke.sonnenberg@kompetenz-wasser.de", 
-           role = c("aut", "cre"), comment = c(ORCID = "0000-0001-9134-2871")),
-    person("Kompetenzzentrum Wasser Berlin gGmbH", role = c("cph")))
+Title: Read and Write CCTV Inspection Data According to Norm
+    EN13508-2
 Version: 0.2.0.9000
-Imports: kwb.utils
-Remotes: github::kwb-r/kwb.utils
+Authors@R: 
+    c(person(given = "Hauke",
+             family = "Sonnenberg",
+             role = c("aut", "cre"),
+             email = "hauke.sonnenberg@kompetenz-wasser.de",
+             comment = c(ORCID = "0000-0001-9134-2871")),
+      person(given = "Kompetenzzentrum Wasser Berlin gGmbH",
+             role = "cph"))
+Description: functions to read and write CCTV inspections
+    according to EN13508-2.
 License: MIT + file LICENSE
-Title: Read and Write CCTV Inspection Data According to Norm EN13508-2
-Description: functions to read and write CCTV inspections according to 
-    EN13508-2.
-RoxygenNote: 6.1.0
 URL: https://github.com/kwb-r/kwb.en13508.2
 BugReports: https://github.com/kwb-r/kwb.en13508.2/issues
+Imports: 
+    kwb.utils
 Suggests: 
     testthat,
     ggplot2
+Remotes: 
+    github::kwb-r/kwb.utils
 Encoding: UTF-8
+RoxygenNote: 6.1.1
