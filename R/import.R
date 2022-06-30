@@ -42,7 +42,6 @@ readEuCodedFiles <- function(
       filename <- basename(input.file)
       
       if (append.file.names) {
-        
         inspectionData$inspections$file <- filename
       }
       
@@ -62,7 +61,7 @@ readEuCodedFiles <- function(
   }
 
   # Create valid list element names
-  elements <- kwb.utils::hsSubstSpecChars(basename(input.files))
+  elements <- kwb.utils::substSpecialChars(basename(input.files))
   
   # Prepend an "x" to element names that start with a digit
   starts_with_digit <- grepl("^[0-9_]", elements)
