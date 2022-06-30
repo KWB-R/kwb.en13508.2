@@ -4,9 +4,14 @@
 \alias{readEuCodedFile}
 \title{Read CCTV Inspection Data in EN13508-2 Format}
 \usage{
-readEuCodedFile(input.file, encoding = "latin1",
-  read.inspections = TRUE, simple.algorithm = TRUE, warn = TRUE,
-  dbg = TRUE)
+readEuCodedFile(
+  input.file,
+  encoding = "latin1",
+  read.inspections = TRUE,
+  simple.algorithm = TRUE,
+  warn = TRUE,
+  dbg = TRUE
+)
 }
 \arguments{
 \item{input.file}{full path to text file containing CCTV inspection results

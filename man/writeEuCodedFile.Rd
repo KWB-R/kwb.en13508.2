@@ -4,8 +4,13 @@
 \alias{writeEuCodedFile}
 \title{Write Inspection Data to File in EU Format}
 \usage{
-writeEuCodedFile(inspection.data, output.file = NULL, version = 3,
-  dbg = TRUE, ...)
+writeEuCodedFile(
+  inspection.data,
+  output.file = NULL,
+  version = 3,
+  dbg = TRUE,
+  ...
+)
 }
 \arguments{
 \item{inspection.data}{inspection data as retrieved by e.g.

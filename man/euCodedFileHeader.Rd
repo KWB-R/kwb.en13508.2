@@ -4,8 +4,14 @@
 \alias{euCodedFileHeader}
 \title{Generate List With EU Header Information}
 \usage{
-euCodedFileHeader(separator = ";", decimal = ".", quote = "\\"",
-  encoding = "ISO-8859-1", language = "en", year = 2010)
+euCodedFileHeader(
+  separator = ";",
+  decimal = ".",
+  quote = "\\"",
+  encoding = "ISO-8859-1",
+  language = "en",
+  year = 2010
+)
 }
 \arguments{
 \item{separator}{default: ";"}

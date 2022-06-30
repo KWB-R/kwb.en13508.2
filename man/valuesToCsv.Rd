@@ -4,8 +4,14 @@
 \alias{valuesToCsv}
 \title{Values to CSV}
 \usage{
-valuesToCsv(x, dec = ".", sep = ",", na = "", qchar = "\\"",
-  qmethod = c("double", "escape")[1])
+valuesToCsv(
+  x,
+  dec = ".",
+  sep = ",",
+  na = "",
+  qchar = "\\"",
+  qmethod = c("double", "escape")[1]
+)
 }
 \arguments{
 \item{x}{vector of values representing a row in a CSV file}
