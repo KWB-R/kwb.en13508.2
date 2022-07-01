@@ -127,16 +127,34 @@ get_observations <- function(caption_line, c_body, header_info)
   # to NA, otherwise let read.table skip the unknown columns
   colClasses <- if (all(is_null)) NA else unname(colClasses)
 
-  observations <- utils::read.table(
-    text = paste(c_body, collapse = "\n"), sep = arguments$sep, 
-    dec = arguments$dec, quote = arguments$quote, comment.char = "", 
-    blank.lines.skip = FALSE, stringsAsFactors = FALSE, colClasses = colClasses
+  observations <- readObservationsFromCsvText(
+    text = paste(c_body, collapse = "\n"), 
+    sep = arguments$sep, 
+    dec = arguments$dec, 
+    quote = arguments$quote, 
+    colClasses = colClasses
   )
   
   # Set the column names to the captions
   names(observations) <- if (all(is_null)) captions else captions[! is_null]
   
   observations
+}
+
+# readObservationsFromCsvText --------------------------------------------------
+readObservationsFromCsvText <- function(text, sep, dec, quote, colClasses, ...)
+{
+  utils::read.table(
+    text = text, 
+    sep = sep, 
+    dec = dec, 
+    quote = quote, 
+    comment.char = "", 
+    blank.lines.skip = FALSE, 
+    stringsAsFactors = FALSE, 
+    colClasses = colClasses,
+    ...
+  )
 }
 
 # getInspectionNumbers ---------------------------------------------------------
