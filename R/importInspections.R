@@ -1,10 +1,12 @@
 # getInspectionsFromEuLines.new ------------------------------------------------
 
-getInspectionsFromEuLines.new <- function(eu_lines, header.info, dbg = TRUE)
+getInspectionsFromEuLines.new <- function(
+  eu_lines, header.info, dbg = TRUE, getInfo = getInspectionHeaderInfo2
+)
 {
   x <- mergeInspectionBlocks(extractInspectionBlocks(
     eu_lines = eu_lines, 
-    headerInfos = getInspectionHeaderInfo(eu_lines), 
+    headerInfos = getInfo(eu_lines), 
     sep = get_elements(header.info, "separator"), 
     dec = get_elements(header.info, "decimal"), 
     quoteCharacter = get_elements(header.info, "quote"), 
