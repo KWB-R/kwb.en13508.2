@@ -163,7 +163,15 @@ readEuCodedFile <- function(
   
   kwb.utils::.logstart(dbg, "Extracting observation records")
   
-  observations <- getObservationsFromEuLines(eu_lines, header.info, dbg = dbg)
+  observations <- try(
+    getObservationsFromEuLines(eu_lines, header.info, dbg = dbg)
+  )
+  
+  if (inherits(observations, "try-error")) {
+    headerInfo <- getHeaderInfo(eu_lines)
+    #View(headerInfo)
+    observations <- extractObservationData(eu_lines, headerInfo, header.info)
+  }
   
   kwb.utils::catIf(
     dbg, sprintf("%d observations extracted. ", nrow(observations))
