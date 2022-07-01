@@ -117,7 +117,9 @@ readEuCodedFile <- function(
     removeEmptyLines(eu_lines)
   )
   
-  header.info <- kwb.utils::catAndRun(dbg = dbg, "Extracting file header", {
+  header.info <- kwb.utils::catAndRun(
+    dbg = dbg, 
+    "Extracting file header", {
     getHeaderInfoFromHeaderLines(
       header.lines = getHeaderLinesFromEuCodedLines(eu_lines),
       warn = warn
@@ -128,12 +130,9 @@ readEuCodedFile <- function(
 
   if (read.inspections) {
     
-    inspections <- NULL
-    
-    if (simple.algorithm) {
-      
-      inspections <- getInspectionsFromEuLines(eu_lines, header.info)
-    }
+    inspections <- if (simple.algorithm) {
+      getInspectionsFromEuLines(eu_lines, header.info)
+    } # else NULL
     
     # If the inspections could not be read with the simple algorithm (due to
     # changing header rows) or if the user requests it, try it again with
@@ -154,7 +153,7 @@ readEuCodedFile <- function(
     warning(
       "I (yet) cannot read the inspection data (#B-blocks). ",
       "So I just returned the number of inspections instead of a ",
-      "data frame with all informatin on the inspection!"
+      "data frame with all information on the inspection!"
     )
     
     inspections <- length(grep("^#B01", eu_lines))
