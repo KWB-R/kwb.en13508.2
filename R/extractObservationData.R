@@ -18,6 +18,7 @@ extractObservationData <- function(euLines, headerInfo, header.info)
   
   dataBlocks <- lapply(uniqueKeys, function(uniqueKey) {
     
+    #uniqueKey <- uniqueKeys[1L]
     blocks <- extractObservationBlocks(euLines, headerInfo, uniqueKey)
     
     rowsWithKey <- which(headerInfo[["uniqueKey"]] == uniqueKey)
@@ -75,10 +76,19 @@ extractObservationBlocks <- function(euLines, headerInfo, uniqueKey)
   if (changes$value[1L] == "Z") {
     changes <- changes[-1L, ]
   }
+
+  from <- x$row[changes$starts_at[changes$value == "C"]] + 1L
+  to <- x$row[changes$starts_at[changes$value == "Z"]] - 1L
+
+  # Add a last "to" value if the last EU-line is not "#Z"
+  if (length(to) != length(from)) {
+    stopifnot(length(to) == length(from) - 1L)
+    to <- c(to, length(euLines))
+  }
   
   mapply(
-    from = x$row[changes$starts_at[changes$value == "C"]] + 1L,
-    to = x$row[changes$starts_at[changes$value == "Z"]] - 1L,
+    from = from,
+    to = to,
     FUN = function(from, to) euLines[from:to], 
     SIMPLIFY = FALSE
   )

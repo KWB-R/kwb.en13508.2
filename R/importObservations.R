@@ -13,11 +13,8 @@ getObservationsFromEuLines <- function(
   # If the file does not end with #Z add "number of lines + 1" to the vector of
   # #Z-indices
   last_z_index <- if (kwb.utils::isNullOrEmpty(indices$Z)) {
-    
-    -1
-    
+    -1L
   } else {
-    
     kwb.utils::lastElement(indices$Z)
   }
 
