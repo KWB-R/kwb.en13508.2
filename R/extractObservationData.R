@@ -43,7 +43,7 @@ extractObservationData <- function(euLines, headerInfo, header.info)
     
     result$inspno <- rep(headerInfo$inspno[rowsWithKey], blockLengths)
     
-    result
+    removeEmptyRecords(result)
   })
   
   inspectionData <- kwb.utils::safeRowBindAll(dataBlocks)
@@ -82,4 +82,29 @@ extractObservationBlocks <- function(euLines, headerInfo, uniqueKey)
     FUN = function(from, to) euLines[from:to], 
     SIMPLIFY = FALSE
   )
+}
+
+# removeEmptyRecords -----------------------------------------------------------
+removeEmptyRecords <- function(data)
+{
+  textValues <- as.matrix(kwb.utils::removeColumns(data, "inspno"))
+  
+  mode(textValues) <- "character"
+  
+  nCharacters <- kwb.utils::defaultIfNA(nchar(textValues), 0L)
+  
+  isEmpty <- rowSums(nCharacters) == 0L
+  
+  if (any(isEmpty)) {
+    message(sprintf(
+      paste(
+        "Removing %d empty records from observations table (inspection ", 
+        "number(s): %s)"
+      ), 
+      sum(isEmpty),
+      paste(unique(data[["inspno"]][isEmpty]), collapse = ", ")
+    ))
+  }
+  
+  data[!isEmpty, ]
 }
