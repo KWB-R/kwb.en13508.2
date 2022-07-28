@@ -18,7 +18,7 @@
 #'   letter "x" if they start with a digit or with underscore. If files could
 #'   not be read correctly, their indices are returnded in attribute
 #'   \code{which_failed}.
-#'
+#' @importFrom kwb.utils catIf isTryError stringList substSpecialChars
 #' @export
 #' 
 readEuCodedFiles <- function(
@@ -131,7 +131,7 @@ readEuCodedFile <- function(
   if (read.inspections) {
     
     inspections <- if (simple.algorithm) {
-      getInspectionsFromEuLines(eu_lines, header.info)
+      getInspectionsFromEuLines(eu_lines, header.info, dbg = dbg > 1L)
     } # else NULL
     
     # If the inspections could not be read with the simple algorithm (due to
@@ -278,7 +278,7 @@ findKeyAndExtractValue <- function(keyvalues, key, default = NA, warn = TRUE)
 
 # getInspectionsFromEuLines ----------------------------------------------------
 
-getInspectionsFromEuLines <- function(eu_lines, header.info)
+getInspectionsFromEuLines <- function(eu_lines, header.info, dbg = TRUE)
 {
   inspections.complete <- NULL
   
@@ -310,10 +310,12 @@ getInspectionsFromEuLines <- function(eu_lines, header.info)
       
     } else {
       
-      message(
-        "The #B-header lines differ within the file -> I will change the ",
-        "algorithm..."
-      )
+      if (dbg) {
+        message(
+          "The #B-header lines differ within the file -> I will change the ",
+          "algorithm..."
+        )
+      }
       
       aborted <- TRUE
     }    
