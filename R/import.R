@@ -36,7 +36,7 @@ readEuCodedFiles <- function(
     inspectionData <- try(readEuCodedFile(input.file, dbg = dbg, ...))
     
     # Skip the following if an error occurred
-    if (! inherits(inspectionData, "try-error")) {
+    if (! kwb.utils::isTryError(inspectionData)) {
 
       # Append inspection data to result list
       filename <- basename(input.file)
@@ -96,7 +96,7 @@ readEuCodedFiles <- function(
 #'
 #' @return list with elements \code{header.info}, \code{inspections},
 #'   \code{observations}
-#' 
+#' @importFrom kwb.utils catAndRun catIf isTryError .logstart .logok
 #' @export
 #' 
 readEuCodedFile <- function(
@@ -164,10 +164,11 @@ readEuCodedFile <- function(
   kwb.utils::.logstart(dbg, "Extracting observation records")
   
   observations <- try(
-    getObservationsFromEuLines(eu_lines, header.info, dbg = dbg)
+    getObservationsFromEuLines(eu_lines, header.info, dbg = dbg), 
+    silent = TRUE
   )
   
-  if (inherits(observations, "try-error")) {
+  if (kwb.utils::isTryError(observations)) {
     headerInfo <- getHeaderInfo(eu_lines)
     #View(headerInfo)
     observations <- extractObservationData(eu_lines, headerInfo, header.info)

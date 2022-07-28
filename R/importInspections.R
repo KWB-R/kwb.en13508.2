@@ -88,7 +88,7 @@ getInspectionHeaderInfo2 <- function(eu_lines)
 }
 
 # extractInspectionBlocks ------------------------------------------------------
-
+#' @importFrom kwb.utils isTryError
 extractInspectionBlocks <- function(
   eu_lines, headerInfos, sep, dec, quoteCharacter, dbg = TRUE
 )
@@ -109,8 +109,8 @@ extractInspectionBlocks <- function(
       textblock, sep, dec, quoteCharacter, captionLine = unique_headers[i], 
       rowNumbers = row_numbers, dbg = dbg
     ))
-    
-    if (! inherits(try_result, "try-error")) {
+
+    if (! kwb.utils::isTryError(try_result)) {
       
       line_number <- headerInfos[[i]]$line
       
