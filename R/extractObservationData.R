@@ -12,6 +12,10 @@ extractObservationData <- function(euLines, headerInfo, header.info)
   
   uniqueKeys <- unique(headerInfo[["uniqueKey"]][headerInfo[["type"]] == "C"])
   
+  colClasses <- sapply(
+    inspectionDataFieldCodes(), kwb.utils::selectElements, "class"
+  )
+  
   dataBlocks <- lapply(uniqueKeys, function(uniqueKey) {
     
     blocks <- extractObservationBlocks(euLines, headerInfo, uniqueKey)
@@ -33,7 +37,7 @@ extractObservationData <- function(euLines, headerInfo, header.info)
       sep = header.info$separator, 
       dec = header.info$decimal, 
       quote = header.info$quote, 
-      colClasses = NA, 
+      colClasses = colClasses, 
       header = TRUE
     )
     
