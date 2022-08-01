@@ -10,7 +10,7 @@
 #'   (line damage number), \code{beg.at}, \code{end.at}, \code{beg.x} (position
 #'   of line damage begin), \code{end.x} (position of line damage end),
 #'   \code{length} (length of line damage)
-#' @importFrom kwb.utils selectColumns setColumns
+#' @importFrom kwb.utils orderBy selectColumns setColumns
 #' @export
 getLineDamageInfo <- function(observations, dbg = TRUE)
 {
@@ -41,7 +41,7 @@ getLineDamageInfo <- function(observations, dbg = TRUE)
   )
   
   # Order by inspection number and line damage number
-  info <- info[do.call(order, info[, c("ino", "ldno")]), ]
+  info <- kwb.utils::orderBy(info, c("ino", "ldno"))
   
   kwb.utils::setColumns(
     info, 
