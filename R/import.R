@@ -29,10 +29,10 @@ readEuCodedFiles <- function(
     
     input.file <- input.files[i]
     
-    kwb.utils::catIf(
-      dbg, sprintf("input file %d/%d: %s\n", i, length(input.files), input.file)
-    )
-
+    kwb.utils::catIf(dbg, sprintf(
+      "input file %d/%d: %s\n", i, length(input.files), input.file
+    ))
+    
     inspectionData <- try(readEuCodedFile(input.file, dbg = dbg, ...))
     
     # Skip the following if an error occurred
@@ -144,9 +144,9 @@ readEuCodedFile <- function(
       )
     }
     
-    kwb.utils::catIf(
-      dbg, sprintf("%d inspections extracted. ", nrow(inspections))
-    )
+    kwb.utils::catIf(dbg, sprintf(
+      "%d inspections extracted. ", nrow(inspections)
+    ))
     
   } else {
     
