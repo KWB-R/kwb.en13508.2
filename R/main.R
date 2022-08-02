@@ -10,8 +10,9 @@ get_elements <- kwb.utils::selectElements
 #' 
 #' Get a data frame containing EU codes and their meaning in different languages
 #' 
-#' @param table set to a name that is related to a specific table in the EU
-#'   norm. To get the possible table names, try \code{unique(getCodes()$Table)}
+#' @param table name or vector of names of tables in the EU norm for which to 
+#'   get field information. Use \code{unique(getCodes()$Table)} to get the 
+#'   possible table names.
 #' @param fields set to a vector of field (column) names to restrict the columns
 #'   returned
 #'   
@@ -25,18 +26,23 @@ getCodes <- function(table = NULL, fields = NULL)
   
   # Check if all codes are unique
   stopifnot(! any(duplicated(get_columns(codes, "Code"))))
-  
+
   if (! is.null(table)) {
     
-    codes <- codes[get_columns(codes, "Table") == table, ]
-  }
-  
-  if (! is.null(fields)) {
+    subtables <- split(codes, get_columns(codes, "Table"))
     
-    codes <- get_columns(codes, fields)
+    codes <- kwb.utils::selectElements(subtables, table)
+    
+    if (length(table) > 1L) {
+      codes <- kwb.utils::safeRowBindAll(codes)
+    }
   }
   
-  codes
+  if (is.null(fields)) {
+    return(codes)
+  }
+  
+  get_columns(codes, fields)
 }
 
 # numberOfInspections ----------------------------------------------------------
