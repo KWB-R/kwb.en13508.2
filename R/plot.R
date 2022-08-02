@@ -149,14 +149,19 @@ get_extreme_positions <- function(inspections)
 # get_code_meanings ------------------------------------------------------------
 get_code_meanings <- function()
 {
-  # Provide table that maps codes to their meanings
-  code_meanings <- kwb.utils::resetRowNames(do.call(rbind, lapply(
-    X = sprintf("T%d", 4:7), 
-    FUN = kwb.en13508.2::getCodes, 
-    fields = c("Table", "Code", "Text_EN")
-  )))
+  renamings <- list(
+    Table = "CodeTable", 
+    Code = "Code",
+    Text_EN = "CodeMeaning"
+  )
   
-  stats::setNames(code_meanings, c("CodeTable", "Code", "CodeMeaning"))  
+  # Provide table that maps codes to their meanings
+  code_meanings <- getCodes(
+    table = sprintf("T%d", 4:7),
+    fields = names(renamings)
+  )
+  
+  kwb.utils::renameColumns(code_meanings, renamings)
 }
 
 # order_by ---------------------------------------------------------------------

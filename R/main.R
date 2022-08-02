@@ -37,6 +37,9 @@ getCodes <- function(table = NULL, fields = NULL)
       codes <- kwb.utils::safeRowBindAll(codes)
     }
   }
+
+  # Reset row names
+  row.names(codes) <- NULL
   
   if (is.null(fields)) {
     return(codes)
