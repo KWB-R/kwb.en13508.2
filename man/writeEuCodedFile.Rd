@@ -7,7 +7,7 @@
 writeEuCodedFile(
   inspection.data,
   output.file = NULL,
-  version = 3,
+  version = 3L,
   dbg = TRUE,
   ...
 )

@@ -17,13 +17,21 @@ utils::globalVariables(c("buffer")) # see toEuFormat_v1
 #' @export
 #' 
 euCodedFileHeader <- function(
-  separator = ";", decimal = ".", quote = '"', encoding = "ISO-8859-1",
-  language = "en", year = 2010
+  separator = ";", 
+  decimal = ".", 
+  quote = '"', 
+  encoding = "ISO-8859-1",
+  language = "en", 
+  year = 2010L
 )
 {
   list(
-    separator = separator, decimal = decimal, quote = quote, 
-    encoding = encoding, language = language, year = year
+    separator = separator, 
+    decimal = decimal, 
+    quote = quote, 
+    encoding = encoding, 
+    language = language, 
+    year = year
   )
 }
 
@@ -50,41 +58,44 @@ euCodedFileHeader <- function(
 #' 
 writeEuCodedFiles <- function(survey, file, blocksize = 100, dbg = TRUE)
 {
-  stopifnot(kwb.utils::stringEndsWith(file, ".txt"))
+  stopifnot(endsWith(file, ".txt"))
   
-  N <- nrow(get_elements(survey, "inspections"))
+  header.info <- get_elements(survey, "header.info")
+  inspections <- get_elements(survey, "inspections")
+  observations <- get_elements(survey, "observations")
+  
+  inspnos <- get_columns(observations, "inspno")
+  
+  N <- nrow(inspections)
+  
+  # Function to create output file name
+  fileToOutputFile <- function(i, j) {
+    pattern <- paste0("%0", nchar(N), "d")
+    postfix <- sprintf(paste0("_", pattern, "_", pattern, ".txt"), i, j)
+    gsub("\\.txt$", postfix, file)
+  }
   
   for (block_number in seq_len(ceiling(N / blocksize))) {
     
-    i <- (block_number - 1) * blocksize + 1
-    
+    i <- (block_number - 1L) * blocksize + 1L
     j <- min(block_number * blocksize, N)
     
-    pattern <- paste0("%0", nchar(N), "d")
-    
-    postfix <- sprintf(paste0("_", pattern, "_", pattern, ".txt"), i, j)
-    
-    output_file <- gsub("\\.txt$", postfix, file)
+    output_file <- fileToOutputFile(file, i, j)
 
-    kwb.utils::.logstart(dbg, "Writing", output_file)
-
-    inspno <- get_columns(get_elements(survey, "observations"), "inspno")
-    
-    # Select inspections with numbers between i and j and select the 
-    # corresponding observations
-    selected <- kwb.utils::inRange(inspno, i, j)
-    
-    writeEuCodedFile(
-      inspection.data = list(
-        header.info = get_elements(survey, "header.info"),
-        inspections = get_elements(survey, "inspections")[i:j, ],
-        observations = get_elements(survey, "observations")[selected, ]
-      ), 
-      output.file = output_file, 
-      dbg = dbg
-    )
-    
-    kwb.utils::.logok(dbg)
+    kwb.utils::catAndRun(dbg = dbg, paste("Writing", output_file), {
+      
+      writeEuCodedFile(
+        inspection.data = list(
+          header.info = header.info,
+          # Select inspections with numbers between i and j
+          inspections = inspections[i:j, ],
+          # Select the corresponding observations
+          observations = observations[kwb.utils::inRange(inspnos, i, j), ]
+        ), 
+        output.file = output_file, 
+        dbg = dbg
+      )
+    })
   }
 }
 
@@ -112,44 +123,39 @@ writeEuCodedFiles <- function(survey, file, blocksize = 100, dbg = TRUE)
 #' @export
 #' 
 writeEuCodedFile <- function(
-  inspection.data, output.file = NULL, version = 3, dbg = TRUE, ...
+  inspection.data, output.file = NULL, version = 3L, dbg = TRUE, ...
 )
 {
   #kwb.utils::assignPackageObjects("kwb.en13508.2")
   
-  kwb.utils::.logstart(dbg, "Formatting lines")
+  output.lines <- kwb.utils::catAndRun(dbg = dbg, "Formatting lines", {
+    
+    if (version == 1L) {
+      
+      toEuFormat_v1(
+        header.info = get_elements(inspection.data, "header.info"), 
+        inspections = get_elements(inspection.data, "inspections"), 
+        observations = get_elements(inspection.data, "observations")
+      )
+      
+    } else if (version == 2L) {
+      
+      toEuFormat_v2(inspection.data, mycsv = FALSE, ...)
+      
+    } else {
+      
+      toEuFormat_v2(inspection.data, mycsv = TRUE, ...)
+    }  
+    
+  })
   
-  output.lines <- if (version == 1) {
-    
-    toEuFormat_v1(
-      header.info = get_elements(inspection.data, "header.info"), 
-      inspections = get_elements(inspection.data, "inspections"), 
-      observations = get_elements(inspection.data, "observations")
-    )
-    
-  } else if (version == 2) {
-    
-    toEuFormat_v2(inspection.data, mycsv = FALSE, ...)
-    
-  } else {
-    
-    toEuFormat_v2(inspection.data, mycsv = TRUE, ...)
-  }  
-  
-  kwb.utils::.logok(dbg)
-
-  if (! is.null(output.file)) {
-    
-    kwb.utils::.logstart(dbg, "Writing lines to", output.file)
-    
-    writeLines(output.lines, output.file)  
-    
-    kwb.utils::.logok(dbg)
-    
-  } else {
-    
-    output.lines
+  if (is.null(output.file)) {
+    return(output.lines)
   }
+    
+  kwb.utils::catAndRun(dbg = dbg, paste("Writing lines to", output.file), {
+    writeLines(output.lines, output.file)  
+  })
 }
 
 # toEuFormat_v1 ----------------------------------------------------------------
@@ -170,23 +176,19 @@ toEuFormat_v1 <- function(header.info, inspections, observations)
   sep <- header.info$separator
   
   # Save the inspection numbers
-  inspno <- get_columns(observations, "inspno")
+  inspnos <- get_columns(observations, "inspno")
   
   # Remove the column containing the inspection numbers
   observations <- kwb.utils::removeColumns(observations, "inspno")
   
   tc <- textConnection("buffer", "w")
+  on.exit(close(tc))
   
   #kwb.utils::assignPackageObjects("kwb.en13508.2")
   writeLines(getHeaderLinesFromHeaderInfo(header.info), tc)
   
-  insp.header.line <- inspectionHeaderLine(
-    header.fields = names(inspections), separator = sep
-  )
-  
-  obs.header.line <- observationHeaderLine(
-    header.fields = names(observations), separator = sep
-  )
+  insp.header.line <- inspectionHeaderLine(names(inspections), sep)
+  obs.header.line <- observationHeaderLine(names(observations), sep)
   
   insp.numbers <- rownames(inspections)
   
@@ -199,10 +201,10 @@ toEuFormat_v1 <- function(header.info, inspections, observations)
   )
   
   # Get index ranges of inspections (see kwb.event::hsEventsOnChange())
-  n_obs <- length(inspno)
-  change_index <- which(inspno[1:(n_obs - 1)] != inspno[2:n_obs]) + 1 
-  begin_index <- c(1, change_index)
-  end_index = c(change_index - 1, n_obs)
+  n_obs <- length(inspnos)
+  change_index <- which(inspnos[1:(n_obs - 1L)] != inspnos[2:n_obs]) + 1L
+  begin_index <- c(1L, change_index)
+  end_index = c(change_index - 1L, n_obs)
   
   # Loop through the inspections
   for (i in seq_len(n)) {
@@ -210,9 +212,7 @@ toEuFormat_v1 <- function(header.info, inspections, observations)
     kwb.utils::catIf(i %% 100 == 0, "i =", i, "\n")
 
     writeLines(insp.header.line, tc)
-    
     write_table(inspections[i, ], tc, sep)
-    
     writeLines(obs.header.line, tc)
     
     indices <- begin_index[i]:end_index[i]
@@ -220,12 +220,9 @@ toEuFormat_v1 <- function(header.info, inspections, observations)
     write_table(observations[indices, ], tc, sep)
     
     if (i < n) {
-      
       writeLines("#Z", tc)
     }
   }
-  
-  close(tc)
   
   buffer
 }
@@ -239,36 +236,23 @@ toEuFormat_v1 <- function(header.info, inspections, observations)
 #' 
 getHeaderLinesFromHeaderInfo <- function(header.info)
 {
-  columns <- c("encoding", "language", "separator", "decimal", "quote", "year")
+  elements <- c("encoding", "language", "separator", "decimal", "quote", "year")
   
-  kwb.utils::checkForMissingColumns(header.info, columns)
-  
-  values <- c(
-    header.info$encoding, 
-    header.info$language, 
-    header.info$separator, 
-    header.info$decimal, 
-    header.info$quote, 
-    header.info$year
-  )
+  values <- unlist(kwb.utils::selectElements(header.info, elements))
   
   paste(sprintf("#A%d", seq_along(values)), values, sep = "=")
 }
 
 # inspectionHeaderLine ---------------------------------------------------------
-
-inspectionHeaderLine <- function(header.fields, separator) 
+inspectionHeaderLine <- function(header.fields, sep) 
 {  
-  sprintf("#B01=%s", paste(header.fields, collapse = separator))
+  sprintf("#B01=%s", paste(header.fields, collapse = sep))
 }
 
 # observationHeaderLine --------------------------------------------------------
-
-observationHeaderLine <- function(header.fields, separator)
+observationHeaderLine <- function(header.fields, sep)
 {  
-  sprintf("#C=%s", paste(
-    header.fields[header.fields != "inspno"], collapse = separator
-  ))
+  sprintf("#C=%s", paste(setdiff(header.fields, "inspno"), collapse = sep))
 }
 
 # toEuFormat_v2 ----------------------------------------------------------------
@@ -322,29 +306,24 @@ toEuFormat_v2 <- function(inspection.data, mycsv, ...)
   # Number of C-blocks (= number of inspections)
   n <- length(c_sizes)
 
-  cat("ok.\n  Writing B-blocks (inspection data) ... ")
-  
-  b_indices <- offset + 1 + 4 * (seq_len(n) - 1) + c(0, c_sizes[-n])
-  
-  out_lines[b_indices] <- inspectionHeaderLine(names(inspections), sep)
-
-  out_lines[b_indices + 1] <- to_csv(inspections)
-
-  cat("ok.\n  Writing C-blocks (observation data) ... ")
-
-  out_lines[b_indices + 2] <- observationHeaderLine(names(observations), sep)
-
-  z_indices <- b_indices[-1] - 1
-
-  skip_indices <- c(b_indices, b_indices + 1, b_indices + 2, z_indices)
-
-  n_rows <- c_sizes[n] + 4 * n - 1 + offset
-  
-  c_body_indices <- setdiff(seq(offset + 1, n_rows), skip_indices)
-  
-  out_lines[c_body_indices] <- to_csv(observations)
-  
   cat("ok.\n")
+  
+  kwb.utils::catAndRun("  Writing B-blocks (inspection data) ... ", {
+    
+    b_indices <- offset + 1L + 4 * (seq_len(n) - 1L) + c(0L, c_sizes[-n])
+    out_lines[b_indices] <- inspectionHeaderLine(names(inspections), sep)
+    out_lines[b_indices + 1L] <- to_csv(inspections)
+  })
+  
+  kwb.utils::catAndRun("  Writing C-blocks (observation data) ... ", {
+    
+    out_lines[b_indices + 2L] <- observationHeaderLine(names(observations), sep)
+    z_indices <- b_indices[-1L] - 1L
+    skip_indices <- c(b_indices, b_indices + 1L, b_indices + 2L, z_indices)
+    n_rows <- c_sizes[n] + 4 * n - 1L + offset
+    c_body_indices <- setdiff(seq(offset + 1L, n_rows), skip_indices)
+    out_lines[c_body_indices] <- to_csv(observations)
+  })
   
   out_lines[z_indices] <- "#Z"
 
