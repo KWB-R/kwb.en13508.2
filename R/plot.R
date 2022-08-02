@@ -105,7 +105,7 @@ get_extended_observations <- function(survey)
   obs <- kwb.utils::selectColumns(observations, obs_columns)
 
   # Add start and end positions and code meanings to observations
-  codes <- get_code_meanings()
+  codes <- getCodeMeanings()
   obs <- merge(obs, codes, by.x = "A", by.y = "Code", all.x = TRUE)
   obs <- merge(obs, ins, by = "inspno")
   
@@ -146,8 +146,8 @@ get_extreme_positions <- function(inspections)
 }
 
 
-# get_code_meanings ------------------------------------------------------------
-get_code_meanings <- function()
+# getCodeMeanings --------------------------------------------------------------
+getCodeMeanings <- function()
 {
   renamings <- list(
     Table = "CodeTable", 
