@@ -74,12 +74,10 @@ mergeInspectionData <- function(x)
 }
 
 # warnOnDifferingHeaders -------------------------------------------------------
-
 warnOnDifferingHeaders <- function(x)
 {
   # list to data frame
   header_infos <- do.call(rbind, lapply(x, function(x) {
-    
     as.data.frame(get_elements(x, "header.info"))
   }))
   
@@ -87,16 +85,16 @@ warnOnDifferingHeaders <- function(x)
   equal_in_column <- sapply(header_infos, kwb.utils::allAreEqual)
     
   if (! all(equal_in_column)) {
+  
+    text <- paste(collapse = "\n", utils::capture.output(print(
+      unique(header_infos[, ! equal_in_column, drop = FALSE])
+    )))
     
-    text <- paste0(
+    warning(
       "The file headers are differing in the folowing fields:\n\n",
-      paste(
-        utils::capture.output(print(unique(header_infos[, ! equal_in_column]))), 
-        collapse = "\n"
-      ),
-      "\n\nI will use the first header."
+      text,
+      "\n\nI will use the first header.",
+      call. = FALSE
     )
-    
-    warning(text)
   }
 }
