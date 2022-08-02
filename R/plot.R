@@ -123,7 +123,7 @@ get_extended_observations <- function(survey)
 
   key_columns <- c("inspno", "I", code_columns)
   
-  obs <- order_by(obs, key_columns)
+  obs <- kwb.utils::orderBy(obs, key_columns)
   
   kwb.utils::moveColumnsToFront(obs, columns = c(key_columns, "ldid", "ldidno"))
 }
@@ -162,14 +162,6 @@ get_code_meanings <- function()
   )
   
   kwb.utils::renameColumns(code_meanings, renamings)
-}
-
-# order_by ---------------------------------------------------------------------
-order_by <- function(df, columns)
-{
-  keys <- kwb.utils::selectColumns(df, columns)
-  
-  kwb.utils::resetRowNames(df[do.call(order, keys), ])
 }
 
 # remove_point_damages ---------------------------------------------------------
