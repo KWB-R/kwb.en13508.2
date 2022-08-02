@@ -135,5 +135,5 @@ writeEuCodedFile(survey, output_file)
 The first 20 lines of the file produced read:
 
 ```r
-kwb.utils::catLines(readLines(output_file, 20))
+writeLines(readLines(output_file, 20))
 ```
