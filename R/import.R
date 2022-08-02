@@ -187,35 +187,13 @@ readEuCodedFile <- function(
   )
 }
 
-# removeEmptyLines -------------------------------------------------------------
-
-removeEmptyLines <- function(x, dbg = TRUE)
-{
-  empty.line.indices <- grep("^$", x)
-  
-  numberOfEmptyLines <- length(empty.line.indices)
-  
-  if (numberOfEmptyLines > 0) {
-    
-    kwb.utils::.logstart(dbg, "Removing",  numberOfEmptyLines, "empty lines")
-    
-    x <- x[-empty.line.indices]
-    
-    kwb.utils::.logok(dbg)
-  }
-  
-  x
-}
-
 # getHeaderLinesFromEuCodedLines -----------------------------------------------
-
 getHeaderLinesFromEuCodedLines <- function(lines)
 {
   grep("^#A", lines, value = TRUE)
 }
 
 # getHeaderInfoFromHeaderLines -------------------------------------------------
-
 getHeaderInfoFromHeaderLines <- function(header.lines, warn = TRUE)
 {
   # original_fields <- do.call(kwb.utils::toLookupList, kwb.utils::toKeysAndValues(
@@ -243,7 +221,6 @@ getHeaderInfoFromHeaderLines <- function(header.lines, warn = TRUE)
 }
 
 # findKeyAndExtractValue -------------------------------------------------------
-
 findKeyAndExtractValue <- function(keyvalues, key, default = NA, warn = TRUE)
 {
   pattern <- paste0("^#", key)
@@ -277,7 +254,6 @@ findKeyAndExtractValue <- function(keyvalues, key, default = NA, warn = TRUE)
 }
 
 # getInspectionsFromEuLines ----------------------------------------------------
-
 getInspectionsFromEuLines <- function(eu_lines, header.info, dbg = TRUE)
 {
   inspections.complete <- NULL
@@ -333,7 +309,6 @@ getInspectionsFromEuLines <- function(eu_lines, header.info, dbg = TRUE)
 }
 
 # extractInspectionData --------------------------------------------------------
-
 extractInspectionData <- function(b.lines, header.info, captions)
 {
   inspections <- kwb.utils::csvTextToDataFrame(
