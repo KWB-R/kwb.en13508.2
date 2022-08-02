@@ -35,18 +35,19 @@ readEuCodedFiles <- function(
     
     inspectionData <- try(readEuCodedFile(input.file, dbg = dbg, ...))
     
-    # Skip the following if an error occurred
-    if (! kwb.utils::isTryError(inspectionData)) {
-
-      # Append inspection data to result list
-      filename <- basename(input.file)
-      
-      if (append.file.names) {
-        inspectionData$inspections$file <- filename
-      }
-      
-      inspectionData
+    # Return NULL if an error occurred
+    if (kwb.utils::isTryError(inspectionData)) {
+      return(NULL)
     }
+    
+    if (append.file.names) {
+      inspectionData$inspections <- setFilename(
+        inspectionData$inspections, 
+        basename(input.file)
+      )
+    }
+    
+    inspectionData
   })
 
   failed <- sapply(result, is.null)
@@ -324,4 +325,11 @@ extractInspectionData <- function(b.lines, header.info, captions)
 getValueFromKeyValueString <- function(keyvalue)
 {
   sapply(strsplit(keyvalue, "="), "[", 2L)
+}
+
+# setFilename ------------------------------------------------------------------
+setFilename <- function(data, name)
+{
+  data[["file"]] <- name
+  kwb.utils::moveColumnsToFront(data, "file")
 }
