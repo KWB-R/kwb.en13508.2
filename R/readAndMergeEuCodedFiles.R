@@ -41,46 +41,35 @@ readAndMergeEuCodedFiles <- function(input.files, dbg = FALSE, ...)
 #' 
 mergeInspectionData <- function(x)
 {
-  if (length(x) == 1) {
-    
-    return (x[[1]])
+  if (length(x) == 1L) {
+    return (x[[1L]])
   }
   
   # Check if there are differences in the file headers
   warnOnDifferingHeaders(x)
   
-  # In any case, use the first header
-  header_info <- get_elements(x[[1]], "header.info")
-  
-  # Join the inspections
-  inspections_all <- kwb.utils::safeRowBindOfListElements(x, "inspections")
-  
-  # Join the observations
-  observations_all <- NULL
-  
   # Prepare vector of offsets to be added to the inspection number (= row number
   # in list element "inspections")
   offsets <- cumsum(numberOfInspections(x))
   
-  for (i in seq_along(x)) {
+  # Add offsets to observation table's column "inspno"
+  observations <- lapply(seq_along(x), function(i) {
     
-    observations <- get_elements(x[[i]], "observations")
-          
-    # Add inspection number offset (maximum value so far) to column "inspno"
-    if (i > 1) {
-      
-      inspno <- get_columns(observations, "inspno")
-      
-      observations$inspno <- inspno + offsets[i - 1]
+    obs <- get_elements(x[[i]], "observations")
+
+    # Add inspection number offset to column "inspno" if this is not the very 
+    # first data frame of observations
+    if (i > 1L) {
+      obs[["inspno"]] <- get_columns(obs, "inspno") + offsets[i - 1L]
     }
     
-    observations_all <- kwb.utils::safeRowBind(observations_all, observations)
-  }  
-    
+    obs
+  })
+
   list(
-    header.info = header_info, 
-    inspections = inspections_all,
-    observations = observations_all
+    header.info = get_elements(x[[1L]], "header.info"), 
+    inspections = kwb.utils::safeRowBindOfListElements(x, "inspections"),
+    observations = kwb.utils::safeRowBindAll(observations)
   )
 }
 
