@@ -349,8 +349,7 @@ extractInspectionData <- function(b.lines, header.info, captions)
 }
 
 # getValueFromKeyValueString ---------------------------------------------------
-
 getValueFromKeyValueString <- function(keyvalue)
 {
-  sapply(strsplit(keyvalue, "="), "[", 2)
+  sapply(strsplit(keyvalue, "="), "[", 2L)
 }
