@@ -15,9 +15,14 @@ readAndMergeEuCodedFiles <- function(input.files, dbg = FALSE, ...)
 {
   # by setting simple.algorithm = FALSE we get unique column names, e.g. "ADE"
   # and "ADE.1"    
-  mergeInspectionData(readEuCodedFiles(
-    input.files = input.files, simple.algorithm = FALSE, dbg = dbg, ...
-  ))  
+  mergeInspectionData(
+    readEuCodedFiles(
+      input.files = input.files, 
+      simple.algorithm = FALSE, 
+      dbg = dbg, 
+      ...
+    )
+  )
 }
 
 # mergeInspectionData ----------------------------------------------------------
