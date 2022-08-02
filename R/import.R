@@ -227,21 +227,18 @@ findKeyAndExtractValue <- function(keyvalues, key, default = NA, warn = TRUE)
   
   index <- grep(pattern, keyvalues)
   
-  if (length(index) == 0) {
+  if (length(index) == 0L) {
     
     warnMessage <- sprintf(
       "Key '#%s' not found in the #A-header of the file.", key
     )
     
     if (! is.na(default)) {
-      
       warnMessage <- paste(warnMessage, "I will use the default:", default)
     }
     
     if (warn) {
-      
       message(warnMessage)
-      
       warning(warnMessage)
     }
     
@@ -249,7 +246,7 @@ findKeyAndExtractValue <- function(keyvalues, key, default = NA, warn = TRUE)
     
   } else {
     
-    strsplit(keyvalues[index], "=")[[1]][2]
+    strsplit(keyvalues[index], "=")[[1L]][2L]
   }
 }
 
@@ -258,7 +255,7 @@ getInspectionsFromEuLines <- function(eu_lines, header.info, dbg = TRUE)
 {
   inspections.complete <- NULL
   
-  header.line.number <- 1
+  header.line.number <- 1L
   
   continue <- TRUE
   
@@ -266,7 +263,7 @@ getInspectionsFromEuLines <- function(eu_lines, header.info, dbg = TRUE)
   
   aborted <- FALSE
   
-  while (! aborted && length(indices.B) > 0) {
+  while (! aborted && length(indices.B) > 0L) {
     
     b.caption.lines <- getValueFromKeyValueString(eu_lines[indices.B])
     
@@ -275,9 +272,9 @@ getInspectionsFromEuLines <- function(eu_lines, header.info, dbg = TRUE)
     if (kwb.utils::allAreEqual(b.captions)) {
       
       inspections <- extractInspectionData(
-        b.lines = eu_lines[indices.B + 1],
+        b.lines = eu_lines[indices.B + 1L],
         header.info = header.info,
-        captions = b.captions[[1]]
+        captions = b.captions[[1L]]
       )
       
       inspections.complete <- kwb.utils::safeColumnBind(
@@ -296,16 +293,16 @@ getInspectionsFromEuLines <- function(eu_lines, header.info, dbg = TRUE)
       aborted <- TRUE
     }    
     
-    header.line.number <- header.line.number + 1
+    header.line.number <- header.line.number + 1L
     
-    indices.B <- grep(sprintf("^#B%02d", header.line.number), eu_lines)    
+    indices.B <- grep(sprintf("^#B%02d", header.line.number), eu_lines)
   }  
   
-  if (! aborted) {
-    
-    inspections.complete
-  } 
-  # else NULL implicitly
+  if (aborted) {
+    return(NULL)
+  }
+  
+  inspections.complete
 }
 
 # extractInspectionData --------------------------------------------------------
