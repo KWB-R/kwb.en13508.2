@@ -1,5 +1,31 @@
 utils::globalVariables(c("buffer")) # see toEuFormat_v1
 
+#' Generate Lines in EU Export Format
+#' 
+#' @param inspection.data inspection data as retrieved by e.g.
+#'   \code{\link{readEuCodedFile}}
+#' @param version version of implementation. One of \code{c(1, 2, 3)}
+#' @param \dots passed to \code{toEuFormat_v2}
+toEuFormat <- function(inspection.data, version = 3L)
+{
+  if (version == 1L) {
+    
+    toEuFormat_v1(
+      header.info = get_elements(inspection.data, "header.info"), 
+      inspections = get_elements(inspection.data, "inspections"), 
+      observations = get_elements(inspection.data, "observations")
+    )
+    
+  } else if (version == 2L) {
+    
+    toEuFormat_v2(inspection.data, mycsv = FALSE, ...)
+    
+  } else {
+    
+    toEuFormat_v2(inspection.data, mycsv = TRUE, ...)
+  }
+}
+
 # toEuFormat_v1 ----------------------------------------------------------------
 
 #' Generate Lines in EU Export Format (v1)

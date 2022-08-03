@@ -92,24 +92,7 @@ writeEuCodedFile <- function(
   #kwb.utils::assignPackageObjects("kwb.en13508.2")
   
   output.lines <- kwb.utils::catAndRun(dbg = dbg, "Formatting lines", {
-    
-    if (version == 1L) {
-      
-      toEuFormat_v1(
-        header.info = get_elements(inspection.data, "header.info"), 
-        inspections = get_elements(inspection.data, "inspections"), 
-        observations = get_elements(inspection.data, "observations")
-      )
-      
-    } else if (version == 2L) {
-      
-      toEuFormat_v2(inspection.data, mycsv = FALSE, ...)
-      
-    } else {
-      
-      toEuFormat_v2(inspection.data, mycsv = TRUE, ...)
-    }  
-    
+    toEuFormat(inspection.data, version)
   })
   
   if (is.null(output.file)) {
