@@ -66,19 +66,19 @@ writeEuCodedFiles <- function(survey, file, blocksize = 100, dbg = TRUE)
   
   inspnos <- get_columns(observations, "inspno")
   
-  N <- nrow(inspections)
+  n_inspections <- nrow(inspections)
   
   # Function to create output file name
   fileToOutputFile <- function(i, j) {
-    pattern <- paste0("%0", nchar(N), "d")
+    pattern <- paste0("%0", nchar(n_inspections), "d")
     postfix <- sprintf(paste0("_", pattern, "_", pattern, ".txt"), i, j)
     gsub("\\.txt$", postfix, file)
   }
   
-  for (block_number in seq_len(ceiling(N / blocksize))) {
+  for (block_number in seq_len(ceiling(n_inspections / blocksize))) {
     
     i <- (block_number - 1L) * blocksize + 1L
-    j <- min(block_number * blocksize, N)
+    j <- min(block_number * blocksize, n_inspections)
     
     output_file <- fileToOutputFile(file, i, j)
 
