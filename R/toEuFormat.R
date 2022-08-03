@@ -41,8 +41,6 @@ toEuFormat <- function(inspection.data, version = 3L)
 #' 
 toEuFormat_v1 <- function(header.info, inspections, observations)
 {
-  sep <- header.info$separator
-  
   # Save the inspection numbers
   inspnos <- get_columns(observations, "inspno")
   
@@ -55,16 +53,23 @@ toEuFormat_v1 <- function(header.info, inspections, observations)
   #kwb.utils::assignPackageObjects("kwb.en13508.2")
   writeLines(getHeaderLinesFromHeaderInfo(header.info), tc)
   
+  sep <- header.info$separator
+  
   insp.header.line <- inspectionHeaderLine(names(inspections), sep)
   obs.header.line <- observationHeaderLine(names(observations), sep)
   
   insp.numbers <- rownames(inspections)
   
-  n <- nrow(inspections)
+  n_inspections <- nrow(inspections)
   
   # Define helper function
-  write_table <- function(x, tc, sep) utils::write.table(
-    x, tc, sep = sep, col.names = FALSE, row.names = FALSE, append = TRUE, 
+  write_table <- function(x) utils::write.table(
+    x, 
+    file = tc, 
+    sep = sep, 
+    col.names = FALSE, 
+    row.names = FALSE, 
+    append = TRUE, 
     na = ""
   )
   
@@ -75,19 +80,19 @@ toEuFormat_v1 <- function(header.info, inspections, observations)
   end_index = c(change_index - 1L, n_obs)
   
   # Loop through the inspections
-  for (i in seq_len(n)) {
+  for (i in seq_len(n_inspections)) {
     
-    kwb.utils::catIf(i %% 100 == 0, "i =", i, "\n")
+    kwb.utils::catIf(i %% 100 == 0L, "i =", i, "\n")
     
     writeLines(insp.header.line, tc)
-    write_table(inspections[i, ], tc, sep)
+    write_table(inspections[i, ])
     writeLines(obs.header.line, tc)
     
     indices <- begin_index[i]:end_index[i]
     
-    write_table(observations[indices, ], tc, sep)
+    write_table(observations[indices, ])
     
-    if (i < n) {
+    if (i < n_inspections) {
       writeLines("#Z", tc)
     }
   }
@@ -144,8 +149,8 @@ toEuFormat_v2 <- function(inspection.data, mycsv, ...)
   inspections <- get_elements(inspection.data, "inspections")
   observations <- get_elements(inspection.data, "observations")
   
-  # Save the inspection numbers in inspno
-  inspection_numbers <- get_columns(observations, "inspno")
+  # Save the inspection numbers in inspnos
+  inspnos <- get_columns(observations, "inspno")
   
   # Remove the inspection numbers
   observations <- kwb.utils::removeColumns(observations, "inspno")
@@ -154,7 +159,7 @@ toEuFormat_v2 <- function(inspection.data, mycsv, ...)
   elements <- c(sep = "separator", dec = "decimal", qchar = "quote")
   arguments <- get_elements(header_info, elements)
   
-  # Save the separator in its own variable for reusage
+  # Save the separator in its own variable
   sep <- arguments$sep
   
   # Helper function to create CSV lines
@@ -169,31 +174,34 @@ toEuFormat_v2 <- function(inspection.data, mycsv, ...)
   offset <- length(out_lines)
   
   # Cumulative sizes (number of lines) of the C-blocks
-  c_sizes <- cumsum(unname(table(inspection_numbers)))
+  c_sizes <- cumsum(unname(table(inspnos)))
   
   # Number of C-blocks (= number of inspections)
-  n <- length(c_sizes)
+  n_inspections <- length(c_sizes)
   
   cat("ok.\n")
   
   kwb.utils::catAndRun("  Writing B-blocks (inspection data) ... ", {
     
-    b_indices <- offset + 1L + 4 * (seq_len(n) - 1L) + c(0L, c_sizes[-n])
-    out_lines[b_indices] <- inspectionHeaderLine(names(inspections), sep)
-    out_lines[b_indices + 1L] <- to_csv(inspections)
+    b_at <- offset + 1L + 
+      4L * (seq_len(n_inspections) - 1L) + 
+      c(0L, c_sizes[-n_inspections])
+    
+    out_lines[b_at] <- inspectionHeaderLine(names(inspections), sep)
+    out_lines[b_at + 1L] <- to_csv(inspections)
   })
   
   kwb.utils::catAndRun("  Writing C-blocks (observation data) ... ", {
     
-    out_lines[b_indices + 2L] <- observationHeaderLine(names(observations), sep)
-    z_indices <- b_indices[-1L] - 1L
-    skip_indices <- c(b_indices, b_indices + 1L, b_indices + 2L, z_indices)
-    n_rows <- c_sizes[n] + 4 * n - 1L + offset
-    c_body_indices <- setdiff(seq(offset + 1L, n_rows), skip_indices)
-    out_lines[c_body_indices] <- to_csv(observations)
+    out_lines[b_at + 2L] <- observationHeaderLine(names(observations), sep)
+    z_at <- b_at[-1L] - 1L
+    skip_indices <- c(b_at, b_at + 1L, b_at + 2L, z_at)
+    n_rows <- c_sizes[n_inspections] + 4 * n_inspections - 1L + offset
+    c_body_at <- setdiff(seq(offset + 1L, n_rows), skip_indices)
+    out_lines[c_body_at] <- to_csv(observations)
   })
   
-  out_lines[z_indices] <- "#Z"
+  out_lines[z_at] <- "#Z"
   
   out_lines
 }
