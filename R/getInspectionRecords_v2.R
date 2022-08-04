@@ -9,7 +9,7 @@ getInspectionRecords_v2 <- function(
     getInspectionHeaderInfo_v2(eu_lines)
   }
  
-  blocks <- extractInspectionBlocks(
+  inspectionBlocks <- extractInspectionBlocks(
     eu_lines = eu_lines, 
     headerInfos = headerInfos, 
     sep = get_elements(header.info, "separator"), 
