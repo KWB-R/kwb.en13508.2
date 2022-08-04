@@ -24,7 +24,7 @@ setGlobalInspectionID <- function(inspection.data, project = NULL)
   observations <- kwb.utils::selectElements(inspection.data, "observations")
 
   inspections <- kwb.utils::removeEmptyColumns(inspections)
-  inspections[["Project"]] <- project
+  inspections[["project"]] <- project
   inspections[["inspid"]] <- createInspectionId(inspections)
 
   observations <- kwb.utils::removeEmptyColumns(observations)

@@ -1,7 +1,7 @@
 # createInspectionId -----------------------------------------------------------
 createInspectionId <- function(
   inspections, 
-  id.columns = c("Project", "InspDate", "InspTime", "Node1Ref", "Node2Ref"),
+  id.columns = c("project", "InspDate", "InspTime", "Node1Ref", "Node2Ref"),
   n.chars = 8L
 )
 {
