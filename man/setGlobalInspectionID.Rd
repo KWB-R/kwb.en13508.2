@@ -4,7 +4,7 @@
 \alias{setGlobalInspectionID}
 \title{Set Global Inspection ID}
 \usage{
-setGlobalInspectionID(inspection.data, project)
+setGlobalInspectionID(inspection.data, project = NULL)
 }
 \arguments{
 \item{inspection.data}{list with elements \code{header.info},

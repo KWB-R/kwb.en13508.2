@@ -4,7 +4,13 @@
 \alias{readAndMergeEuCodedFiles}
 \title{Read and Merge Files in EN13508.2-Format}
 \usage{
-readAndMergeEuCodedFiles(input.files, dbg = FALSE, ..., add.inspid = FALSE)
+readAndMergeEuCodedFiles(
+  input.files,
+  dbg = FALSE,
+  ...,
+  add.inspid = FALSE,
+  project = NULL
+)
 }
 \arguments{
 \item{input.files}{full path to text file containing CCTV inspection results
@@ -17,6 +23,9 @@ in the format described in DIN EN 13508-2}
 \item{add.inspid}{if \code{TRUE} (the default is \code{FALSE}) a globally 
 unique inspection ID (inspid) is added to the data frames in elements 
 "inspections" and "observations" of the returned list.}
+
+\item{project}{name of project to which the data are related, such as:
+"Lausanne"}
 }
 \description{
 Read files in EN13508.2-format using \code{\link{readEuCodedFiles}} and merge

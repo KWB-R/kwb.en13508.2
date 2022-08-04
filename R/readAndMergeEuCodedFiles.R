@@ -12,13 +12,16 @@
 #' @param add.inspid if \code{TRUE} (the default is \code{FALSE}) a globally 
 #'   unique inspection ID (inspid) is added to the data frames in elements 
 #'   "inspections" and "observations" of the returned list.
+#' @param project name of project to which the data are related, such as:
+#'   "Lausanne"
 #' @export
 #' 
 readAndMergeEuCodedFiles <- function(
   input.files, 
   dbg = FALSE, 
   ..., 
-  add.inspid = FALSE
+  add.inspid = FALSE,
+  project = NULL
 )
 {
   # by setting simple.algorithm = FALSE we get unique column names, e.g. "ADE"
@@ -35,8 +38,8 @@ readAndMergeEuCodedFiles <- function(
   if (!add.inspid) {
     return(inspection.data)
   }
-  
-  setGlobalInspectionID(inspection.data)
+
+  setGlobalInspectionID(inspection.data, project)
 }
 
 # mergeInspectionData ----------------------------------------------------------

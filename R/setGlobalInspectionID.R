@@ -10,8 +10,15 @@
 #' @return list with the same elements as in \code{inspection.data} but with
 #'   columns \code{inspid} being added to the data frames "inspections" and
 #'   "observations"
-setGlobalInspectionID <- function(inspection.data, project)
+setGlobalInspectionID <- function(inspection.data, project = NULL)
 {
+  if (is.null(project)) {
+    stop(
+      "Please specify the 'project' name (e.g. name of city or data provider)", 
+      call. = FALSE
+    )
+  }
+  
   header.info <- kwb.utils::selectElements(inspection.data, "header.info")
   inspections <- kwb.utils::selectElements(inspection.data, "inspections")
   observations <- kwb.utils::selectElements(inspection.data, "observations")
