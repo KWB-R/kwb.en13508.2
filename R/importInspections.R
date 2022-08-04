@@ -8,19 +8,21 @@ getInspectionRecords_v2 <- function(
   } else if (version == 2L) {
     getInspectionHeaderInfo_v2(eu_lines)
   }
-  
-  x <- mergeInspectionBlocks(extractInspectionBlocks(
+ 
+  blocks <- extractInspectionBlocks(
     eu_lines = eu_lines, 
     headerInfos = headerInfos, 
     sep = get_elements(header.info, "separator"), 
     dec = get_elements(header.info, "decimal"), 
     quoteCharacter = get_elements(header.info, "quote"), 
     dbg = dbg
-  ))
+  )
+  
+  merged <- mergeInspectionBlocks(inspectionBlocks)
 
   structure(
-    kwb.utils::removeColumns(x, "row"), 
-    B.rows = data.frame(inspno = seq_len(nrow(x)), rows = x$row)
+    kwb.utils::removeColumns(merged, "row"), 
+    B.rows = data.frame(inspno = seq_len(nrow(merged)), rows = x$row)
   )
 }
 
@@ -149,7 +151,6 @@ extractInspectionBlocks <- function(
 }
 
 # textblockToDataframe ---------------------------------------------------------
-
 textblockToDataframe <- function(
   textblock, sep, dec, quoteCharacter, captionLine, rowNumbers, dbg = TRUE
 )
@@ -196,7 +197,6 @@ textblockToDataframe <- function(
 }
 
 # getColumnsToRemove -----------------------------------------------------------
-
 getColumnsToRemove <- function(x, captions, duplicates, dbg = TRUE)
 {
   columnsToRemove <- numeric()
@@ -239,7 +239,6 @@ getColumnsToRemove <- function(x, captions, duplicates, dbg = TRUE)
 }
 
 # mergeInspectionBlocks --------------------------------------------------------
-
 mergeInspectionBlocks <- function(inspectionBlocks)
 {
   indices <- seq_along(inspectionBlocks)
@@ -293,7 +292,6 @@ mergeInspectionBlocks <- function(inspectionBlocks)
 }
 
 # removeDuplicatedColumns ------------------------------------------------------
-
 removeDuplicatedColumns <- function(x, dbg = TRUE)
 {
   captions <- names(x)
@@ -325,7 +323,6 @@ removeDuplicatedColumns <- function(x, dbg = TRUE)
 }
 
 # cleanDuplicatedColumns -------------------------------------------------------
-
 cleanDuplicatedColumns <- function(x)
 {
   captions <- names(x)
