@@ -86,6 +86,10 @@ readEuCodedFiles <- function(
 #' @param encoding default: "latin1"
 #' @param read.inspections if \code{TRUE}, general inspection data (in
 #'   #B-blocks) are read, otherwise skipped (use if function fails)
+#' @param short.names if \code{TRUE} (default), the short names (codes) as defined
+#'   in EN13508.2 are used as column names, otherwise more meaningful names are used.
+#'   See columns\code{Code} and \code{Name}, respectively, in the data frame returned by 
+#'   \code{getCodes()}.
 #' @param simple.algorithm if \code{TRUE} (default), a simple (and faster)
 #'   algorithm is used to extract the general information about the inspections
 #'   from the #B-headers. It requires that all #B-headers have the same number
@@ -101,7 +105,7 @@ readEuCodedFiles <- function(
 #' @export
 #' 
 readEuCodedFile <- function(
-  input.file, encoding = "latin1", read.inspections = TRUE, 
+  input.file, encoding = "latin1", read.inspections = TRUE, short.names = TRUE,
   simple.algorithm = TRUE, warn = TRUE, dbg = TRUE
 )
 {
@@ -180,12 +184,25 @@ readEuCodedFile <- function(
   )
   
   kwb.utils::.logok(dbg)
-  
+
+  if (!short.names) {
+    inspections <- renameColumnsToMeaningful(inspections)
+    observations <- renameColumnsToMeaningful(observations)
+  }
+    
   list(
     header.info = header.info, 
     inspections = inspections, 
     observations = observations
   )
+}
+
+# renameColumnsToMeaningful ----------------------------------------------------
+renameColumnsToMeaningful <- function(x)
+{
+  codeInfo <- kwb.utils::selectColumns(getCodes(), c("Code", "Name"))
+  renamings <- kwb.utils::toLookupList(data = codeInfo)
+  kwb.utils::renameColumns(x, renamings)
 }
 
 # getHeaderLinesFromEuCodedLines -----------------------------------------------
