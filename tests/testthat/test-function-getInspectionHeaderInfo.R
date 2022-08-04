@@ -1,6 +1,6 @@
 test_that("getInspectionHeaderInfo() works", {
 
-  f <- kwb.en13508.2:::getInspectionHeaderInfo
+  f <- kwb.en13508.2:::getInspectionHeaderInfo_v1
   
   expect_error(f())
   

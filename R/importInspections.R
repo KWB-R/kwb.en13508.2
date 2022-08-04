@@ -1,11 +1,17 @@
 # getInspectionRecords_v2 ------------------------------------------------------
 getInspectionRecords_v2 <- function(
-  eu_lines, header.info, dbg = TRUE, getInfo = getInspectionHeaderInfo2
+  eu_lines, header.info, dbg = TRUE, version = 2L
 )
 {
+  headerInfos <- if (version == 1L) {
+    getInspectionHeaderInfo_v1(eu_lines)
+  } else if (version == 2L) {
+    getInspectionHeaderInfo_v2(eu_lines)
+  }
+  
   x <- mergeInspectionBlocks(extractInspectionBlocks(
     eu_lines = eu_lines, 
-    headerInfos = getInfo(eu_lines), 
+    headerInfos = headerInfos, 
     sep = get_elements(header.info, "separator"), 
     dec = get_elements(header.info, "decimal"), 
     quoteCharacter = get_elements(header.info, "quote"), 
@@ -18,8 +24,8 @@ getInspectionRecords_v2 <- function(
   )
 }
 
-# getInspectionHeaderInfo ------------------------------------------------------
-getInspectionHeaderInfo <- function(eu_lines)
+# getInspectionHeaderInfo_v1 ---------------------------------------------------
+getInspectionHeaderInfo_v1 <- function(eu_lines)
 {
   # Get list of matching sub expressions
   matches <- kwb.utils::subExpressionMatches("^#B(\\d\\d)=(.*)$", eu_lines)
@@ -54,7 +60,8 @@ getInspectionHeaderInfo <- function(eu_lines)
   stats::setNames(header_rows, unique_headers)
 }
 
-getInspectionHeaderInfo2 <- function(eu_lines)
+# getInspectionHeaderInfo_v2 ---------------------------------------------------
+getInspectionHeaderInfo_v2 <- function(eu_lines)
 {
   # Get list of matching sub expressions
   matches <- kwb.utils::extractSubstring("^#B(\\d\\d)=(.*)$", eu_lines, c(
