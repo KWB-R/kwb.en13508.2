@@ -91,15 +91,19 @@ writeEuCodedFile <- function(
 {
   #kwb.utils::assignPackageObjects("kwb.en13508.2")
   
-  output.lines <- kwb.utils::catAndRun(dbg = dbg, "Formatting lines", {
-    toEuFormat(inspection.data, version)
-  })
+  output.lines <- kwb.utils::catAndRun(
+    "Formatting lines",
+    dbg = dbg, 
+    toEuFormat(inspection.data, version, dbg = dbg)
+  )
   
   if (is.null(output.file)) {
     return(output.lines)
   }
     
-  kwb.utils::catAndRun(dbg = dbg, paste("Writing lines to", output.file), {
+  kwb.utils::catAndRun(
+    paste("Writing lines to", output.file),
+    dbg = dbg,
     writeLines(output.lines, output.file)  
-  })
+  )
 }

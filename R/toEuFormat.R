@@ -6,23 +6,25 @@ utils::globalVariables(c("buffer")) # see toEuFormat_v1
 #'   \code{\link{readEuCodedFile}}
 #' @param version version of implementation. One of \code{c(1, 2, 3)}
 #' @param \dots passed to \code{toEuFormat_v2}
-toEuFormat <- function(inspection.data, version = 3L)
+#' @param dbg whether or not to show debug messages
+toEuFormat <- function(inspection.data, version = 3L, ..., dbg = TRUE)
 {
   if (version == 1L) {
     
     toEuFormat_v1(
       header.info = get_elements(inspection.data, "header.info"), 
       inspections = get_elements(inspection.data, "inspections"), 
-      observations = get_elements(inspection.data, "observations")
+      observations = get_elements(inspection.data, "observations"),
+      dbg = dbg
     )
     
   } else if (version == 2L) {
     
-    toEuFormat_v2(inspection.data, mycsv = FALSE, ...)
+    toEuFormat_v2(inspection.data, mycsv = FALSE, ..., dbg = dbg)
     
   } else {
     
-    toEuFormat_v2(inspection.data, mycsv = TRUE, ...)
+    toEuFormat_v2(inspection.data, mycsv = TRUE, ..., dbg = dbg)
   }
 }
 
@@ -38,8 +40,8 @@ toEuFormat <- function(inspection.data, version = 3L)
 #'   by \code{\link{readEuCodedFile}}
 #' @param observations according to list element "observations" of list returned
 #'   by \code{\link{readEuCodedFile}}
-#' 
-toEuFormat_v1 <- function(header.info, inspections, observations)
+#' @param dbg whether or not to show debug messages
+toEuFormat_v1 <- function(header.info, inspections, observations, dbg = TRUE)
 {
   # Save the inspection numbers
   inspnos <- get_columns(observations, "inspno")
@@ -139,8 +141,8 @@ observationHeaderLine <- function(header.fields, sep)
 #' @param mycsv logical. If TRUE "my" version of writing CSV is used (fast),
 #'   otherwise CSV is written by means of write.table (slow)
 #' @param \dots further arguments passed to dataFrameContentToTextLines
-#'   
-toEuFormat_v2 <- function(inspection.data, mycsv, ...)
+#' @param dbg whether or not to show debug messages
+toEuFormat_v2 <- function(inspection.data, mycsv, ..., dbg = TRUE)
 {
   #kwb.utils::assignPackageObjects("kwb.en13508.2")
   
@@ -179,27 +181,33 @@ toEuFormat_v2 <- function(inspection.data, mycsv, ...)
   # Number of C-blocks (= number of inspections)
   n_inspections <- length(c_sizes)
   
-  cat("ok.\n")
+  kwb.utils::catIf(dbg, "ok.\n")
   
-  kwb.utils::catAndRun("  Writing B-blocks (inspection data) ... ", {
-    
-    b_at <- offset + 1L + 
-      4L * (seq_len(n_inspections) - 1L) + 
-      c(0L, c_sizes[-n_inspections])
-    
-    out_lines[b_at] <- inspectionHeaderLine(names(inspections), sep)
-    out_lines[b_at + 1L] <- to_csv(inspections)
-  })
+  kwb.utils::catAndRun(
+    "  Writing B-blocks (inspection data) ... ", 
+    dbg = dbg, 
+    expr = {
+      b_at <- offset + 1L + 
+        4L * (seq_len(n_inspections) - 1L) + 
+        c(0L, c_sizes[-n_inspections])
+      
+      out_lines[b_at] <- inspectionHeaderLine(names(inspections), sep)
+      out_lines[b_at + 1L] <- to_csv(inspections)
+    }
+  )
   
-  kwb.utils::catAndRun("  Writing C-blocks (observation data) ... ", {
-    
-    out_lines[b_at + 2L] <- observationHeaderLine(names(observations), sep)
-    z_at <- b_at[-1L] - 1L
-    skip_indices <- c(b_at, b_at + 1L, b_at + 2L, z_at)
-    n_rows <- c_sizes[n_inspections] + 4 * n_inspections - 1L + offset
-    c_body_at <- setdiff(seq(offset + 1L, n_rows), skip_indices)
-    out_lines[c_body_at] <- to_csv(observations)
-  })
+  kwb.utils::catAndRun(
+    "  Writing C-blocks (observation data) ... ", 
+    dbg = dbg, 
+    expr = {
+      out_lines[b_at + 2L] <- observationHeaderLine(names(observations), sep)
+      z_at <- b_at[-1L] - 1L
+      skip_indices <- c(b_at, b_at + 1L, b_at + 2L, z_at)
+      n_rows <- c_sizes[n_inspections] + 4 * n_inspections - 1L + offset
+      c_body_at <- setdiff(seq(offset + 1L, n_rows), skip_indices)
+      out_lines[c_body_at] <- to_csv(observations)
+    }
+  )
   
   out_lines[z_at] <- "#Z"
   
