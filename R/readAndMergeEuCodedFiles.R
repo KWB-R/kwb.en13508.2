@@ -9,20 +9,34 @@
 #'   in the format described in DIN EN 13508-2
 #' @param dbg if \code{TRUE} debug messages are shown
 #' @param \dots further arguments passed to \code{\link{readEuCodedFiles}}
+#' @param add.inspid if \code{TRUE} (the default is \code{FALSE}) a globally 
+#'   unique inspection ID (inspid) is added to the data frames in elements 
+#'   "inspections" and "observations" of the returned list.
 #' @export
 #' 
-readAndMergeEuCodedFiles <- function(input.files, dbg = FALSE, ...)
+readAndMergeEuCodedFiles <- function(
+  input.files, 
+  dbg = FALSE, 
+  ..., 
+  add.inspid = FALSE
+)
 {
   # by setting simple.algorithm = FALSE we get unique column names, e.g. "ADE"
-  # and "ADE.1"    
-  mergeInspectionData(
-    readEuCodedFiles(
-      input.files = input.files, 
-      simple.algorithm = FALSE, 
-      dbg = dbg, 
-      ...
-    )
+  # and "ADE.1"
+  inspection.data.list <- readEuCodedFiles(
+    input.files = input.files, 
+    simple.algorithm = FALSE, 
+    dbg = dbg, 
+    ...
   )
+  
+  inspection.data <- mergeInspectionData(inspection.data.list)
+  
+  if (!add.inspid) {
+    return(inspection.data)
+  }
+  
+  setGlobalInspectionID(inspection.data)
 }
 
 # mergeInspectionData ----------------------------------------------------------

@@ -15,7 +15,8 @@ Description: functions to read and write CCTV inspections
 License: MIT + file LICENSE
 URL: https://github.com/kwb-r/kwb.en13508.2
 BugReports: https://github.com/kwb-r/kwb.en13508.2/issues
-Imports: 
+Imports:
+    digest,
     kwb.utils
 Suggests: 
     testthat,
