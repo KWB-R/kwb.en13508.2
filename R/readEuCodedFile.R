@@ -28,82 +28,47 @@
 #' @export
 #' 
 readEuCodedFile <- function(
-    input.file, encoding = "latin1", read.inspections = TRUE, short.names = TRUE,
-    simple.algorithm = TRUE, warn = TRUE, dbg = TRUE
+  input.file, 
+  encoding = "latin1", 
+  read.inspections = TRUE, 
+  short.names = TRUE,
+  simple.algorithm = TRUE, 
+  warn = TRUE, 
+  dbg = TRUE
 )
 {
   #kwb.utils::assignArgumentDefaults(kwb.en13508.2::readEuCodedFile)
   #kwb.utils::assignPackageObjects("kwb.en13508.2")
   
-  eu_lines <- kwb.utils::catAndRun(
-    dbg = dbg, paste("Reading input file", input.file),
+  run <- function(...) kwb.utils::catAndRun(dbg = dbg, ...)
+  
+  eu_lines <- run(
+    paste("Reading input file", input.file),
     readLines(input.file, encoding = encoding)
   )
   
-  eu_lines <- kwb.utils::catAndRun(
-    dbg = dbg, "Removing empty lines (if any)",
+  eu_lines <- run(
+    "Removing empty lines (if any)",
     removeEmptyLines(eu_lines)
   )
   
-  header.info <- kwb.utils::catAndRun(
-    dbg = dbg, "Extracting file header", 
-    getFileHeaderFromEuLines(eu_lines)
+  header.info <- run(
+    "Extracting file header", 
+    getFileHeaderFromEuLines(eu_lines, warn)
   )
   
-  kwb.utils::.logstart(dbg, "Extracting inspection records")
-  
-  if (read.inspections) {
-    
-    inspections <- if (simple.algorithm) {
-      getInspectionsFromEuLines(eu_lines, header.info, dbg = dbg > 1L)
-    } # else NULL
-    
-    # If the inspections could not be read with the simple algorithm (due to
-    # changing header rows) or if the user requests it, try it again with
-    # another algorithm
-    if (is.null(inspections)) {
-      
-      inspections <- getInspectionsFromEuLines.new(
-        eu_lines, header.info, dbg = dbg
-      )
-    }
-    
-    kwb.utils::catIf(dbg, sprintf(
-      "%d inspections extracted. ", nrow(inspections)
-    ))
-    
-  } else {
-    
-    warning(
-      "I (yet) cannot read the inspection data (#B-blocks). ",
-      "So I just returned the number of inspections instead of a ",
-      "data frame with all information on the inspection!"
+  inspections <- run(
+    "Extracting inspection records",
+    getInspectionRecordsFromEuLines(
+      eu_lines, header.info, read.inspections, simple.algorithm, dbg
     )
-    
-    inspections <- length(grep("^#B01", eu_lines))
-  }
-  
-  kwb.utils::.logok(dbg)
-  
-  kwb.utils::.logstart(dbg, "Extracting observation records")
-  
-  observations <- try(
-    getObservationsFromEuLines(eu_lines, header.info, dbg = dbg), 
-    silent = TRUE
   )
   
-  if (kwb.utils::isTryError(observations)) {
-    headerInfo <- getHeaderInfo(eu_lines)
-    #View(headerInfo)
-    observations <- extractObservationData(eu_lines, headerInfo, header.info)
-  }
-  
-  kwb.utils::catIf(
-    dbg, sprintf("%d observations extracted. ", nrow(observations))
+  observations <- run(
+    "Extracting observation records",
+    getObservationRecordsFromEuLines(eu_lines, header.info, dbg)
   )
-  
-  kwb.utils::.logok(dbg)
-  
+
   if (!short.names) {
     inspections <- renameColumnsToMeaningful(inspections)
     observations <- renameColumnsToMeaningful(observations)
@@ -114,6 +79,58 @@ readEuCodedFile <- function(
     inspections = inspections, 
     observations = observations
   )
+}
+
+# getInspectionRecordsFromEuLines ----------------------------------------------
+getInspectionRecordsFromEuLines <- function(
+  eu_lines, header.info, read.inspections, simple.algorithm, dbg
+)
+{
+  if (!read.inspections) {
+   
+    warning(
+      "I (yet) cannot read the inspection data (#B-blocks). ",
+      "So I just returned the number of inspections instead of a ",
+      "data frame with all information on the inspection!"
+    )
+    
+    return(length(grep("^#B01", eu_lines)))
+  }
+    
+  inspections <- if (simple.algorithm) {
+    getInspectionsFromEuLines(eu_lines, header.info, dbg = dbg > 1L)
+  } # else NULL
+  
+  # If the inspections could not be read with the simple algorithm (due to
+  # changing header rows) or if the user requests it, try it again with
+  # another algorithm
+  if (is.null(inspections)) {
+    inspections <- getInspectionsFromEuLines.new(
+      eu_lines, header.info, dbg = dbg
+    )
+  }
+  
+  kwb.utils::catIf(dbg, paste(nrow(inspections), "inspections extracted. "))
+  
+  inspections
+}
+
+# getObservationRecordsFromEuLines ---------------------------------------------
+getObservationRecordsFromEuLines <- function(eu_lines, header.info, dbg)
+{
+  observations <- try(
+    getObservationsFromEuLines(eu_lines, header.info, dbg = dbg), 
+    silent = TRUE
+  )
+  
+  if (kwb.utils::isTryError(observations)) {
+    headerInfo <- getHeaderInfo(eu_lines)
+    observations <- extractObservationData(eu_lines, headerInfo, header.info)
+  }
+  
+  kwb.utils::catIf(dbg, paste(nrow(observations), "observations extracted. "))
+  
+  observations
 }
 
 # renameColumnsToMeaningful ----------------------------------------------------
