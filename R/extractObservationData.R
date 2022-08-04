@@ -31,8 +31,6 @@ extractObservationData <- function(euLines, headerInfo, header.info)
     
     stopifnot(length(text) == sum(blockLengths) + 1L)
     
-    #result <- read.table(text = text, sep = ";", header = TRUE)
-    
     result <- readObservationsFromCsvText(
       text = text, 
       sep = header.info$separator, 
