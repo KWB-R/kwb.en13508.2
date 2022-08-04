@@ -1,6 +1,6 @@
-test_that("getInspectionsFromEuLines() works", {
+test_that("getInspectionRecords_v1() works", {
 
-  f <- kwb.en13508.2:::getInspectionsFromEuLines
+  f <- kwb.en13508.2:::getInspectionRecords_v1
   
   expect_error(f())
 

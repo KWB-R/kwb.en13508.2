@@ -74,3 +74,10 @@ readEuCodedFiles <- function(
   # Return the indices of the files that could not be read correctly
   structure(result, which_failed = which(failed))
 }
+
+# setFilename ------------------------------------------------------------------
+setFilename <- function(data, name)
+{
+  data[["file"]] <- name
+  kwb.utils::moveColumnsToFront(data, "file")
+}

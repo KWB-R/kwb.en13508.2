@@ -7,7 +7,7 @@ test_that("readEuCodedFile() works", {
   expect_error(f())
 
   result.1 <- f(getExampleFile(), dbg = FALSE)
-  result.2 <- f(getExampleFile(), dbg = FALSE, short.names = FALSE)
+  result.2 <- f(getExampleFile(), dbg = FALSE, meaningful.names = TRUE)
   
   expect_type(result.1, "list")
   expect_identical(names(result.1), c("header.info", "inspections", "observations"))

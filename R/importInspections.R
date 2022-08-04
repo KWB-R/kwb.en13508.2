@@ -1,6 +1,5 @@
-# getInspectionsFromEuLines.new ------------------------------------------------
-
-getInspectionsFromEuLines.new <- function(
+# getInspectionRecords_v2 ------------------------------------------------------
+getInspectionRecords_v2 <- function(
   eu_lines, header.info, dbg = TRUE, getInfo = getInspectionHeaderInfo2
 )
 {
@@ -20,7 +19,6 @@ getInspectionsFromEuLines.new <- function(
 }
 
 # getInspectionHeaderInfo ------------------------------------------------------
-
 getInspectionHeaderInfo <- function(eu_lines)
 {
   # Get list of matching sub expressions
