@@ -8,7 +8,7 @@ readEuCodedFile(
   input.file,
   encoding = "latin1",
   read.inspections = TRUE,
-  short.names = TRUE,
+  meaningful.names = FALSE,
   simple.algorithm = TRUE,
   warn = TRUE,
   dbg = TRUE
@@ -23,10 +23,10 @@ in the format described in DIN EN 13508-2}
 \item{read.inspections}{if \code{TRUE}, general inspection data (in
 #B-blocks) are read, otherwise skipped (use if function fails)}
 
-\item{short.names}{if \code{TRUE} (default), the short names (codes) as defined
-in EN13508.2 are used as column names, otherwise more meaningful names are used.
-See columns\code{Code} and \code{Name}, respectively, in the data frame returned by 
-\code{getCodes()}.}
+\item{meaningful.names}{if \code{FALSE} (default), the short names (codes) as
+defined in EN13508.2 are used as column names, otherwise more meaningful
+names are used. See columns\code{Code} and \code{Name}, respectively, in
+the data frame returned by \code{getCodes()}.}
 
 \item{simple.algorithm}{if \code{TRUE} (default), a simple (and faster)
 algorithm is used to extract the general information about the inspections

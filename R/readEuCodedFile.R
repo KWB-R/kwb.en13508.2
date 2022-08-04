@@ -9,10 +9,10 @@
 #' @param encoding default: "latin1"
 #' @param read.inspections if \code{TRUE}, general inspection data (in
 #'   #B-blocks) are read, otherwise skipped (use if function fails)
-#' @param short.names if \code{TRUE} (default), the short names (codes) as defined
-#'   in EN13508.2 are used as column names, otherwise more meaningful names are used.
-#'   See columns\code{Code} and \code{Name}, respectively, in the data frame returned by 
-#'   \code{getCodes()}.
+#' @param meaningful.names if \code{FALSE} (default), the short names (codes) as
+#'   defined in EN13508.2 are used as column names, otherwise more meaningful
+#'   names are used. See columns\code{Code} and \code{Name}, respectively, in
+#'   the data frame returned by \code{getCodes()}.
 #' @param simple.algorithm if \code{TRUE} (default), a simple (and faster)
 #'   algorithm is used to extract the general information about the inspections
 #'   from the #B-headers. It requires that all #B-headers have the same number
@@ -31,7 +31,7 @@ readEuCodedFile <- function(
   input.file, 
   encoding = "latin1", 
   read.inspections = TRUE, 
-  short.names = TRUE,
+  meaningful.names = FALSE,
   simple.algorithm = TRUE, 
   warn = TRUE, 
   dbg = TRUE
@@ -69,7 +69,7 @@ readEuCodedFile <- function(
     getObservationRecordsFromEuLines(eu_lines, header.info, dbg)
   )
 
-  if (!short.names) {
+  if (meaningful.names) {
     inspections <- renameColumnsToMeaningful(inspections)
     observations <- renameColumnsToMeaningful(observations)
   }
