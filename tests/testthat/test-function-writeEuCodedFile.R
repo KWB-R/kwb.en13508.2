@@ -7,17 +7,15 @@ test_that("writeEuCodedFile() works", {
   expect_error(f(dbg = FALSE))
   expect_error(f(list(), dbg = FALSE), "No such element")
 
-  file <- system.file("extdata/example_13508_2.txt", package = "kwb.en13508.2")
-
-  # Read example file  
-  inspection.data <- readEuCodedFile(file, dbg = FALSE)
+  data.1 <- getExampleData()
   
-  # Write to temporary file
+  # Write example data to temporary file
   output.file <- tempfile()
-  f(inspection.data, output.file, dbg = FALSE)
+  
+  f(data.1, output.file, dbg = FALSE)
   
   # Read tempoary file
-  inspection.data.2 <- readEuCodedFile(output.file, dbg = FALSE)
+  data.2 <- readEuCodedFile(output.file, dbg = FALSE)
   
-  expect_identical(inspection.data, inspection.data.2)
+  expect_identical(data.1, data.2)
 })
