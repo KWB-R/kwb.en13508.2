@@ -3,7 +3,7 @@
 #' @param euLines text lines read from EN13508.2-coded file
 #' @param headerInfo data frame with information about header lines
 #' @param header.info list as returned by
-#'   \code{kwb.en13508.2:::getHeaderInfoFromHeaderLines}
+#'   \code{kwb.en13508.2:::getFileHeaderFromEuLines}
 #' @return data frame with columns \code{A}, \code{B}, \code{C}, ... as defined 
 #'   in EN13508.2 and a column \code{inspno} referring to the inspection number.
 extractObservationData <- function(euLines, headerInfo, header.info)

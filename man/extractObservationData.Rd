@@ -12,7 +12,7 @@ extractObservationData(euLines, headerInfo, header.info)
 \item{headerInfo}{data frame with information about header lines}
 
 \item{header.info}{list as returned by
-\code{kwb.en13508.2:::getHeaderInfoFromHeaderLines}}
+\code{kwb.en13508.2:::getFileHeaderFromEuLines}}
 }
 \value{
 data frame with columns \code{A}, \code{B}, \code{C}, ... as defined 

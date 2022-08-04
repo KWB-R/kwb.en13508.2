@@ -46,13 +46,9 @@ readEuCodedFile <- function(
   )
   
   header.info <- kwb.utils::catAndRun(
-    dbg = dbg, 
-    "Extracting file header", {
-      getHeaderInfoFromHeaderLines(
-        header.lines = getHeaderLinesFromEuCodedLines(eu_lines),
-        warn = warn
-      )
-    })
+    dbg = dbg, "Extracting file header", 
+    getFileHeaderFromEuLines(eu_lines)
+  )
   
   kwb.utils::.logstart(dbg, "Extracting inspection records")
   
@@ -128,15 +124,11 @@ renameColumnsToMeaningful <- function(x)
   kwb.utils::renameColumns(x, renamings)
 }
 
-# getHeaderLinesFromEuCodedLines -----------------------------------------------
-getHeaderLinesFromEuCodedLines <- function(lines)
+# getFileHeaderFromEuLines -----------------------------------------------------
+getFileHeaderFromEuLines <- function(eu_lines, warn = TRUE)
 {
-  grep("^#A", lines, value = TRUE)
-}
-
-# getHeaderInfoFromHeaderLines -------------------------------------------------
-getHeaderInfoFromHeaderLines <- function(header.lines, warn = TRUE)
-{
+  header.lines <- grep("^#A", eu_lines, value = TRUE)
+  
   # original_fields <- do.call(kwb.utils::toLookupList, kwb.utils::toKeysAndValues(
   #   kwb.utils::collapsed(gsub("^#", "", header.lines), "@"),
   #   separators = c("@", "=")
