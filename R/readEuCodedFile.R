@@ -127,10 +127,10 @@ renameColumnsToMeaningful <- function(x)
 # getFileHeaderFromEuLines -----------------------------------------------------
 getFileHeaderFromEuLines <- function(eu_lines, warn = TRUE)
 {
-  header.lines <- grep("^#A", eu_lines, value = TRUE)
+  a.lines <- grep("^#A", eu_lines, value = TRUE)
   
   # original_fields <- do.call(kwb.utils::toLookupList, kwb.utils::toKeysAndValues(
-  #   kwb.utils::collapsed(gsub("^#", "", header.lines), "@"),
+  #   kwb.utils::collapsed(gsub("^#", "", a.lines), "@"),
   #   separators = c("@", "=")
   # ))
   # 
@@ -140,16 +140,15 @@ getFileHeaderFromEuLines <- function(eu_lines, warn = TRUE)
   # ))
   
   # Set quote to "" instead of NA because read.table will give strange results
-  quote <- findKeyAndExtractValue(header.lines, "A5", warn = warn)
-  quote <- kwb.utils::defaultIfNA(quote, "")
-  
+  quote <- findKeyAndExtractValue(a.lines, "A5", warn = warn)
+
   list(
-    encoding = findKeyAndExtractValue(header.lines, "A1", warn = warn),
-    language = findKeyAndExtractValue(header.lines, "A2", warn = warn),
-    separator = findKeyAndExtractValue(header.lines, "A3", warn = warn),
-    decimal = findKeyAndExtractValue(header.lines, "A4", warn = warn),
-    quote = quote,
-    year = findKeyAndExtractValue(header.lines, "A6", warn = warn)
+    encoding = findKeyAndExtractValue(a.lines, "A1", warn = warn),
+    language = findKeyAndExtractValue(a.lines, "A2", warn = warn),
+    separator = findKeyAndExtractValue(a.lines, "A3", warn = warn),
+    decimal = findKeyAndExtractValue(a.lines, "A4", warn = warn),
+    quote = kwb.utils::defaultIfNA(quote, ""),
+    year = findKeyAndExtractValue(a.lines, "A6", warn = warn)
   )
 }
 
