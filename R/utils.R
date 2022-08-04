@@ -98,20 +98,19 @@ readPackageFile <- function(file, ...)
 # removeEmptyLines -------------------------------------------------------------
 removeEmptyLines <- function(x, dbg = TRUE)
 {
-  empty.line.indices <- grep("^$", x)
+  indices.empty <- grep("^$", x)
   
-  numberOfEmptyLines <- length(empty.line.indices)
+  n.empty <- length(indices.empty)
   
-  if (numberOfEmptyLines > 0) {
-    
-    kwb.utils::.logstart(dbg, "Removing",  numberOfEmptyLines, "empty lines")
-    
-    x <- x[-empty.line.indices]
-    
-    kwb.utils::.logok(dbg)
+  if (n.empty == 0L) {
+    return(x)
   }
-  
-  x
+
+  kwb.utils::catAndRun(
+    paste("Removing",  n.empty, "empty lines"),
+    dbg = dbg, 
+    x[-indices.empty]
+  )
 }
 
 # valuesToCsv ------------------------------------------------------------------
