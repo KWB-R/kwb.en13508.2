@@ -22,7 +22,7 @@ getInspectionRecords_v2 <- function(
 
   structure(
     kwb.utils::removeColumns(merged, "row"), 
-    B.rows = data.frame(inspno = seq_len(nrow(merged)), rows = x$row)
+    B.rows = data.frame(inspno = seq_len(nrow(merged)), rows = merged[["row"]])
   )
 }
 
