@@ -43,8 +43,10 @@ toEuFormat <- function(inspection.data, version = 3L, ..., dbg = TRUE)
 #' @param dbg whether or not to show debug messages
 toEuFormat_v1 <- function(header.info, inspections, observations, dbg = TRUE)
 {
-  # Save the inspection numbers
-  inspnos <- get_columns(observations, "inspno")
+  #kwb.utils::assignPackageObjects("kwb.en13508.2")
+
+  # Get row ranges of observations per inspection
+  changes <- kwb.utils::findChanges(get_columns(observations, "inspno"))
   
   # Remove the column containing the inspection numbers
   observations <- kwb.utils::removeColumns(observations, "inspno")
@@ -52,50 +54,55 @@ toEuFormat_v1 <- function(header.info, inspections, observations, dbg = TRUE)
   tc <- textConnection("buffer", "w")
   on.exit(close(tc))
   
-  #kwb.utils::assignPackageObjects("kwb.en13508.2")
-  writeLines(getHeaderLinesFromHeaderInfo(header.info), tc)
-  
   sep <- header.info$separator
-  
-  insp.header.line <- inspectionHeaderLine(names(inspections), sep)
-  obs.header.line <- observationHeaderLine(names(observations), sep)
-  
-  insp.numbers <- rownames(inspections)
-  
-  n_inspections <- nrow(inspections)
+
+  a.header <- getHeaderLinesFromHeaderInfo(header.info)
+  b.header <- inspectionHeaderLine(names(inspections), sep)
+  c.header <- observationHeaderLine(names(observations), sep)
   
   # Define helper function
-  write_table <- function(x) utils::write.table(
-    x, 
-    file = tc, 
-    sep = sep, 
-    col.names = FALSE, 
-    row.names = FALSE, 
-    append = TRUE, 
-    na = ""
-  )
+  writeTable <- function(header, data, add.z = TRUE) {
+    writeLines(header, tc)
+    utils::write.table(
+      data, 
+      file = tc, 
+      sep = sep, 
+      col.names = FALSE, 
+      row.names = FALSE, 
+      append = TRUE, 
+      na = ""
+    )
+    if (add.z) {
+      writeLines("#Z", tc)
+    }
+  }
   
-  # Get index ranges of inspections (see kwb.event::hsEventsOnChange())
-  n_obs <- length(inspnos)
-  change_index <- which(inspnos[1:(n_obs - 1L)] != inspnos[2:n_obs]) + 1L
-  begin_index <- c(1L, change_index)
-  end_index = c(change_index - 1L, n_obs)
+  # Write #A section
+  writeLines(a.header, tc)
+
+  # Number of inspections
+  n_inspections <- nrow(inspections)
   
   # Loop through the inspections
-  for (i in seq_len(n_inspections)) {
+  for (inspno in seq_len(n_inspections)) {
     
-    kwb.utils::catIf(i %% 100 == 0L, "i =", i, "\n")
+    kwb.utils::catIf(inspno %% 100 == 0L, "i =", i, "\n")
     
-    writeLines(insp.header.line, tc)
-    write_table(inspections[i, ])
-    writeLines(obs.header.line, tc)
+    # Write #B section
+    writeTable(header = b.header, data = inspections[inspno, , drop = FALSE])
     
-    indices <- begin_index[i]:end_index[i]
-    
-    write_table(observations[indices, ])
-    
-    if (i < n_inspections) {
-      writeLines("#Z", tc)
+    # Get observations for the current inspection
+    i <- which(changes[["value"]] == inspno)
+
+    if (len <- length(i)) {
+      
+      stopifnot(len == 1L)
+      
+      # Extract rows of observations
+      data <- observations[changes[["starts_at"]][i]:changes[["ends_at"]][i], ]
+      
+      # Write #C section
+      writeTable(header = c.header, data = data, add.z = inspno < n_inspections)
     }
   }
   
