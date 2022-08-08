@@ -13,10 +13,10 @@ getInspectionHeaderInfo_v1 <- function(eu_lines)
   matches <- matches[header_indices]
   
   # Number of header (#B01 = 1, #B02 = 2)
-  header_numbers <- as.numeric(sapply(matches, "[[", 1))
+  header_numbers <- as.integer(sapply(matches, "[[", 1L))
   
   # Only the header (right of equal sign)
-  header_lines <- sapply(matches, "[[", 2)
+  header_lines <- sapply(matches, "[[", 2L)
   
   unique_headers <- unique(header_lines)
   
@@ -28,7 +28,7 @@ getInspectionHeaderInfo_v1 <- function(eu_lines)
     
     header_number <- unique(header_numbers[indices])
     
-    stopifnot(length(header_number) == 1)
+    stopifnot(length(header_number) == 1L)
     
     list(line = header_number, rows = header_indices[indices])
   })
