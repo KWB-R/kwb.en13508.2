@@ -49,7 +49,7 @@ readEuCodedFile <- function(
   
   eu_lines <- run(
     "Removing empty lines (if any)",
-    removeEmptyLines(eu_lines)
+    removeEmptyLines(eu_lines, dbg = dbg)
   )
   
   header.info <- run(
