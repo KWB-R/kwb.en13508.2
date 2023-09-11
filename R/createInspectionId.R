@@ -5,6 +5,8 @@ createInspectionId <- function(
   n.chars = 8L
 )
 {
+  kwb.utils::checkForMissingColumns(inspections, id.columns)
+  
   duplicateInfo <- kwb.utils::findPartialDuplicates(inspections, id.columns)
   
   if (! is.null(duplicateInfo)) {
