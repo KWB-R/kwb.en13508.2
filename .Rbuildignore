@@ -12,3 +12,5 @@ README\.md$
 ^docs$
 ^.gitlab-ci\.yml$
 ^\.github$
+^README\.md$
+^index\.md$
