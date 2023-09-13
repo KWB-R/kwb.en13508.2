@@ -7,7 +7,7 @@
 #'   \code{inspections}, \code{observations}
 #' @param project name of project to which the data are related, such as:
 #'   "Lausanne"
-#' @param defaultTime default time string to use if column InspTime is not
+#' @param default.time default time string to use if column InspTime is not
 #'   available. Default: "12:00". A random number will be generated for the 
 #'   seconds, just to increase the chance that setting the time is enough to
 #'   generate a unique key.
