@@ -1,3 +1,7 @@
+# Latest changes
+
+* * Harmonise with [kwb.pkgbuild](https://kwb-r.github.io/kwb.pkgbuild)
+
 # kwb.en13508.2 0.2.0.9000
 
 * getObservationsFromEuLines: Order columns by name, put column “inspno” first.
