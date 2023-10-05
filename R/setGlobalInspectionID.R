@@ -50,9 +50,8 @@ setGlobalInspectionID <- function(
     
     message(
       "There are ", n_missing, " missing inspection times. I will set missing ", 
-      "inspection times to '", default.time, "' (plus random seconds) for ", 
-      "each inspection. You may change this time value by setting the ",
-      "argument 'default.time'."
+      "inspection times to '", default.time, "' (plus random seconds). You ", 
+      "may change this time value by setting the argument 'default.time'."
     )
     
     # We have to fix the random number generator otherwise the times are not
