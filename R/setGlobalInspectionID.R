@@ -39,25 +39,31 @@ setGlobalInspectionID <- function(
   
   # The following function requires the column "InspTime". If this column does
   # not exist, create it with a default value
-  if (is.null(inspections[["InspTime"]])) {
+  timeColumn <- "InspTime"
+  inspections <- kwb.utils::hsAddMissingCols(inspections, timeColumn)
+  
+  hasNoTime <- is.na(inspections[[timeColumn]])
+  
+  if (any(hasNoTime)) {
+    
+    n_missing <- sum(hasNoTime)
     
     message(
-      "There is no column 'InspTime' (inspection time). ", 
-      "I will create this column\n", 
-      "and set it to '", default.time, "' (plus random seconds) ", 
-      "for each inspection.\n", 
-      "You may change this time value by setting the argument 'default.time'."
+      "There are ", n_missing, " missing inspection times. I will set missing ", 
+      "inspection times to '", default.time, "' (plus random seconds) for ", 
+      "each inspection. You may change this time value by setting the ",
+      "argument 'default.time'."
     )
-
+    
     # We have to fix the random number generator otherwise the times are not
     # reproducible!
     set.seed(123L)
     
     # Generate a random number for the seconds
-    inspections[["InspTime"]] <- sprintf(
+    inspections[[timeColumn]][hasNoTime] <- sprintf(
       "%s:%02d", 
       default.time, 
-      sample(0:59, size = nrow(inspections), replace = TRUE)
+      sample(0:59, size = n_missing, replace = TRUE)
     )
   }
   
