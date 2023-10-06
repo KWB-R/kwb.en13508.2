@@ -14,25 +14,24 @@
 #' @export
 getLineDamageInfo <- function(observations, dbg = TRUE)
 {
-  getcol <- kwb.utils::selectColumns
-  
   if (! "J" %in% names(observations)) {
     message("No column 'J' (line damages) found in table of observations.")
     return(NULL)
   }
+
+  fetch <- kwb.utils::createAccessor(observations)
   
-  I <- asNumericIfRequired(getcol(observations, "I"), dbg = dbg)
-  
-  J <- getcol(observations, "J")
+  I <- asNumericIfRequired(fetch("I"), dbg = dbg)
+  J <- fetch("J")
   
   # Check if the values in J match the expected pattern
   stopOnInvalidLineDamageCodes(J)
   
   # Split line damage identifier in J into "A" or "B" (ld) and number (ldno)
   x <- kwb.utils::noFactorDataFrame(
-    ino = getcol(observations, "inspno"),
-    ld = substr(J, 1, 1),
-    ldno = substr(J, 2, nchar(J))
+    ino = fetch("inspno"),
+    ld = substr(J, 1L, 1L),
+    ldno = substr(J, 2L, nchar(J))
   )
   
   info <- merge(
@@ -43,11 +42,16 @@ getLineDamageInfo <- function(observations, dbg = TRUE)
   # Order by inspection number and line damage number
   info <- kwb.utils::orderBy(info, c("ino", "ldno"))
   
+  fetch <- kwb.utils::createAccessor(info)
+  
+  beg_x <- I[fetch("beg.at")]
+  end_x <- I[fetch("end.at")]
+  
   kwb.utils::setColumns(
     info, 
-    beg.x = I[getcol(info, "beg.at")], 
-    end.x = I[getcol(info, "end.at")],
-    length = I[getcol(info, "end.at")] - I[getcol(info, "beg.at")], 
+    beg.x = beg_x, 
+    end.x = end_x,
+    length = end_x - beg_x, 
     dbg = FALSE
   )
 }
@@ -55,7 +59,7 @@ getLineDamageInfo <- function(observations, dbg = TRUE)
 # stopOnInvalidLineDamageCodes -------------------------------------------------
 
 #' @importFrom kwb.utils stopFormatted stringList
-stopOnInvalidLineDamageCodes <- function(J, pattern = "^$|^[AB]\\d+$")
+stopOnInvalidLineDamageCodes <- function(J, pattern = "^$|^[ABC]\\d+$")
 {
   unique_values <- unique(J)
   
