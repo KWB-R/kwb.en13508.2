@@ -82,10 +82,30 @@ readEuCodedFile <- function(
 }
 
 # renameColumnsToMeaningful ----------------------------------------------------
-renameColumnsToMeaningful <- function(x)
+renameColumnsToMeaningful <- function(x, snakeCase = FALSE)
 {
-  codeInfo <- kwb.utils::selectColumns(getCodes(), c("Code", "Name"))
-  renamings <- kwb.utils::toLookupList(data = codeInfo)
-  kwb.utils::renameColumns(x, renamings)
+  result <- kwb.utils::renameColumns(x, renamings = readRenamings(
+    fileName = "eucodes.csv",
+    columnFrom = "Code",
+    columnTo = "Name"
+  ))
+  
+  if (snakeCase) {
+    result <- kwb.utils::renameColumns(x, renamings = readRenamings(
+      fileName = "column-names.csv", 
+      columnFrom = "name_1", 
+      columnTo = "name_2"
+    ))
+  }
+  
+  result
 }
 
+# readRenamings ----------------------------------------------------------------
+readRenamings <- function(fileName, columnFrom, columnTo)
+{
+  data <- readPackageFile(fileName)
+  data <- kwb.utils::selectColumns(data, c(columnFrom, columnTo))
+  isComplete <- rowSums(nchar(as.matrix(data)) > 0L) == 2L
+  kwb.utils::toLookupList(data = data[isComplete, ])
+}
