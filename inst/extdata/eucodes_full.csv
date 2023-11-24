@@ -1,30 +1,3 @@
-# This file was created with the following R code:
-#
-# paths <- kwb.utils::resolve(list(
-#   validation = "~/../Downloads/S/sema-plus_lausanne/inspection-data-validation",
-#   transition = "<validation>/1a_Environment_mdb/SEMA_Transition_versions",
-#   mdb = "<transition>/SEMA_Transition_v03_2013_04_23.mdb"
-# ))
-# 
-# all_codes <- paths$mdb %>%
-#   kwb.db::hsGetTable("qry_EuCodesAll", use2007Driver = TRUE) %>%
-#   kwb.utils::renameColumns(list(
-#     emcID = "main_code",
-#     C1 = "char_1",
-#     C2 = "char_2",
-#     emcName = "main_code_name",
-#     C1Name = "char_1_name",
-#     C2Name = "char_2_name"
-#   ))
-# 
-# write.csv(
-#   all_codes, 
-#   "condition-assessment/config/code-info.csv",
-#   fileEncoding = "UTF-8",
-#   row.names = FALSE,
-#   na = ""
-# )
-#
 "main_code","char_1","char_2","main_code_name","char_1_name","char_2_name"
 "AEC","A",,"Form","kreisförmig",
 "AEC","B",,"Form","rechteckig",
