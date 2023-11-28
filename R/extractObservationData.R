@@ -6,9 +6,15 @@
 #' @param headerInfo data frame with information about header lines
 #' @param header.info list as returned by
 #'   \code{kwb.en13508.2:::getFileHeaderFromEuLines}
+#' @param file optional. Name of the file from which \code{euLines} were read.
 #' @return data frame with columns \code{A}, \code{B}, \code{C}, ... as defined 
 #'   in EN13508.2 and a column \code{inspno} referring to the inspection number.
-extractObservationData <- function(euLines, headerInfo, header.info)
+extractObservationData <- function(
+    euLines, 
+    headerInfo, 
+    header.info, 
+    file = ""
+)
 {
   # Create accessor to data frame headerInfo
   fetch <- kwb.utils::createAccessor(headerInfo)
@@ -47,7 +53,7 @@ extractObservationData <- function(euLines, headerInfo, header.info)
     
     result[["inspno"]] <- rep(fetch("inspno")[rowsWithKey], blockLengths)
     
-    removeEmptyRecords(result, context = key)
+    removeEmptyRecords(result, file = file)
   })
   
   inspectionData <- kwb.utils::safeRowBindAll(dataBlocks)
@@ -98,7 +104,7 @@ extractObservationBlocks <- function(euLines, headerInfo, uniqueKey)
 }
 
 # removeEmptyRecords -----------------------------------------------------------
-removeEmptyRecords <- function(data, context)
+removeEmptyRecords <- function(data, file)
 {
   # Convert data frame to a matrix of text values (excluding "inspno")
   x <- as.matrix(kwb.utils::removeColumns(data, "inspno"))
@@ -108,14 +114,20 @@ removeEmptyRecords <- function(data, context)
   isEmpty <- rowSums(kwb.utils::defaultIfNA(nchar(x), 0L)) == 0L
   
   if (any(isEmpty)) {
+    n <- sum(isEmpty)
     message(sprintf(
-      paste(
-        "Removing %d empty records from observations table (inspection ", 
-        "number(s): %s, context: %s)"
+      paste0(
+        "Removing %d empty %s from observations table\n",
+        "  inspection %s: %s\n",
+        "  file: \"%s\"\n",
+        "  folder: \"%s\""
       ), 
-      sum(isEmpty),
+      n,
+      ifelse(n > 1L, "records", "record"),
+      ifelse(n > 1L, "numbers", "number"),
       paste(unique(data[["inspno"]][isEmpty]), collapse = ", "),
-      context
+      basename(file),
+      dirname(file)
     ))
   }
   

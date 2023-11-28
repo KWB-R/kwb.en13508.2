@@ -4,7 +4,7 @@
 \alias{extractObservationData}
 \title{Extract Observations from EN13508.2-coded file}
 \usage{
-extractObservationData(euLines, headerInfo, header.info)
+extractObservationData(euLines, headerInfo, header.info, file = "")
 }
 \arguments{
 \item{euLines}{text lines read from EN13508.2-coded file}
@@ -13,6 +13,8 @@ extractObservationData(euLines, headerInfo, header.info)
 
 \item{header.info}{list as returned by
 \code{kwb.en13508.2:::getFileHeaderFromEuLines}}
+
+\item{file}{optional. Name of the file from which \code{euLines} were read.}
 }
 \value{
 data frame with columns \code{A}, \code{B}, \code{C}, ... as defined 
