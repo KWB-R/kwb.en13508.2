@@ -21,7 +21,8 @@
 #' @param warn if \code{TRUE}, warnings are shown (e.g. if not all #A-header
 #'   fields were found)
 #' @param dbg if \code{TRUE}, debug messages are shown, else not
-#'
+#' @param snake.case logical indicating whether or not to provide names in 
+#'   snake_case (in contrast to CamelCase) if \code{meaningful.names = TRUE}. 
 #' @return list with elements \code{header.info}, \code{inspections},
 #'   \code{observations}
 #' @importFrom kwb.utils catAndRun catIf isTryError .logstart .logok
@@ -34,7 +35,8 @@ readEuCodedFile <- function(
   meaningful.names = FALSE,
   simple.algorithm = TRUE, 
   warn = TRUE, 
-  dbg = TRUE
+  dbg = TRUE,
+  snake.case = FALSE
 )
 {
   #kwb.utils::assignArgumentDefaults(kwb.en13508.2::readEuCodedFile)
@@ -44,7 +46,7 @@ readEuCodedFile <- function(
   
   eu_lines <- run(
     paste("Reading input file", input.file),
-    readLines(input.file, encoding = encoding)
+    readLines(input.file, encoding = encoding, warn = FALSE)
   )
   
   eu_lines <- run(
@@ -66,12 +68,17 @@ readEuCodedFile <- function(
   
   observations <- run(
     "Extracting observation records",
-    getObservationRecordsFromEuLines(eu_lines, header.info, dbg)
+    getObservationRecordsFromEuLines(
+      eu_lines = eu_lines, 
+      header.info = header.info, 
+      dbg = dbg,
+      file = input.file
+    )
   )
 
   if (meaningful.names) {
-    inspections <- renameColumnsToMeaningful(inspections)
-    observations <- renameColumnsToMeaningful(observations)
+    inspections <- renameColumnsToMeaningful(inspections, snake.case)
+    observations <- renameColumnsToMeaningful(observations, snake.case)
   }
   
   list(
@@ -82,19 +89,19 @@ readEuCodedFile <- function(
 }
 
 # renameColumnsToMeaningful ----------------------------------------------------
-renameColumnsToMeaningful <- function(x, snakeCase = FALSE)
+renameColumnsToMeaningful <- function(x, snake.case = FALSE)
 {
   result <- kwb.utils::renameColumns(x, renamings = readRenamings(
-    fileName = "eucodes.csv",
-    columnFrom = "Code",
-    columnTo = "Name"
+    file.name = "eucodes.csv",
+    column.from = "Code",
+    column.to = "Name"
   ))
   
-  if (snakeCase) {
-    result <- kwb.utils::renameColumns(x, renamings = readRenamings(
-      fileName = "column-names.csv", 
-      columnFrom = "name_1", 
-      columnTo = "name_2"
+  if (snake.case) {
+    result <- kwb.utils::renameColumns(result, renamings = readRenamings(
+      file.name = "column-names.csv", 
+      column.from = "name_1", 
+      column.to = "name_2"
     ))
   }
   
@@ -102,10 +109,10 @@ renameColumnsToMeaningful <- function(x, snakeCase = FALSE)
 }
 
 # readRenamings ----------------------------------------------------------------
-readRenamings <- function(fileName, columnFrom, columnTo)
+readRenamings <- function(file.name, column.from, column.to)
 {
-  data <- readPackageFile(fileName)
-  data <- kwb.utils::selectColumns(data, c(columnFrom, columnTo))
-  isComplete <- rowSums(nchar(as.matrix(data)) > 0L) == 2L
-  kwb.utils::toLookupList(data = data[isComplete, ])
+  data <- readPackageFile(file.name)
+  data <- kwb.utils::selectColumns(data, c(column.from, column.to))
+  is.complete <- rowSums(nchar(as.matrix(data)) > 0L) == 2L
+  kwb.utils::toLookupList(data = data[is.complete, ])
 }

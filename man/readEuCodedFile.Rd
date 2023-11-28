@@ -11,7 +11,8 @@ readEuCodedFile(
   meaningful.names = FALSE,
   simple.algorithm = TRUE,
   warn = TRUE,
-  dbg = TRUE
+  dbg = TRUE,
+  snake.case = FALSE
 )
 }
 \arguments{
@@ -38,6 +39,9 @@ differing #B-header rows is used.}
 fields were found)}
 
 \item{dbg}{if \code{TRUE}, debug messages are shown, else not}
+
+\item{snake.case}{logical indicating whether or not to provide names in 
+snake_case (in contrast to CamelCase) if \code{meaningful.names = TRUE}.}
 }
 \value{
 list with elements \code{header.info}, \code{inspections},
