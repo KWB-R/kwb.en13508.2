@@ -50,7 +50,8 @@ readAndMergeEuCodedFiles <- function(
 #' 
 #' @param x list of elements each of which represents inspection data read from
 #'   an EN13508.2-encoded file by means of \code{\link{readEuCodedFile}}.
-#'   
+#' @param warn logical indicating whether to warn about different header
+#'  information. By default, warnings are not shown.  
 #' @return list with elements \code{header.info}, \code{inspections}, 
 #'   \code{observations}.
 #' 

@@ -4,11 +4,14 @@
 \alias{mergeInspectionData}
 \title{Merge Inspection Data}
 \usage{
-mergeInspectionData(x)
+mergeInspectionData(x, warn = FALSE)
 }
 \arguments{
 \item{x}{list of elements each of which represents inspection data read from
 an EN13508.2-encoded file by means of \code{\link{readEuCodedFile}}.}
+
+\item{warn}{logical indicating whether to warn about different header
+information. By default, warnings are not shown.}
 }
 \value{
 list with elements \code{header.info}, \code{inspections}, 
