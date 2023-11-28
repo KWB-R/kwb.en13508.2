@@ -53,7 +53,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mergeInspectionData</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mergeInspectionData</span><span class="op">(</span><span class="va">x</span>, warn <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -61,6 +61,11 @@
     <dl><dt>x</dt>
 <dd><p>list of elements each of which represents inspection data read from
 an EN13508.2-encoded file by means of <code><a href="readEuCodedFile.html">readEuCodedFile</a></code>.</p></dd>
+
+
+<dt>warn</dt>
+<dd><p>logical indicating whether to warn about different header
+information. By default, warnings are not shown.</p></dd>
 
 </dl></div>
     <div id="value">
