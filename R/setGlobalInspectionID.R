@@ -76,11 +76,11 @@ setGlobalInspectionID <- function(
   observations <- kwb.utils::removeColumns(observations, "inspno")
 
   # Just a shortcut
-  inspidFirst <- function(df) kwb.utils::moveColumnsToFront(df, "inspection_id")
+  idFirst <- function(df) kwb.utils::moveColumnsToFront(df, "inspection_id")
 
   list(
     header.info = fetch("header.info"),
-    inspections = inspidFirst(inspections),
-    observations = inspidFirst(observations)
+    inspections = idFirst(inspections),
+    observations = idFirst(observations)
   )
 }
