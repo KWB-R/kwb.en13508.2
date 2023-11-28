@@ -108,7 +108,7 @@ warnOnDifferingHeaders <- function(x)
     )))
     
     warning(
-      "The file headers are differing in the folowing fields:\n\n",
+      "The file headers are differing in the following fields:\n\n",
       text,
       "\n\nI will use the first header.",
       call. = FALSE
