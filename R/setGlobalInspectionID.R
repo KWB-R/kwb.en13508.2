@@ -8,7 +8,7 @@
 #' @param project name of project to which the data are related, such as:
 #'   "Lausanne"
 #' @param default.time default time string to use if column InspTime is not
-#'   available. Default: "12:00". A random number will be generated for the 
+#'   available. Default: "22:33". A random number will be generated for the 
 #'   seconds, just to increase the chance that setting the time is enough to
 #'   generate a unique key.
 #' @return list with the same elements as in \code{inspection.data} but with
@@ -17,7 +17,7 @@
 setGlobalInspectionID <- function(
     inspection.data, 
     project = NULL, 
-    default.time = "12:00"
+    default.time = "22:33"
 )
 {
   if (is.null(project)) {
@@ -37,21 +37,19 @@ setGlobalInspectionID <- function(
   
   inspections[["project"]] <- project
   
-  # The following function requires the column "InspTime". If this column does
-  # not exist, create it with a default value
-  timeColumn <- "InspTime"
+  # The following function requires the column "inspection_time". If this 
+  # column does not exist, create it with a default value
+  timeColumn <- "inspection_time"
   inspections <- kwb.utils::hsAddMissingCols(inspections, timeColumn)
   
   hasNoTime <- is.na(inspections[[timeColumn]])
   
   if (any(hasNoTime)) {
-    
     n_missing <- sum(hasNoTime)
-    
     message(
-      "There are ", n_missing, " missing inspection times. I will set missing ", 
-      "inspection times to '", default.time, "' (plus random seconds). You ", 
-      "may change this time value by setting the argument 'default.time'."
+      "Setting ", n_missing, " missing inspection times to '", default.time, 
+      "' (plus random seconds). You may change this time value by setting the ",
+      "argument 'default.time'."
     )
     
     # We have to fix the random number generator otherwise the times are not
@@ -66,15 +64,19 @@ setGlobalInspectionID <- function(
     )
   }
   
-  # Create the inspection IDs and store them in column "inspid"
-  inspections[["inspid"]] <- createInspectionId(inspections)
+  # Create the inspection IDs and store them in column "inspection_id"
+  inspections[["inspection_id"]] <- createInspectionId(inspections)
 
   i <- kwb.utils::selectColumns(observations, "inspno")
-  observations[["inspid"]] <- kwb.utils::selectColumns(inspections, "inspid")[i]
+  
+  observations[["inspection_id"]] <- kwb.utils::selectColumns(
+    inspections, "inspection_id"
+  )[i]
+  
   observations <- kwb.utils::removeColumns(observations, "inspno")
 
   # Just a shortcut
-  inspidFirst <- function(df) kwb.utils::moveColumnsToFront(df, "inspid")
+  inspidFirst <- function(df) kwb.utils::moveColumnsToFront(df, "inspection_id")
 
   list(
     header.info = fetch("header.info"),
