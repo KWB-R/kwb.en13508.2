@@ -1,10 +1,10 @@
 # getHeaderInfo ----------------------------------------------------------------
 getHeaderInfo <- function(euLines)
 {
-  pattern <- paste0("^#", c("A", "B", "C", "Z"), collapse = "|")
-  
-  headerIndices <- grep(pattern, euLines)
-  
+  # Indices of header lines (starting with #A, #B, #C, or #Z
+  headerIndices <- grep("^#[ABCZ]", euLines)
+
+  # Corresponding header lines
   headerLines <- euLines[headerIndices]
   
   keyValue = strsplit(headerLines, "=")

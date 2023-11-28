@@ -60,7 +60,7 @@ C3,ACB,Height,Height,Höhe,Hauteur
 C3,ACC,Width,Width,Breite,Largeur
 C3,ACD,Material,Material,Werkstoff,Matériau
 C3,ACE,LiningType,Lining Type,Auskleidung,Type de revêtement
-C3,ACF,LinigMaterial,Lining material,Auskleidungswerkstoff,Matériau de revêtement
+C3,ACF,LiningMaterial,Lining material,Auskleidungswerkstoff,Matériau de revêtement
 C3,ACG,PipeUnitLength,Pipe unit length,Rohrlänge,Longueur unitaire de conduite
 C3,ACH,DepthStartNode,Depth at start node,Tiefe am Anfangsknoten,Profondeur au noeud de départ
 C3,ACI,DepthFinishNode,Depth at finish node,Tiefe am Endknoten,Profondeur au noeud d'arrivée

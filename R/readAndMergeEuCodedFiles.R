@@ -50,20 +50,23 @@ readAndMergeEuCodedFiles <- function(
 #' 
 #' @param x list of elements each of which represents inspection data read from
 #'   an EN13508.2-encoded file by means of \code{\link{readEuCodedFile}}.
-#'   
+#' @param warn logical indicating whether to warn about different header
+#'  information. By default, warnings are not shown.  
 #' @return list with elements \code{header.info}, \code{inspections}, 
 #'   \code{observations}.
 #' 
 #' @export
 #' 
-mergeInspectionData <- function(x)
+mergeInspectionData <- function(x, warn = FALSE)
 {
   if (length(x) == 1L) {
     return (x[[1L]])
   }
   
   # Check if there are differences in the file headers
-  warnOnDifferingHeaders(x)
+  if (warn) {
+    warnOnDifferingHeaders(x)
+  }
   
   # Prepare vector of offsets to be added to the inspection number (= row number
   # in list element "inspections")
@@ -108,7 +111,7 @@ warnOnDifferingHeaders <- function(x)
     )))
     
     warning(
-      "The file headers are differing in the folowing fields:\n\n",
+      "The file headers are differing in the following fields:\n\n",
       text,
       "\n\nI will use the first header.",
       call. = FALSE
