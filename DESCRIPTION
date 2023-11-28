@@ -19,9 +19,10 @@ Imports:
     digest,
     kwb.utils
 Suggests: 
-    testthat,
+    testthat (>= 3.0.0),
     ggplot2
 Remotes: 
     github::kwb-r/kwb.utils
 Encoding: UTF-8
 RoxygenNote: 7.2.3
+Config/testthat/edition: 3
