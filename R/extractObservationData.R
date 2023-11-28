@@ -1,3 +1,5 @@
+# extractObservationData -------------------------------------------------------
+
 #' Extract Observations from EN13508.2-coded file
 #'  
 #' @param euLines text lines read from EN13508.2-coded file
@@ -8,22 +10,25 @@
 #'   in EN13508.2 and a column \code{inspno} referring to the inspection number.
 extractObservationData <- function(euLines, headerInfo, header.info)
 {
-  kwb.utils::checkForMissingColumns(headerInfo, c("uniqueKey", "type", "value"))
+  # Create accessor to data frame headerInfo
+  fetch <- kwb.utils::createAccessor(headerInfo)
   
-  uniqueKeys <- unique(headerInfo[["uniqueKey"]][headerInfo[["type"]] == "C"])
+  keys <- unique(fetch("uniqueKey")[fetch("type") == "C"])
   
   colClasses <- sapply(
-    inspectionDataFieldCodes(), kwb.utils::selectElements, "class"
+    X = inspectionDataFieldCodes(), 
+    FUN = kwb.utils::selectElements, 
+    elements = "class"
   )
   
-  dataBlocks <- lapply(uniqueKeys, function(uniqueKey) {
+  dataBlocks <- lapply(keys, function(key) {
     
-    #uniqueKey <- uniqueKeys[1L]
-    blocks <- extractObservationBlocks(euLines, headerInfo, uniqueKey)
+    #key <- keys[1L]
+    blocks <- extractObservationBlocks(euLines, headerInfo, key)
     
-    rowsWithKey <- which(headerInfo[["uniqueKey"]] == uniqueKey)
+    rowsWithKey <- which(fetch("uniqueKey") == key)
     
-    captionLine <- headerInfo[["value"]][rowsWithKey][1L]
+    captionLine <- fetch("value")[rowsWithKey][1L]
     
     text <- c(captionLine, do.call(c, blocks))
     
@@ -40,19 +45,19 @@ extractObservationData <- function(euLines, headerInfo, header.info)
       header = TRUE
     )
     
-    result$inspno <- rep(headerInfo$inspno[rowsWithKey], blockLengths)
+    result[["inspno"]] <- rep(fetch("inspno")[rowsWithKey], blockLengths)
     
-    removeEmptyRecords(result)
+    removeEmptyRecords(result, context = key)
   })
   
   inspectionData <- kwb.utils::safeRowBindAll(dataBlocks)
-  
   inspectionData <- inspectionData[, order(names(inspectionData))]
-  
   inspectionData <- kwb.utils::orderBy(inspectionData, c("inspno", "I"))
   
   kwb.utils::moveColumnsToFront(inspectionData, "inspno")
 }
+
+# extractObservationBlocks -----------------------------------------------------
 
 #' Extract Lines Between #C-Header and #Z End Tag
 #' 
@@ -93,24 +98,24 @@ extractObservationBlocks <- function(euLines, headerInfo, uniqueKey)
 }
 
 # removeEmptyRecords -----------------------------------------------------------
-removeEmptyRecords <- function(data)
+removeEmptyRecords <- function(data, context)
 {
-  textValues <- as.matrix(kwb.utils::removeColumns(data, "inspno"))
-  
-  mode(textValues) <- "character"
-  
-  nCharacters <- kwb.utils::defaultIfNA(nchar(textValues), 0L)
-  
-  isEmpty <- rowSums(nCharacters) == 0L
+  # Convert data frame to a matrix of text values (excluding "inspno")
+  x <- as.matrix(kwb.utils::removeColumns(data, "inspno"))
+  mode(x) <- "character"
+
+  # Which rows are full of empty text values?  
+  isEmpty <- rowSums(kwb.utils::defaultIfNA(nchar(x), 0L)) == 0L
   
   if (any(isEmpty)) {
     message(sprintf(
       paste(
         "Removing %d empty records from observations table (inspection ", 
-        "number(s): %s)"
+        "number(s): %s, context: %s)"
       ), 
       sum(isEmpty),
-      paste(unique(data[["inspno"]][isEmpty]), collapse = ", ")
+      paste(unique(data[["inspno"]][isEmpty]), collapse = ", "),
+      context
     ))
   }
   
