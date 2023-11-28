@@ -119,6 +119,19 @@ removeEmptyLines <- function(x, dbg = TRUE)
   )
 }
 
+# replaceNaWithEmptyStringInCharColumns ----------------------------------------
+replaceNaWithEmptyStringInCharColumns <- function(x)
+{
+  is_char <- sapply(x, is.character)
+  
+  x[is_char] <- lapply(x[is_char], function(y) {
+    y[is.na(y)] <- ""
+    y
+  })
+  
+  x
+}
+
 # valuesToCsv ------------------------------------------------------------------
 
 #' Values to CSV

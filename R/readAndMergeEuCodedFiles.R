@@ -86,10 +86,18 @@ mergeInspectionData <- function(x, warn = FALSE)
     obs
   })
 
+  header.info <- get_elements(x[[1L]], "header.info")
+  inspections <- kwb.utils::safeRowBindOfListElements(x, "inspections")
+  observations <- kwb.utils::safeRowBindAll(observations)
+  
+  # Replace NA with "" in columns of type character
+  inspections <- replaceNaWithEmptyStringInCharColumns(inspections)
+  observations <- replaceNaWithEmptyStringInCharColumns(observations)
+  
   list(
-    header.info = get_elements(x[[1L]], "header.info"), 
-    inspections = kwb.utils::safeRowBindOfListElements(x, "inspections"),
-    observations = kwb.utils::safeRowBindAll(observations)
+    header.info = header.info, 
+    inspections = inspections,
+    observations = observations
   )
 }
 
