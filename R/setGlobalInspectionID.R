@@ -42,7 +42,7 @@ setGlobalInspectionID <- function(
   timeColumn <- "inspection_time"
   inspections <- kwb.utils::hsAddMissingCols(inspections, timeColumn)
   
-  hasNoTime <- is.na(inspections[[timeColumn]])
+  hasNoTime <- kwb.utils::isNaOrEmpty(inspections[[timeColumn]])
   
   if (any(hasNoTime)) {
     n_missing <- sum(hasNoTime)
