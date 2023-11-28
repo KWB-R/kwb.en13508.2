@@ -1,5 +1,4 @@
 # getObservationsFromEuLines ---------------------------------------------------
-
 getObservationsFromEuLines <- function(
   eu_lines, header.info, old.version = FALSE, dbg = TRUE
 )
@@ -78,7 +77,6 @@ getObservationsFromEuLines <- function(
 }
 
 # get_observations -------------------------------------------------------------
-
 get_observations <- function(caption_line, c_body, header_info)
 {
   # Select and rename elements from "header_info" into list "arguments"
@@ -139,7 +137,6 @@ get_observations <- function(caption_line, c_body, header_info)
 }
 
 # readObservationsFromCsvText --------------------------------------------------
-
 readObservationsFromCsvText <- function(text, sep, dec, quote, colClasses, ...)
 {
   # If colClasses is specified, reduce it to the columns that actually occur
@@ -171,7 +168,6 @@ readObservationsFromCsvText <- function(text, sep, dec, quote, colClasses, ...)
 }
 
 # getInspectionNumbers ---------------------------------------------------------
-
 getInspectionNumbers <- function(indices.C, indices.B01, indices.B, indices.Z)
 {
   # To find the number of the inspection corresponding to the observation block 
@@ -210,13 +206,11 @@ getInspectionNumbers <- function(indices.C, indices.B01, indices.B, indices.Z)
 }
 
 # getInspectionNumbers.old -----------------------------------------------------
-
 getInspectionNumbers.old <- function(
   indices.C, indices.Z, numberOfInspections, maxline
 )
 {
   block.begs <- indices.C + 1
-  
   block.ends <- indices.Z - 1
   
   missingBlockEnds <- numberOfInspections - length(block.ends)
