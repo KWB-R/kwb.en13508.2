@@ -62,6 +62,12 @@ get_columns <- kwb.utils::selectColumns
 # get_elements -----------------------------------------------------------------
 get_elements <- kwb.utils::selectElements
 
+# getValueFromKeyValueString ---------------------------------------------------
+getValueFromKeyValueString <- function(keyvalue)
+{
+  sapply(strsplit(keyvalue, "="), "[", 2L)
+}
+
 # quoteTextIfNeeded ------------------------------------------------------------
 quoteTextIfNeeded <- function(x, sep, qchar, qmethod)
 {

@@ -53,12 +53,6 @@ getInspectionRecords_v1 <- function(eu_lines, header.info, dbg = TRUE)
   inspections.complete
 }
 
-# getValueFromKeyValueString ---------------------------------------------------
-getValueFromKeyValueString <- function(keyvalue)
-{
-  sapply(strsplit(keyvalue, "="), "[", 2L)
-}
-
 # extractInspectionData --------------------------------------------------------
 extractInspectionData <- function(b.lines, header.info, captions)
 {
