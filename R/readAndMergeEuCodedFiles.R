@@ -56,14 +56,16 @@ readAndMergeEuCodedFiles <- function(
 #' 
 #' @export
 #' 
-mergeInspectionData <- function(x)
+mergeInspectionData <- function(x, warn = FALSE)
 {
   if (length(x) == 1L) {
     return (x[[1L]])
   }
   
   # Check if there are differences in the file headers
-  warnOnDifferingHeaders(x)
+  if (warn) {
+    warnOnDifferingHeaders(x)
+  }
   
   # Prepare vector of offsets to be added to the inspection number (= row number
   # in list element "inspections")
