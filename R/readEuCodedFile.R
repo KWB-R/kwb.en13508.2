@@ -23,6 +23,8 @@
 #' @param dbg if \code{TRUE}, debug messages are shown, else not
 #' @param snake.case logical indicating whether or not to provide names in 
 #'   snake_case (in contrast to CamelCase) if \code{meaningful.names = TRUE}. 
+#' @param \dots further arguments to be passed to 
+#'   \code{kwb.en13508.2:::getObservationRecordsFromEuLines}
 #' @return list with elements \code{header.info}, \code{inspections},
 #'   \code{observations}
 #' @importFrom kwb.utils catAndRun catIf isTryError .logstart .logok
@@ -36,7 +38,8 @@ readEuCodedFile <- function(
   simple.algorithm = TRUE, 
   warn = TRUE, 
   dbg = TRUE,
-  snake.case = FALSE
+  snake.case = FALSE,
+  ...
 )
 {
   #kwb.utils::assignArgumentDefaults(kwb.en13508.2::readEuCodedFile)
@@ -72,7 +75,8 @@ readEuCodedFile <- function(
       eu_lines = eu_lines, 
       header.info = header.info, 
       dbg = dbg,
-      file = input.file
+      file = input.file,
+      ...
     )
   )
 

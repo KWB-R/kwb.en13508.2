@@ -3,7 +3,8 @@ getObservationRecordsFromEuLines <- function(
     eu_lines, 
     header.info, 
     dbg,
-    file = ""
+    file = "",
+    ...
 )
 {
   observations <- try(
@@ -17,7 +18,8 @@ getObservationRecordsFromEuLines <- function(
       eu_lines, 
       headerInfo, 
       header.info,
-      file = file
+      file = file,
+      ...
     )
   }
   

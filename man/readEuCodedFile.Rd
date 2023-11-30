@@ -12,7 +12,8 @@ readEuCodedFile(
   simple.algorithm = TRUE,
   warn = TRUE,
   dbg = TRUE,
-  snake.case = FALSE
+  snake.case = FALSE,
+  ...
 )
 }
 \arguments{
@@ -42,6 +43,9 @@ fields were found)}
 
 \item{snake.case}{logical indicating whether or not to provide names in 
 snake_case (in contrast to CamelCase) if \code{meaningful.names = TRUE}.}
+
+\item{\dots}{further arguments to be passed to 
+\code{kwb.en13508.2:::getObservationRecordsFromEuLines}}
 }
 \value{
 list with elements \code{header.info}, \code{inspections},
