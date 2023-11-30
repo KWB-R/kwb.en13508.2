@@ -75,19 +75,21 @@ extractObservationData <- function(
 #'   below the #C-headers of type specified in \code{uniqueKey}
 extractObservationBlocks <- function(euLines, headerInfo, uniqueKey)
 {
-  kwb.utils::checkForMissingColumns(headerInfo, c("uniqueKey", "type"))
+  keys <- get_columns(headerInfo, "uniqueKey")
+  types <- get_columns(headerInfo, "type")
   
-  keyMatches <- headerInfo[["uniqueKey"]] == uniqueKey
-  x <- headerInfo[keyMatches | headerInfo[["type"]] == "Z", ]
+  x <- headerInfo[keys == uniqueKey | types == "Z", , drop = FALSE]
   
-  changes <- kwb.utils::findChanges(x$type)
+  changes <- kwb.utils::findChanges(get_columns(x, "type"))
   
   if (changes$value[1L] == "Z") {
     changes <- changes[-1L, ]
   }
 
-  from <- x$row[changes$starts_at[changes$value == "C"]] + 1L
-  to <- x$row[changes$starts_at[changes$value == "Z"]] - 1L
+  rows <- get_columns(x, "row")
+  
+  from <- rows[changes$starts_at[changes$value == "C"]] + 1L
+  to <- rows[changes$starts_at[changes$value == "Z"]] - 1L
 
   # Add a last "to" value if the last EU-line is not "#Z"
   if (length(to) != length(from)) {
