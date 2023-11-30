@@ -7,10 +7,10 @@
 #' @param header.info list as returned by
 #'   \code{kwb.en13508.2:::getFileHeaderFromEuLines}
 #' @param file optional. Name of the file from which \code{euLines} were read.
-#' @param as.is whether or not to keep columns in their original (text) type.
-#'   The default is \code{FALSE}, i.e. columns that are expected to contain
-#'   numeric values are converted to numeric, respecting the decimal separator
-#'   that is given in \code{header.info} 
+#' @param as.text whether or not to keep columns in their original (character) 
+#'   type. The default is \code{FALSE}, i.e. columns that are expected to
+#'   contain numeric values are converted to numeric, respecting the decimal
+#'   separator that is given in \code{header.info}
 #' @return data frame with columns \code{A}, \code{B}, \code{C}, ... as defined 
 #'   in EN13508.2 and a column \code{inspno} referring to the inspection number.
 extractObservationData <- function(
@@ -26,14 +26,14 @@ extractObservationData <- function(
 
   keys <- unique(fetch("uniqueKey")[fetch("type") == "C"])
   
-  colClasses <- if (as.text) {
-    "character"
-  } else {
-    sapply(
-      X = inspectionDataFieldCodes(), 
-      FUN = kwb.utils::selectElements, 
-      elements = "class"
-    )
+  colClasses <- sapply(
+    X = inspectionDataFieldCodes(), 
+    FUN = kwb.utils::selectElements, 
+    elements = "class"
+  )
+  
+  if (as.text) {
+    colClasses[] <- "character"
   }
   
   dataBlocks <- lapply(keys, function(key) {

@@ -4,7 +4,13 @@
 \alias{extractObservationData}
 \title{Extract Observations from EN13508.2-coded file}
 \usage{
-extractObservationData(euLines, headerInfo, header.info, file = "")
+extractObservationData(
+  euLines,
+  headerInfo,
+  header.info,
+  file = "",
+  as.text = FALSE
+)
 }
 \arguments{
 \item{euLines}{text lines read from EN13508.2-coded file}
@@ -15,6 +21,11 @@ extractObservationData(euLines, headerInfo, header.info, file = "")
 \code{kwb.en13508.2:::getFileHeaderFromEuLines}}
 
 \item{file}{optional. Name of the file from which \code{euLines} were read.}
+
+\item{as.text}{whether or not to keep columns in their original (character) 
+type. The default is \code{FALSE}, i.e. columns that are expected to
+contain numeric values are converted to numeric, respecting the decimal
+separator that is given in \code{header.info}}
 }
 \value{
 data frame with columns \code{A}, \code{B}, \code{C}, ... as defined 
