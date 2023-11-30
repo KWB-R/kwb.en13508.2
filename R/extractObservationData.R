@@ -7,25 +7,34 @@
 #' @param header.info list as returned by
 #'   \code{kwb.en13508.2:::getFileHeaderFromEuLines}
 #' @param file optional. Name of the file from which \code{euLines} were read.
+#' @param as.is whether or not to keep columns in their original (text) type.
+#'   The default is \code{FALSE}, i.e. columns that are expected to contain
+#'   numeric values are converted to numeric, respecting the decimal separator
+#'   that is given in \code{header.info} 
 #' @return data frame with columns \code{A}, \code{B}, \code{C}, ... as defined 
 #'   in EN13508.2 and a column \code{inspno} referring to the inspection number.
 extractObservationData <- function(
     euLines, 
     headerInfo, 
     header.info, 
-    file = ""
+    file = "",
+    as.text = FALSE
 )
 {
-  # Create accessor to data frame headerInfo
+  # Create accessor function to headerInfo
   fetch <- kwb.utils::createAccessor(headerInfo)
-  
+
   keys <- unique(fetch("uniqueKey")[fetch("type") == "C"])
   
-  colClasses <- sapply(
-    X = inspectionDataFieldCodes(), 
-    FUN = kwb.utils::selectElements, 
-    elements = "class"
-  )
+  colClasses <- if (as.text) {
+    "character"
+  } else {
+    sapply(
+      X = inspectionDataFieldCodes(), 
+      FUN = kwb.utils::selectElements, 
+      elements = "class"
+    )
+  }
   
   dataBlocks <- lapply(keys, function(key) {
     
@@ -44,9 +53,9 @@ extractObservationData <- function(
     
     result <- readObservationsFromCsvText(
       text = text, 
-      sep = header.info$separator, 
-      dec = header.info$decimal, 
-      quote = header.info$quote, 
+      sep = get_elements(header.info, "separator"), 
+      dec = get_elements(header.info, "decimal"), 
+      quote = get_elements(header.info, "quote"), 
       colClasses = colClasses, 
       header = TRUE
     )
