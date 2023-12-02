@@ -65,7 +65,16 @@ setGlobalInspectionID <- function(
   }
   
   # Create the inspection IDs and store them in column "inspection_id"
-  inspections[["inspection_id"]] <- createInspectionId(inspections)
+  inspections[["inspection_id"]] <- createHashFromColumns(
+    data = inspections,
+    columns = c(
+      "project", 
+      "inspection_date", 
+      "inspection_time", 
+      "node_1_ref", 
+      "node_2_ref"
+    )
+  )
 
   i <- kwb.utils::selectColumns(observations, "inspno")
   
