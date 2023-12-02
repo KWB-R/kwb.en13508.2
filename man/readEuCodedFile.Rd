@@ -8,11 +8,10 @@ readEuCodedFile(
   input.file,
   encoding = "latin1",
   read.inspections = TRUE,
-  meaningful.names = FALSE,
+  name.convention = c("norm", "camel", "snake")[1L],
   simple.algorithm = TRUE,
   warn = TRUE,
   dbg = TRUE,
-  snake.case = FALSE,
   ...
 )
 }
@@ -25,10 +24,10 @@ in the format described in DIN EN 13508-2}
 \item{read.inspections}{if \code{TRUE}, general inspection data (in
 #B-blocks) are read, otherwise skipped (use if function fails)}
 
-\item{meaningful.names}{if \code{FALSE} (default), the short names (codes) as
-defined in EN13508.2 are used as column names, otherwise more meaningful
-names are used. See columns\code{Code} and \code{Name}, respectively, in
-the data frame returned by \code{getCodes()}.}
+\item{name.convention}{one of \code{c("norm", "camel", "snake")} specifying
+the set of names used in the returned tables. \code{"norm"}: as specified 
+in the norm EN13508.2, \code{"camel"}: \code{CamelCase}, \code{"snake"}: 
+\code{snake_case}}
 
 \item{simple.algorithm}{if \code{TRUE} (default), a simple (and faster)
 algorithm is used to extract the general information about the inspections
@@ -40,9 +39,6 @@ differing #B-header rows is used.}
 fields were found)}
 
 \item{dbg}{if \code{TRUE}, debug messages are shown, else not}
-
-\item{snake.case}{logical indicating whether or not to provide names in 
-snake_case (in contrast to CamelCase) if \code{meaningful.names = TRUE}.}
 
 \item{\dots}{further arguments to be passed to 
 \code{kwb.en13508.2:::getObservationRecordsFromEuLines}}

@@ -9,10 +9,10 @@
 #' @param encoding default: "latin1"
 #' @param read.inspections if \code{TRUE}, general inspection data (in
 #'   #B-blocks) are read, otherwise skipped (use if function fails)
-#' @param meaningful.names if \code{FALSE} (default), the short names (codes) as
-#'   defined in EN13508.2 are used as column names, otherwise more meaningful
-#'   names are used. See columns\code{Code} and \code{Name}, respectively, in
-#'   the data frame returned by \code{getCodes()}.
+#' @param name.convention one of \code{c("norm", "camel", "snake")} specifying
+#'   the set of names used in the returned tables. \code{"norm"}: as specified 
+#'   in the norm EN13508.2, \code{"camel"}: \code{CamelCase}, \code{"snake"}: 
+#'   \code{snake_case}
 #' @param simple.algorithm if \code{TRUE} (default), a simple (and faster)
 #'   algorithm is used to extract the general information about the inspections
 #'   from the #B-headers. It requires that all #B-headers have the same number
@@ -21,8 +21,6 @@
 #' @param warn if \code{TRUE}, warnings are shown (e.g. if not all #A-header
 #'   fields were found)
 #' @param dbg if \code{TRUE}, debug messages are shown, else not
-#' @param snake.case logical indicating whether or not to provide names in 
-#'   snake_case (in contrast to CamelCase) if \code{meaningful.names = TRUE}. 
 #' @param \dots further arguments to be passed to 
 #'   \code{kwb.en13508.2:::getObservationRecordsFromEuLines}
 #' @return list with elements \code{header.info}, \code{inspections},
@@ -34,16 +32,17 @@ readEuCodedFile <- function(
   input.file, 
   encoding = "latin1", 
   read.inspections = TRUE, 
-  meaningful.names = FALSE,
+  name.convention = c("norm", "camel", "snake")[1L],
   simple.algorithm = TRUE, 
   warn = TRUE, 
   dbg = TRUE,
-  snake.case = FALSE,
   ...
 )
 {
   #kwb.utils::assignArgumentDefaults(kwb.en13508.2::readEuCodedFile)
   #kwb.utils::assignPackageObjects("kwb.en13508.2")
+ 
+  name.convention <- match.arg(name.convention, c("norm", "camel", "snake"))
   
   run <- function(...) kwb.utils::catAndRun(dbg = dbg, ...)
   
@@ -80,9 +79,10 @@ readEuCodedFile <- function(
     )
   )
 
-  if (meaningful.names) {
-    inspections <- renameColumnsToMeaningful(inspections, snake.case)
-    observations <- renameColumnsToMeaningful(observations, snake.case)
+  if (name.convention != "norm") {
+    snake.case <- name.convention == "snake"
+    inspections <- applyNameConvention(inspections, snake.case)
+    observations <- applyNameConvention(observations, snake.case)
   }
   
   list(
@@ -92,8 +92,8 @@ readEuCodedFile <- function(
   )
 }
 
-# renameColumnsToMeaningful ----------------------------------------------------
-renameColumnsToMeaningful <- function(x, snake.case = FALSE)
+# applyNameConvention ----------------------------------------------------
+applyNameConvention <- function(x, snake.case = FALSE)
 {
   result <- kwb.utils::renameColumns(x, renamings = readRenamings(
     file.name = "eucodes.csv",
