@@ -8,7 +8,7 @@
 #' @param project name of project to which the data are related, such as:
 #'   "Lausanne"
 #' @param default.time default time string to use if column InspTime is not
-#'   available. Default: "22:33". A random number will be generated for the 
+#'   available. Default: "22:22". A random number will be generated for the 
 #'   seconds, just to increase the chance that setting the time is enough to
 #'   generate a unique key.
 #' @return list with the same elements as in \code{inspection.data} but with
@@ -17,7 +17,7 @@
 setGlobalInspectionID <- function(
     inspection.data, 
     project = NULL, 
-    default.time = "22:33"
+    default.time = "22:22"
 )
 {
   if (is.null(project)) {

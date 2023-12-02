@@ -14,6 +14,7 @@
 #'   "inspections" and "observations" of the returned list.
 #' @param project name of project to which the data are related, such as:
 #'   "Lausanne"
+#' @param default.time passed to \code{\link{setGlobalInspectionID}}
 #' @export
 #' 
 readAndMergeEuCodedFiles <- function(
@@ -21,7 +22,8 @@ readAndMergeEuCodedFiles <- function(
   dbg = FALSE, 
   ..., 
   add.inspid = FALSE,
-  project = NULL
+  project = NULL,
+  default.time = "22:22"
 )
 {
   # by setting simple.algorithm = FALSE we get unique column names, e.g. "ADE"
@@ -39,7 +41,7 @@ readAndMergeEuCodedFiles <- function(
     return(inspection.data)
   }
 
-  setGlobalInspectionID(inspection.data, project)
+  setGlobalInspectionID(inspection.data, project, default.time = default.time)
 }
 
 # mergeInspectionData ----------------------------------------------------------
