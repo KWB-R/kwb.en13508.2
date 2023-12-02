@@ -55,7 +55,12 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">setGlobalInspectionID</span><span class="op">(</span><span class="va">inspection.data</span>, project <span class="op">=</span> <span class="cn">NULL</span>, default.time <span class="op">=</span> <span class="st">"22:33"</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">setGlobalInspectionID</span><span class="op">(</span></span>
+<span>  <span class="va">inspection.data</span>,</span>
+<span>  project <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  default.time <span class="op">=</span> <span class="st">"22:22"</span>,</span>
+<span>  name.convention <span class="op">=</span> <span class="st">"norm"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -71,10 +76,14 @@
 
 
 <dt>default.time</dt>
-<dd><p>default time string to use if column InspTime is not
-available. Default: "22:33". A random number will be generated for the 
+<dd><p>default time string to use if column &lt;inspection-time&gt; is
+not available. Default: "22:22". A random number will be generated for the
 seconds, just to increase the chance that setting the time is enough to
 generate a unique key.</p></dd>
+
+
+<dt>name.convention</dt>
+<dd><p>one of <code>c("norm", "camel", "snake")</code></p></dd>
 
 </dl></div>
     <div id="value">

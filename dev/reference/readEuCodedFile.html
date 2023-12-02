@@ -57,11 +57,10 @@
 <span>  <span class="va">input.file</span>,</span>
 <span>  encoding <span class="op">=</span> <span class="st">"latin1"</span>,</span>
 <span>  read.inspections <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  meaningful.names <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  name.convention <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"norm"</span>, <span class="st">"camel"</span>, <span class="st">"snake"</span><span class="op">)</span><span class="op">[</span><span class="fl">1L</span><span class="op">]</span>,</span>
 <span>  simple.algorithm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  warn <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  dbg <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  snake.case <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -82,11 +81,11 @@ in the format described in DIN EN 13508-2</p></dd>
 #B-blocks) are read, otherwise skipped (use if function fails)</p></dd>
 
 
-<dt>meaningful.names</dt>
-<dd><p>if <code>FALSE</code> (default), the short names (codes) as
-defined in EN13508.2 are used as column names, otherwise more meaningful
-names are used. See columns<code>Code</code> and <code>Name</code>, respectively, in
-the data frame returned by <code><a href="getCodes.html">getCodes()</a></code>.</p></dd>
+<dt>name.convention</dt>
+<dd><p>one of <code>c("norm", "camel", "snake")</code> specifying
+the set of names used in the returned tables. <code>"norm"</code>: as specified 
+in the norm EN13508.2, <code>"camel"</code>: <code>CamelCase</code>, <code>"snake"</code>: 
+<code>snake_case</code></p></dd>
 
 
 <dt>simple.algorithm</dt>
@@ -104,11 +103,6 @@ fields were found)</p></dd>
 
 <dt>dbg</dt>
 <dd><p>if <code>TRUE</code>, debug messages are shown, else not</p></dd>
-
-
-<dt>snake.case</dt>
-<dd><p>logical indicating whether or not to provide names in 
-snake_case (in contrast to CamelCase) if <code>meaningful.names = TRUE</code>.</p></dd>
 
 
 <dt>...</dt>
