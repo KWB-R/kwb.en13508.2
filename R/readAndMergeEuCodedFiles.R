@@ -8,6 +8,7 @@
 #' @param input.files full path to text file containing CCTV inspection results
 #'   in the format described in DIN EN 13508-2
 #' @param dbg if \code{TRUE} debug messages are shown
+#' @param name.convention passed to \code{\link{readEuCodedFiles}}
 #' @param \dots further arguments passed to \code{\link{readEuCodedFiles}}
 #' @param add.inspid if \code{TRUE} (the default is \code{FALSE}) a globally 
 #'   unique inspection ID (inspid) is added to the data frames in elements 
@@ -20,6 +21,7 @@
 readAndMergeEuCodedFiles <- function(
   input.files, 
   dbg = FALSE, 
+  name.convention = "norm",
   ..., 
   add.inspid = FALSE,
   project = NULL,
@@ -30,8 +32,9 @@ readAndMergeEuCodedFiles <- function(
   # and "ADE.1"
   inspection.data.list <- readEuCodedFiles(
     input.files = input.files, 
-    simple.algorithm = FALSE, 
     dbg = dbg, 
+    name.convention = name.convention,
+    simple.algorithm = FALSE, 
     ...
   )
   
@@ -41,7 +44,12 @@ readAndMergeEuCodedFiles <- function(
     return(inspection.data)
   }
 
-  setGlobalInspectionID(inspection.data, project, default.time = default.time)
+  setGlobalInspectionID(
+    inspection.data, 
+    project, 
+    default.time = default.time,
+    name.convention = name.convention
+  )
 }
 
 # mergeInspectionData ----------------------------------------------------------

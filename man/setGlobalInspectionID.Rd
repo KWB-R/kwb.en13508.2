@@ -4,7 +4,12 @@
 \alias{setGlobalInspectionID}
 \title{Set Global Inspection ID}
 \usage{
-setGlobalInspectionID(inspection.data, project = NULL, default.time = "22:22")
+setGlobalInspectionID(
+  inspection.data,
+  project = NULL,
+  default.time = "22:22",
+  name.convention = "norm"
+)
 }
 \arguments{
 \item{inspection.data}{list with elements \code{header.info},
@@ -13,10 +18,12 @@ setGlobalInspectionID(inspection.data, project = NULL, default.time = "22:22")
 \item{project}{name of project to which the data are related, such as:
 "Lausanne"}
 
-\item{default.time}{default time string to use if column InspTime is not
-available. Default: "22:22". A random number will be generated for the 
+\item{default.time}{default time string to use if column <inspection-time> is
+not available. Default: "22:22". A random number will be generated for the
 seconds, just to increase the chance that setting the time is enough to
 generate a unique key.}
+
+\item{name.convention}{one of \code{c("norm", "camel", "snake")}}
 }
 \value{
 list with the same elements as in \code{inspection.data} but with

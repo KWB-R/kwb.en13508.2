@@ -7,6 +7,7 @@
 readAndMergeEuCodedFiles(
   input.files,
   dbg = FALSE,
+  name.convention = "norm",
   ...,
   add.inspid = FALSE,
   project = NULL,
@@ -18,6 +19,8 @@ readAndMergeEuCodedFiles(
 in the format described in DIN EN 13508-2}
 
 \item{dbg}{if \code{TRUE} debug messages are shown}
+
+\item{name.convention}{passed to \code{\link{readEuCodedFiles}}}
 
 \item{\dots}{further arguments passed to \code{\link{readEuCodedFiles}}}
 
