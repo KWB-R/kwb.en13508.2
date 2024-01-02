@@ -50,12 +50,14 @@ setGlobalInspectionID <- function(
   hasNoTime <- kwb.utils::isNaOrEmpty(inspections[[timeColumn]])
   
   if (any(hasNoTime)) {
+    
     n_missing <- sum(hasNoTime)
-    message(
-      "Setting ", n_missing, " missing inspection times to '", default.time, 
-      "' (plus random seconds). You may change this time value by setting the ",
-      "argument 'default.time'."
-    )
+    
+    message(sprintf(
+      "Setting %d missing inspection times to '%s' (plus random seconds).",
+      n_missing, 
+      default.time
+    ))
     
     # We have to fix the random number generator otherwise the times are not
     # reproducible!
