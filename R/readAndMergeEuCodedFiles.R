@@ -16,6 +16,8 @@
 #' @param project name of project to which the data are related, such as:
 #'   "Lausanne"
 #' @param default.time passed to \code{\link{setGlobalInspectionID}}
+#' @param error.file optional. Path to error file, passed to 
+#'   \code{\link{setGlobalInspectionID}}.
 #' @export
 #' 
 readAndMergeEuCodedFiles <- function(
@@ -25,7 +27,8 @@ readAndMergeEuCodedFiles <- function(
   ..., 
   add.inspid = FALSE,
   project = NULL,
-  default.time = "22:22"
+  default.time = "22:22",
+  error.file = NULL
 )
 {
   # by setting simple.algorithm = FALSE we get unique column names, e.g. "ADE"
@@ -45,7 +48,8 @@ readAndMergeEuCodedFiles <- function(
       result, 
       project, 
       default.time = default.time,
-      name.convention = name.convention
+      name.convention = name.convention,
+      error.file = error.file
     )
   }
 

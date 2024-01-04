@@ -9,7 +9,7 @@ setGlobalInspectionID(
   project = NULL,
   default.time = "22:22",
   name.convention = "norm",
-  file = NULL
+  error.file = NULL
 )
 }
 \arguments{
@@ -26,8 +26,8 @@ generate a unique key.}
 
 \item{name.convention}{one of \code{c("norm", "camel", "snake")}}
 
-\item{file}{optional. Path to file to which duplicates are are written (if 
-any). Default: \code{"setGlobalInspectionID_duplicates.txt"}}
+\item{error.file}{optional. Path to file to which duplicates are are written 
+(if any). Default: \code{"setGlobalInspectionID_duplicates.txt"}}
 }
 \value{
 list with the same elements as in \code{inspection.data} but with

@@ -11,7 +11,8 @@ readAndMergeEuCodedFiles(
   ...,
   add.inspid = FALSE,
   project = NULL,
-  default.time = "22:22"
+  default.time = "22:22",
+  error.file = NULL
 )
 }
 \arguments{
@@ -32,6 +33,9 @@ unique inspection ID (inspid) is added to the data frames in elements
 "Lausanne"}
 
 \item{default.time}{passed to \code{\link{setGlobalInspectionID}}}
+
+\item{error.file}{optional. Path to error file, passed to 
+\code{\link{setGlobalInspectionID}}.}
 }
 \description{
 Read files in EN13508.2-format using \code{\link{readEuCodedFiles}} and merge

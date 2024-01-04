@@ -6,7 +6,7 @@ test_that("setGlobalInspectionID() works", {
 
   expect_error(f())
 
-  file <- file.path(tempdir(), "duplicates.txt")
+  error.file <- file.path(tempdir(), "duplicates.txt")
   
   expect_error(f(
     inspection.data = list(
@@ -23,8 +23,8 @@ test_that("setGlobalInspectionID() works", {
     ),
     project = "Lausanne", 
     name.convention = "snake",
-    file = file
+    error.file = error.file
   ))
 
-  expect_true(file.exists(file))  
+  expect_true(file.exists(error.file))
 })

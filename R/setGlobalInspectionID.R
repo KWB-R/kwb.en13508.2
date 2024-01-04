@@ -12,8 +12,8 @@
 #'   seconds, just to increase the chance that setting the time is enough to
 #'   generate a unique key.
 #' @param name.convention one of \code{c("norm", "camel", "snake")}
-#' @param file optional. Path to file to which duplicates are are written (if 
-#'   any). Default: \code{"setGlobalInspectionID_duplicates.txt"}
+#' @param error.file optional. Path to file to which duplicates are are written 
+#'   (if any). Default: \code{"setGlobalInspectionID_duplicates.txt"}
 #' @return list with the same elements as in \code{inspection.data} but with
 #'   columns \code{inspid} being added to the data frames "inspections" and
 #'   "observations"
@@ -22,7 +22,7 @@ setGlobalInspectionID <- function(
     project = NULL, 
     default.time = "22:22",
     name.convention = "norm",
-    file = NULL
+    error.file = NULL
 )
 {
   if (is.null(project)) {
@@ -107,7 +107,7 @@ setGlobalInspectionID <- function(
   )
   
   # Check for duplicates in the hashes
-  stop_on_hash_duplicates(hashes, file = file)
+  stop_on_hash_duplicates(hashes, error.file = error.file)
 
   inspections[["inspection_id"]] <- hashes
 
@@ -132,21 +132,21 @@ setGlobalInspectionID <- function(
 # stop_on_hash_duplicates ------------------------------------------------------
 
 #'@importFrom utils capture.output
-stop_on_hash_duplicates <- function(hashes, file = NULL)
+stop_on_hash_duplicates <- function(hashes, error.file = NULL)
 {
   if (identical(kwb.utils::removeAttributes(hashes), -1L)) {
     
     duplicates <- kwb.utils::getAttribute(hashes, "duplicates")
     
-    if (is.null(file)) {
+    if (is.null(error.file)) {
       print(duplicates)
     } else {
-      writeLines(utils::capture.output(print(duplicates)), file)
+      writeLines(utils::capture.output(print(duplicates)), error.file)
     }
     
     stop(
       "There were duplicates in the key columns (see ", 
-      ifelse(is.null(file), "above", dQuote(file, '"')),
+      ifelse(is.null(error.file), "above", dQuote(error.file, '"')),
       ").",
       call. = FALSE
     )
