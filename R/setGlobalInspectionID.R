@@ -130,6 +130,8 @@ setGlobalInspectionID <- function(
 }
 
 # stop_on_hash_duplicates ------------------------------------------------------
+
+#'@importFrom utils capture.output
 stop_on_hash_duplicates <- function(hashes, file = NULL)
 {
   if (identical(kwb.utils::removeAttributes(hashes), -1L)) {
@@ -139,7 +141,7 @@ stop_on_hash_duplicates <- function(hashes, file = NULL)
     if (is.null(file)) {
       print(duplicates)
     } else {
-      writeLines(capture.output(print(duplicates)), file)
+      writeLines(utils::capture.output(print(duplicates)), file)
     }
     
     stop(
