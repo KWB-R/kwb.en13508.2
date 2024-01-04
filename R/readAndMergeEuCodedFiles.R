@@ -38,18 +38,18 @@ readAndMergeEuCodedFiles <- function(
     ...
   )
   
-  inspection.data <- mergeInspectionData(inspection.data.list)
+  result <- mergeInspectionData(inspection.data.list)
   
-  if (!add.inspid) {
-    return(inspection.data)
+  if (add.inspid) {
+    result <- setGlobalInspectionID(
+      result, 
+      project, 
+      default.time = default.time,
+      name.convention = name.convention
+    )
   }
 
-  setGlobalInspectionID(
-    inspection.data, 
-    project, 
-    default.time = default.time,
-    name.convention = name.convention
-  )
+  result
 }
 
 # mergeInspectionData ----------------------------------------------------------
