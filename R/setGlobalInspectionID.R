@@ -12,6 +12,8 @@
 #'   seconds, just to increase the chance that setting the time is enough to
 #'   generate a unique key.
 #' @param name.convention one of \code{c("norm", "camel", "snake")}
+#' @param file optional. Path to file to which duplicates are are written (if 
+#'   any). Default: \code{"setGlobalInspectionID_duplicates.txt"}
 #' @return list with the same elements as in \code{inspection.data} but with
 #'   columns \code{inspid} being added to the data frames "inspections" and
 #'   "observations"
@@ -19,7 +21,8 @@ setGlobalInspectionID <- function(
     inspection.data, 
     project = NULL, 
     default.time = "22:22",
-    name.convention = "norm"
+    name.convention = "norm",
+    file = NULL
 )
 {
   if (is.null(project)) {
@@ -97,10 +100,16 @@ setGlobalInspectionID <- function(
   ))
   
   # Create the inspection IDs and store them in column "inspection_id"
-  inspections[["inspection_id"]] <- createHashFromColumns(
-    data = inspections,
-    columns = columns
+  hashes <- createHashFromColumns(
+    data = inspections, 
+    columns = columns, 
+    silent = TRUE
   )
+  
+  # Check for duplicates in the hashes
+  stop_on_hash_duplicates(hashes, file = file)
+
+  inspections[["inspection_id"]] <- hashes
 
   i <- kwb.utils::selectColumns(observations, "inspno")
   
@@ -111,11 +120,33 @@ setGlobalInspectionID <- function(
   observations <- kwb.utils::removeColumns(observations, "inspno")
 
   # Just a shortcut
-  idFirst <- function(df) kwb.utils::moveColumnsToFront(df, "inspection_id")
+  id_first <- function(x) kwb.utils::moveColumnsToFront(x, "inspection_id")
 
   list(
     header.info = get_elements(inspection.data, "header.info"),
-    inspections = idFirst(inspections),
-    observations = idFirst(observations)
+    inspections = id_first(inspections),
+    observations = id_first(observations)
   )
+}
+
+# stop_on_hash_duplicates ------------------------------------------------------
+stop_on_hash_duplicates <- function(hashes, file = NULL)
+{
+  if (identical(kwb.utils::removeAttributes(hashes), -1L)) {
+    
+    duplicates <- kwb.utils::getAttribute(hashes, "duplicates")
+    
+    if (is.null(file)) {
+      print(duplicates)
+    } else {
+      writeLines(capture.output(print(duplicates)), file)
+    }
+    
+    stop(
+      "There were duplicates in the key columns (see ", 
+      ifelse(is.null(file), "above", dQuote(file, '"')),
+      ").",
+      call. = FALSE
+    )
+  }
 }
