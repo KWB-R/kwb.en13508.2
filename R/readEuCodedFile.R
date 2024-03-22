@@ -6,7 +6,11 @@
 #' 
 #' @param input.file full path to text file containing CCTV inspection results
 #'   in the format described in DIN EN 13508-2
-#' @param encoding default: "latin1"
+#' @param encoding default: "latin1", passed to \code{\link{readLines}}, see 
+#'   there.
+#' @param file.encoding Encoding to be assumed for the \code{input.file}.
+#'   The default is \code{NULL} in which case the name of the encoding is read
+#'   from the \code{#A1} field of the \code{input.file}. 
 #' @param read.inspections if \code{TRUE}, general inspection data (in
 #'   #B-blocks) are read, otherwise skipped (use if function fails)
 #' @param name.convention one of \code{c("norm", "camel", "snake")} specifying
@@ -29,26 +33,37 @@
 #' @export
 #' 
 readEuCodedFile <- function(
-  input.file, 
-  encoding = "latin1", 
-  read.inspections = TRUE, 
-  name.convention = c("norm", "camel", "snake")[1L],
-  simple.algorithm = TRUE, 
-  warn = TRUE, 
-  dbg = TRUE,
-  ...
+    input.file, 
+    encoding = "latin1", 
+    file.encoding = NULL,
+    read.inspections = TRUE, 
+    name.convention = c("norm", "camel", "snake")[1L],
+    simple.algorithm = TRUE, 
+    warn = TRUE, 
+    dbg = TRUE,
+    ...
 )
 {
   #kwb.utils::assignArgumentDefaults(kwb.en13508.2::readEuCodedFile)
   #kwb.utils::assignPackageObjects("kwb.en13508.2")
- 
+  
   name.convention <- match.arg(name.convention, c("norm", "camel", "snake"))
   
   run <- function(...) kwb.utils::catAndRun(dbg = dbg, ...)
   
+  # If not explicitly given, use the encoding as given in the #A1 header
+  if (is.null(file.encoding)) {
+    file.encoding <- getFileEncoding(input.file)
+  }
+  
   eu_lines <- run(
-    paste("Reading input file", input.file),
-    readLines(input.file, encoding = encoding, warn = FALSE)
+    sprintf("Reading %s assuming %s encoding", input.file, file.encoding), 
+    kwb.utils::readLinesWithEncoding(
+      file = input.file, 
+      fileEncoding = file.encoding,
+      encoding = encoding, 
+      warn = FALSE
+    )
   )
   
   eu_lines <- run(
@@ -78,7 +93,7 @@ readEuCodedFile <- function(
       ...
     )
   )
-
+  
   if (name.convention != "norm") {
     snake.case <- name.convention == "snake"
     inspections <- applyNameConvention(inspections, snake.case)
@@ -92,7 +107,22 @@ readEuCodedFile <- function(
   )
 }
 
-# applyNameConvention ----------------------------------------------------
+# getFileEncoding --------------------------------------------------------------
+getFileEncoding <- function(file)
+{
+  encoding <- kwb.utils::selectElements(
+    x = getFileHeaderFromEuLines(readLines(kwb.utils::safePath(file), n = 6L)), 
+    elements = "encoding"
+  )
+  
+  if (!encoding %in% (available <- iconvlist())) {
+    stop(kwb.utils::noSuchElements(encoding, available, "encoding string"))
+  }
+  
+  encoding
+}
+
+# applyNameConvention ----------------------------------------------------------
 applyNameConvention <- function(x, snake.case = FALSE)
 {
   result <- kwb.utils::renameColumns(x, renamings = readRenamings(

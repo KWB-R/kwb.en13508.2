@@ -7,6 +7,7 @@
 readEuCodedFile(
   input.file,
   encoding = "latin1",
+  file.encoding = NULL,
   read.inspections = TRUE,
   name.convention = c("norm", "camel", "snake")[1L],
   simple.algorithm = TRUE,
@@ -19,7 +20,12 @@ readEuCodedFile(
 \item{input.file}{full path to text file containing CCTV inspection results
 in the format described in DIN EN 13508-2}
 
-\item{encoding}{default: "latin1"}
+\item{encoding}{default: "latin1", passed to \code{\link{readLines}}, see 
+there.}
+
+\item{file.encoding}{Encoding to be assumed for the \code{input.file}.
+The default is \code{NULL} in which case the name of the encoding is read
+from the \code{#A1} field of the \code{input.file}.}
 
 \item{read.inspections}{if \code{TRUE}, general inspection data (in
 #B-blocks) are read, otherwise skipped (use if function fails)}
