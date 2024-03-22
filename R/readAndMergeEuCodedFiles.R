@@ -65,13 +65,16 @@ readAndMergeEuCodedFiles <- function(
 #' @param x list of elements each of which represents inspection data read from
 #'   an EN13508.2-encoded file by means of \code{\link{readEuCodedFile}}.
 #' @param warn logical indicating whether to warn about different header
-#'  information. By default, warnings are not shown.  
+#'  information. By default, warnings are not shown.
+#' @param naToEmpty logical indicating whether or not to replace \code{NA} with 
+#'   an empty string constant \code{""} in all columns of type character. The
+#'   default is \code{TRUE}.
 #' @return list with elements \code{header.info}, \code{inspections}, 
 #'   \code{observations}.
 #' 
 #' @export
 #' 
-mergeInspectionData <- function(x, warn = FALSE)
+mergeInspectionData <- function(x, warn = FALSE, naToEmpty = TRUE)
 {
   if (length(x) == 1L) {
     return (x[[1L]])
@@ -105,8 +108,10 @@ mergeInspectionData <- function(x, warn = FALSE)
   observations <- kwb.utils::safeRowBindAll(observations)
   
   # Replace NA with "" in columns of type character
-  inspections <- replaceNaWithEmptyStringInCharColumns(inspections)
-  observations <- replaceNaWithEmptyStringInCharColumns(observations)
+  if (naToEmpty) {
+    inspections <- replaceNaWithEmptyStringInCharColumns(inspections)
+    observations <- replaceNaWithEmptyStringInCharColumns(observations)
+  }
   
   list(
     header.info = header.info, 
