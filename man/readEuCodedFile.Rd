@@ -6,7 +6,7 @@
 \usage{
 readEuCodedFile(
   input.file,
-  encoding = "latin1",
+  encoding = "unknown",
   file.encoding = NULL,
   read.inspections = TRUE,
   name.convention = c("norm", "camel", "snake")[1L],
@@ -20,7 +20,7 @@ readEuCodedFile(
 \item{input.file}{full path to text file containing CCTV inspection results
 in the format described in DIN EN 13508-2}
 
-\item{encoding}{default: "latin1", passed to \code{\link{readLines}}, see 
+\item{encoding}{default: "unknown", passed to \code{\link{readLines}}, see 
 there.}
 
 \item{file.encoding}{Encoding to be assumed for the \code{input.file}.

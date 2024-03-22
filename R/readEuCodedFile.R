@@ -6,7 +6,7 @@
 #' 
 #' @param input.file full path to text file containing CCTV inspection results
 #'   in the format described in DIN EN 13508-2
-#' @param encoding default: "latin1", passed to \code{\link{readLines}}, see 
+#' @param encoding default: "unknown", passed to \code{\link{readLines}}, see 
 #'   there.
 #' @param file.encoding Encoding to be assumed for the \code{input.file}.
 #'   The default is \code{NULL} in which case the name of the encoding is read
@@ -34,7 +34,7 @@
 #' 
 readEuCodedFile <- function(
     input.file, 
-    encoding = "latin1", 
+    encoding = "unknown", 
     file.encoding = NULL,
     read.inspections = TRUE, 
     name.convention = c("norm", "camel", "snake")[1L],
