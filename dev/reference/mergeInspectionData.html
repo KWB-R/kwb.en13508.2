@@ -53,7 +53,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mergeInspectionData</span><span class="op">(</span><span class="va">x</span>, warn <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mergeInspectionData</span><span class="op">(</span><span class="va">x</span>, warn <span class="op">=</span> <span class="cn">FALSE</span>, naToEmpty <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -66,6 +66,12 @@ an EN13508.2-encoded file by means of <code><a href="readEuCodedFile.html">readE
 <dt>warn</dt>
 <dd><p>logical indicating whether to warn about different header
 information. By default, warnings are not shown.</p></dd>
+
+
+<dt>naToEmpty</dt>
+<dd><p>logical indicating whether or not to replace <code>NA</code> with 
+an empty string constant <code>""</code> in all columns of type character. The
+default is <code>TRUE</code>.</p></dd>
 
 </dl></div>
     <div id="value">

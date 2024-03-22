@@ -56,6 +56,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">readEuCodedFile</span><span class="op">(</span></span>
 <span>  <span class="va">input.file</span>,</span>
 <span>  encoding <span class="op">=</span> <span class="st">"latin1"</span>,</span>
+<span>  file.encoding <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  read.inspections <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  name.convention <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"norm"</span>, <span class="st">"camel"</span>, <span class="st">"snake"</span><span class="op">)</span><span class="op">[</span><span class="fl">1L</span><span class="op">]</span>,</span>
 <span>  simple.algorithm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -73,7 +74,14 @@ in the format described in DIN EN 13508-2</p></dd>
 
 
 <dt>encoding</dt>
-<dd><p>default: "latin1"</p></dd>
+<dd><p>default: "latin1", passed to <code><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></code>, see 
+there.</p></dd>
+
+
+<dt>file.encoding</dt>
+<dd><p>Encoding to be assumed for the <code>input.file</code>.
+The default is <code>NULL</code> in which case the name of the encoding is read
+from the <code>#A1</code> field of the <code>input.file</code>.</p></dd>
 
 
 <dt>read.inspections</dt>
