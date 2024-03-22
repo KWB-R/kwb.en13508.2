@@ -53,8 +53,10 @@ readEuCodedFile <- function(
   
   # If not explicitly given, use the encoding as given in the #A1 header
   if (is.null(file.encoding)) {
-    file.encoding <- getFileEncoding(input.file)
+    file.encoding <- readFileEncodingFromHeader(input.file)
   }
+  
+  stopOnInvalidEncoding(file.encoding)
   
   eu_lines <- run(
     sprintf("Reading %s assuming %s encoding", input.file, file.encoding), 
@@ -107,19 +109,21 @@ readEuCodedFile <- function(
   )
 }
 
-# getFileEncoding --------------------------------------------------------------
-getFileEncoding <- function(file)
+# readFileEncodingFromHeader ---------------------------------------------------
+readFileEncodingFromHeader <- function(file)
 {
-  encoding <- kwb.utils::selectElements(
+  kwb.utils::selectElements(
     x = getFileHeaderFromEuLines(readLines(kwb.utils::safePath(file), n = 6L)), 
     elements = "encoding"
   )
-  
+}
+
+# stopOnInvalidEncoding --------------------------------------------------------
+stopOnInvalidEncoding <- function(encoding)
+{
   if (!encoding %in% (available <- iconvlist())) {
     stop(kwb.utils::noSuchElements(encoding, available, "encoding string"))
   }
-  
-  encoding
 }
 
 # applyNameConvention ----------------------------------------------------------
