@@ -25,11 +25,15 @@
 #' @param warn if \code{TRUE}, warnings are shown (e.g. if not all #A-header
 #'   fields were found)
 #' @param dbg if \code{TRUE}, debug messages are shown, else not
+#' @param check.encoding logical indicating whether or not to check if the 
+#'   encoding string that is given in the \code{#A1} header of the file is
+#'   "known". The default is \code{TRUE}, i.e. the check is performed and an
+#'   error is thrown if the encoding is not in the list of known encodings.
 #' @param \dots further arguments to be passed to 
 #'   \code{kwb.en13508.2:::getObservationRecordsFromEuLines}
 #' @return list with elements \code{header.info}, \code{inspections},
 #'   \code{observations}
-#' @importFrom kwb.utils catAndRun catIf isTryError .logstart .logok
+#' @importFrom kwb.utils catAndRun readLinesWithEncoding
 #' @export
 #' 
 readEuCodedFile <- function(
@@ -41,6 +45,7 @@ readEuCodedFile <- function(
     simple.algorithm = TRUE, 
     warn = TRUE, 
     dbg = TRUE,
+    check.encoding = TRUE,
     ...
 )
 {
@@ -54,9 +59,16 @@ readEuCodedFile <- function(
   # If not explicitly given, use the encoding as given in the #A1 header
   if (is.null(file.encoding)) {
     file.encoding <- readFileEncodingFromHeader(input.file)
+    
+    # Replace "iso-8859-1:1998" with "latin1"
+    # (see https://de.wikipedia.org/wiki/ISO_8859-1: 
+    # "ISO 8859-1, genauer ISO/IEC 8859-1, auch bekannt als Latin-1 [...]")
+    file.encoding <- gsub("^iso-8859-1:1998$", "latin1", file.encoding)
   }
   
-  stopOnInvalidEncoding(file.encoding)
+  if (check.encoding) {
+    stopOnInvalidEncoding(file.encoding)
+  }
   
   eu_lines <- run(
     sprintf("Reading %s assuming %s encoding", input.file, file.encoding), 

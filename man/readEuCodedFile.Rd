@@ -13,6 +13,7 @@ readEuCodedFile(
   simple.algorithm = TRUE,
   warn = TRUE,
   dbg = TRUE,
+  check.encoding = TRUE,
   ...
 )
 }
@@ -45,6 +46,11 @@ differing #B-header rows is used.}
 fields were found)}
 
 \item{dbg}{if \code{TRUE}, debug messages are shown, else not}
+
+\item{check.encoding}{logical indicating whether or not to check if the 
+encoding string that is given in the \code{#A1} header of the file is
+"known". The default is \code{TRUE}, i.e. the check is performed and an
+error is thrown if the encoding is not in the list of known encodings.}
 
 \item{\dots}{further arguments to be passed to 
 \code{kwb.en13508.2:::getObservationRecordsFromEuLines}}
