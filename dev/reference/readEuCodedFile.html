@@ -62,6 +62,7 @@
 <span>  simple.algorithm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  warn <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  dbg <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  check.encoding <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -111,6 +112,13 @@ fields were found)</p></dd>
 
 <dt>dbg</dt>
 <dd><p>if <code>TRUE</code>, debug messages are shown, else not</p></dd>
+
+
+<dt>check.encoding</dt>
+<dd><p>logical indicating whether or not to check if the 
+encoding string that is given in the <code>#A1</code> header of the file is
+"known". The default is <code>TRUE</code>, i.e. the check is performed and an
+error is thrown if the encoding is not in the list of known encodings.</p></dd>
 
 
 <dt>...</dt>
