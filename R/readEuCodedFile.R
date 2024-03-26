@@ -138,7 +138,7 @@ readFileEncodingFromHeader <- function(file)
 # stopOnInvalidEncoding --------------------------------------------------------
 stopOnInvalidEncoding <- function(encoding)
 {
-  if (!encoding %in% (available <- iconvlist())) {
+  if (!encoding %in% (available <- c("latin1", iconvlist()))) {
     stop(kwb.utils::noSuchElements(encoding, available, "encoding string"))
   }
 }
