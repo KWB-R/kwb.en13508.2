@@ -63,7 +63,12 @@ readEuCodedFile <- function(
     # Replace "iso-8859-1:1998" with "latin1"
     # (see https://de.wikipedia.org/wiki/ISO_8859-1: 
     # "ISO 8859-1, genauer ISO/IEC 8859-1, auch bekannt als Latin-1 [...]")
-    file.encoding <- gsub("^iso-8859-1:1998$", "latin1", file.encoding)
+    file.encoding <- gsub(
+      "^iso-8859-1(:1998)?$", 
+      "latin1", 
+      file.encoding, 
+      ignore.case = TRUE
+    )
   }
   
   if (check.encoding) {
