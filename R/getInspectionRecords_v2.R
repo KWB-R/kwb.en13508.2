@@ -125,13 +125,16 @@ textblockToDataframe <- function(
 }
 
 # getColumnsToRemove -----------------------------------------------------------
+#' @importFrom kwb.utils allAreEqual catIf printIf stringList
 getColumnsToRemove <- function(x, captions, duplicates, dbg = TRUE)
 {
+  catIf <- kwb.utils::catIf
+  
   columnsToRemove <- numeric()
   
   for (duplicate in duplicates) {
     
-    message("Column '", duplicate, "' exists multiple times!")
+    catIf(dbg, sprintf("Column '%s' exists multiple times!\n", duplicate))
 
     columns <- which(captions == duplicate)    
     
@@ -139,25 +142,25 @@ getColumnsToRemove <- function(x, captions, duplicates, dbg = TRUE)
     
     if (all(allEqualInRow)) {
       
-      columnsToRemove <- c(columnsToRemove, columns[-1])
+      columnsToRemove <- c(columnsToRemove, columns[-1L])
       
-      message(
-        "For each row, the values in the duplicated rows are equal ",
-        "-> I removed the duplicated columns!"
+      catIf(
+        dbg, "For each row, the values in the duplicated rows are equal ",
+        "-> I removed the duplicated columns.\n"
       )
       
       if (dbg) {
-        
-        cat("The values in the duplicated columns are:\n")
-        
-        x.output <- x[, columns]
-        
-        print(x.output[! duplicated(x.output), ])
+        x.out <- x[, columns]
+        kwb.utils::printIf(
+          TRUE, 
+          x = x.out[! duplicated(x.out), ], 
+          caption = "The values in the duplicated columns are"
+        )
       }
     }    
 
-    kwb.utils::catIf(
-      dbg && length(columnsToRemove) > 0, 
+    catIf(
+      dbg && length(columnsToRemove), 
       "columnsToRemove:", kwb.utils::stringList(columnsToRemove), "\n"
     )
   }    
