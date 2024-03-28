@@ -27,12 +27,12 @@ test_that("setGlobalInspectionID() works", {
   ))
 
   if (!file.exists(error.file)) {
-    message(
-      message("error.file does not exist: ", error.file)
-      "files in dirname(error.file): ", 
+    stop(
+      "error.file does not exist: ", error.file, "\n",
+      "files in dirname(error.file):\n", 
       kwb.utils::stringList(dir(dirname(error.file)))
     )
   }
   
-  expect_true(file.exists(error.file))
+  #expect_true(file.exists(error.file))
 })
