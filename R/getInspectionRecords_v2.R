@@ -1,4 +1,5 @@
 # getInspectionRecords_v2 ------------------------------------------------------
+#' @importFrom kwb.utils removeColumns
 getInspectionRecords_v2 <- function(
   eu_lines, header.info, dbg = TRUE, version = 2L
 )
@@ -27,7 +28,7 @@ getInspectionRecords_v2 <- function(
 }
 
 # extractInspectionBlocks ------------------------------------------------------
-#' @importFrom kwb.utils isTryError
+#' @importFrom kwb.utils collapsed isTryError stopFormatted
 extractInspectionBlocks <- function(
   eu_lines, headerInfos, sep, dec, quote, dbg = TRUE
 )
@@ -78,6 +79,7 @@ extractInspectionBlocks <- function(
 }
 
 # textblockToDataframe ---------------------------------------------------------
+#' @importFrom kwb.utils makeUnique setColumns stopFormatted stringList
 textblockToDataframe <- function(
   textblock, sep, dec, quote, captionLine, rowNumbers, dbg = TRUE
 )
@@ -165,6 +167,7 @@ getColumnsToRemove <- function(x, captions, duplicates, dbg = TRUE)
 }
 
 # mergeInspectionBlocks --------------------------------------------------------
+#' @importFrom kwb.utils hsSafeName moveToFront safeRowBindAll stringList
 mergeInspectionBlocks <- function(inspectionBlocks)
 {
   indices <- seq_along(inspectionBlocks)
@@ -218,6 +221,7 @@ mergeInspectionBlocks <- function(inspectionBlocks)
 }
 
 # removeDuplicatedColumns ------------------------------------------------------
+#' @importFrom kwb.utils stringList
 removeDuplicatedColumns <- function(x, dbg = TRUE)
 {
   captions <- names(x)
@@ -249,6 +253,7 @@ removeDuplicatedColumns <- function(x, dbg = TRUE)
 }
 
 # cleanDuplicatedColumns -------------------------------------------------------
+#' @importFrom kwb.utils removeExtension stringList
 cleanDuplicatedColumns <- function(x)
 {
   captions <- names(x)
