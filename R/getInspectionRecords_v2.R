@@ -260,7 +260,7 @@ cleanDuplicatedColumns <- function(x)
     
     #message("There are columns with suffixes '.x' or '.y'")
 
-    if (length(indices[[1]]) != length(indices[[2]])) stop(
+    if (length(indices[[1L]]) != length(indices[[2L]])) stop(
       "Missing columns with suffix '.x' or '.y':\n",
       kwb.utils::stringList(captions[all_indices])
     )
