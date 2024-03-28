@@ -1,4 +1,4 @@
-library(testthat)
+#library(testthat)
 
 test_that("setGlobalInspectionID() works", {
 
@@ -8,7 +8,7 @@ test_that("setGlobalInspectionID() works", {
 
   error.file <- file.path(tempdir(), "duplicates.txt")
   
-  expect_error(f(
+  expect_error(regexp = "There were duplicates", f(
     inspection.data = list(
       inspections = data.frame(
         inspection_date = "2024-01-03",
@@ -26,5 +26,13 @@ test_that("setGlobalInspectionID() works", {
     error.file = error.file
   ))
 
+  if (!file.exists(error.file)) {
+    message(
+      message("error.file does not exist: ", error.file)
+      "files in dirname(error.file): ", 
+      kwb.utils::stringList(dir(dirname(error.file)))
+    )
+  }
+  
   expect_true(file.exists(error.file))
 })
