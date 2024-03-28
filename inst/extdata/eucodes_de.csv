@@ -2,7 +2,7 @@ Code,Name,class,meaning
 A,Code,character,Hauptkode
 B,char1,character,Charakterisierung 1
 C,char2,character,Charakterisierung 2
-D,Dimension1,character,Quantifizierung 1
+D,Dimension1,numeric,Quantifizierung 1
 E,Dimension2,numeric,Quantifizierung 2
 F,Remarks,character,Anmerkungen
 G,ClockRefAtFrom,integer,Lage am Umfang 1

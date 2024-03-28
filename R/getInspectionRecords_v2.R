@@ -1,63 +1,36 @@
-# getInspectionsFromEuLines.new ------------------------------------------------
-
-getInspectionsFromEuLines.new <- function(eu_lines, header.info, dbg = TRUE)
+# getInspectionRecords_v2 ------------------------------------------------------
+#' @importFrom kwb.utils removeColumns
+getInspectionRecords_v2 <- function(
+  eu_lines, header.info, dbg = TRUE, version = 2L
+)
 {
-  x <- mergeInspectionBlocks(extractInspectionBlocks(
+  headerInfos <- if (version == 1L) {
+    getInspectionHeaderInfo_v1(eu_lines)
+  } else if (version == 2L) {
+    getInspectionHeaderInfo_v2(eu_lines)
+  }
+ 
+  inspectionBlocks <- extractInspectionBlocks(
     eu_lines = eu_lines, 
-    headerInfos = getInspectionHeaderInfo(eu_lines), 
+    headerInfos = headerInfos, 
     sep = get_elements(header.info, "separator"), 
     dec = get_elements(header.info, "decimal"), 
-    quoteCharacter = get_elements(header.info, "quote"), 
+    quote = get_elements(header.info, "quote"), 
     dbg = dbg
-  ))
+  )
+  
+  merged <- mergeInspectionBlocks(inspectionBlocks)
 
   structure(
-    kwb.utils::removeColumns(x, "row"), 
-    B.rows = data.frame(inspno = seq_len(nrow(x)), rows = x$row)
+    kwb.utils::removeColumns(merged, "row"), 
+    B.rows = data.frame(inspno = seq_len(nrow(merged)), rows = merged[["row"]])
   )
 }
 
-# getInspectionHeaderInfo ------------------------------------------------------
-
-getInspectionHeaderInfo <- function(eu_lines)
-{
-  # Get list of matching sub expressions
-  matches <- kwb.utils::subExpressionMatches("^#B(\\d\\d)=(.*)$", eu_lines)
-  
-  # Indices of header lines
-  header_indices <- which(! sapply(matches, is.null))
-  
-  # Keep only the sub expressions of matching rows
-  matches <- matches[header_indices]
-  
-  # Number of header (#B01 = 1, #B02 = 2)
-  header_numbers <- as.numeric(sapply(matches, "[[", 1))
-
-  # Only the header (right of equal sign)
-  header_lines <- sapply(matches, "[[", 2)
-
-  unique_headers <- unique(header_lines)
-  
-  # For each different type of header, determine the line numbers in which it
-  # occurs
-  header_rows <- lapply(unique_headers, function(header) {
-    
-    indices <- which(header_lines == header)
-    
-    header_number <- unique(header_numbers[indices])
-    
-    stopifnot(length(header_number) == 1)
-    
-    list(line = header_number, rows = header_indices[indices])
-  })
-  
-  stats::setNames(header_rows, unique_headers)
-}
-
 # extractInspectionBlocks ------------------------------------------------------
-
+#' @importFrom kwb.utils collapsed isTryError stopFormatted
 extractInspectionBlocks <- function(
-  eu_lines, headerInfos, sep, dec, quoteCharacter, dbg = TRUE
+  eu_lines, headerInfos, sep, dec, quote, dbg = TRUE
 )
 {
   blocks <- list()
@@ -68,83 +41,77 @@ extractInspectionBlocks <- function(
     
     #print(i)
     #i <- 5
-    row_numbers <- headerInfos[[i]]$rows + 1
+    row_numbers <- headerInfos[[i]]$rows + 1L
     
-    textblock <- paste(eu_lines[row_numbers], collapse = "\n")
+    textblock <- eu_lines[row_numbers]
     
-    try_result <- try(silent = TRUE, x <- textblockToDataframe(
-      textblock, sep, dec, quoteCharacter, captionLine = unique_headers[i], 
+    x <- try(silent = TRUE, textblockToDataframe(
+      textblock, sep, dec, quote, captionLine = unique_headers[i], 
       rowNumbers = row_numbers, dbg = dbg
     ))
-    
-    if (! inherits(try_result, "try-error")) {
-      
-      line_number <- headerInfos[[i]]$line
-      
-      if (length(blocks) < line_number) {
-        
-        blocks[[line_number]] <- list(line = line_number, dataFrames = list())
-      }
-      
-      last_index <- length(blocks[[line_number]]$dataFrames)
-      
-      blocks[[line_number]]$dataFrames[[last_index + 1]] <- x
-      
-    } else {
-      
-      # Handle the error
-      stop(
-        sprintf(
+
+    # Handle possible error
+    if (kwb.utils::isTryError(x)) {
+      kwb.utils::stopFormatted(
+        paste0(
           "\nError reading #B-block number %d (lines %s):\n>>>\n%s\n<<<\n", 
-          i, kwb.utils::collapsed(row_numbers, ", "), textblock
-        ), 
-        sprintf(
-          "Original error message: >>>%s<<<\n", 
-          attr(try_result, "condition")$message
+          "Original error message: >>>%s<<<\n"
         ),
-        call. = FALSE
+        i, 
+        kwb.utils::collapsed(row_numbers, ", "), 
+        kwb.utils::collapsed(textblock, "\n"),
+        attr(x, "condition")$message
       )
     }
+
+    line_number <- headerInfos[[i]]$line
+    
+    if (length(blocks) < line_number) {
+      blocks[[line_number]] <- list(line = line_number, dataFrames = list())
+    }
+    
+    last_index <- length(blocks[[line_number]]$dataFrames)
+    
+    blocks[[line_number]]$dataFrames[[last_index + 1L]] <- x
   }
   
   blocks
 }
 
 # textblockToDataframe ---------------------------------------------------------
-
+#' @importFrom kwb.utils makeUnique setColumns stopFormatted stringList
 textblockToDataframe <- function(
-  textblock, sep, dec, quoteCharacter, captionLine, rowNumbers, dbg = TRUE
+  textblock, sep, dec, quote, captionLine, rowNumbers, dbg = TRUE
 )
 {
   #kwb.utils::catLines(textblock)
   
   x <- utils::read.table(
-    text = textblock, sep = sep, dec = dec, quote = quoteCharacter, 
+    text = textblock, sep = sep, dec = dec, quote = quote, 
     comment.char = "", stringsAsFactors = FALSE
     #, fill = TRUE
   )
   
-  captions <- strsplit(captionLine, sep)[[1]]
+  captions <- strsplit(captionLine, sep)[[1L]]
   
   # the number of captions must be equal to the number of columns in x
   if (length(captions) != ncol(x)) {
     
-    textmessage <- sprintf(
+    kwb.utils::stopFormatted(
       paste0(
         "The number of captions (%d) is not equal to the number of columns ",
         "in the data block (%d). \nCaptions: %s\nFirst data row: %s\n"
       ), 
-      length(captions), ncol(x), kwb.utils::stringList(captions), 
-      kwb.utils::stringList(x[1, ])
+      length(captions), 
+      ncol(x), 
+      kwb.utils::stringList(captions), 
+      kwb.utils::stringList(x[1L, ])
     )
-    
-    stop(textmessage, call. = FALSE)
-    
-  } else {
-    
-    names(x) <- captions
   }
-  
+
+  # Name the columns according to the captions
+  names(x) <- captions
+
   # Check for duplicated columns and remove duplicated columns if all values 
   # within the columns are identical to the corresponding values in the original
   # column
@@ -158,14 +125,16 @@ textblockToDataframe <- function(
 }
 
 # getColumnsToRemove -----------------------------------------------------------
-
+#' @importFrom kwb.utils allAreEqual catIf printIf stringList
 getColumnsToRemove <- function(x, captions, duplicates, dbg = TRUE)
 {
+  catIf <- kwb.utils::catIf
+  
   columnsToRemove <- numeric()
   
   for (duplicate in duplicates) {
     
-    message("Column '", duplicate, "' exists multiple times!")
+    catIf(dbg, sprintf("Column '%s' exists multiple times!\n", duplicate))
 
     columns <- which(captions == duplicate)    
     
@@ -173,25 +142,25 @@ getColumnsToRemove <- function(x, captions, duplicates, dbg = TRUE)
     
     if (all(allEqualInRow)) {
       
-      columnsToRemove <- c(columnsToRemove, columns[-1])
+      columnsToRemove <- c(columnsToRemove, columns[-1L])
       
-      message(
-        "For each row, the values in the duplicated rows are equal ",
-        "-> I removed the duplicated columns!"
+      catIf(
+        dbg, "For each row, the values in the duplicated rows are equal ",
+        "-> I removed the duplicated columns.\n"
       )
       
       if (dbg) {
-        
-        cat("The values in the duplicated columns are:\n")
-        
-        x.output <- x[, columns]
-        
-        print(x.output[! duplicated(x.output), ])
+        x.out <- x[, columns]
+        kwb.utils::printIf(
+          TRUE, 
+          x = x.out[! duplicated(x.out), ], 
+          caption = "The values in the duplicated columns are"
+        )
       }
     }    
 
-    kwb.utils::catIf(
-      dbg && length(columnsToRemove) > 0, 
+    catIf(
+      dbg && length(columnsToRemove), 
       "columnsToRemove:", kwb.utils::stringList(columnsToRemove), "\n"
     )
   }    
@@ -201,7 +170,7 @@ getColumnsToRemove <- function(x, captions, duplicates, dbg = TRUE)
 }
 
 # mergeInspectionBlocks --------------------------------------------------------
-
+#' @importFrom kwb.utils hsSafeName moveToFront safeRowBindAll stringList
 mergeInspectionBlocks <- function(inspectionBlocks)
 {
   indices <- seq_along(inspectionBlocks)
@@ -255,7 +224,7 @@ mergeInspectionBlocks <- function(inspectionBlocks)
 }
 
 # removeDuplicatedColumns ------------------------------------------------------
-
+#' @importFrom kwb.utils stringList
 removeDuplicatedColumns <- function(x, dbg = TRUE)
 {
   captions <- names(x)
@@ -287,7 +256,7 @@ removeDuplicatedColumns <- function(x, dbg = TRUE)
 }
 
 # cleanDuplicatedColumns -------------------------------------------------------
-
+#' @importFrom kwb.utils removeExtension stringList
 cleanDuplicatedColumns <- function(x)
 {
   captions <- names(x)
@@ -299,7 +268,7 @@ cleanDuplicatedColumns <- function(x)
     
     #message("There are columns with suffixes '.x' or '.y'")
 
-    if (length(indices[[1]]) != length(indices[[2]])) stop(
+    if (length(indices[[1L]]) != length(indices[[2L]])) stop(
       "Missing columns with suffix '.x' or '.y':\n",
       kwb.utils::stringList(captions[all_indices])
     )

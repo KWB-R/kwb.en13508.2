@@ -18,9 +18,8 @@
 #' devtools::install_github("guiastrennec/ggplus")
 #' }
 #' 
-#' # Load example data
-#' file <- system.file("extdata/example_13508_2.txt", package = "kwb.en13508.2")
-#' survey <- kwb.en13508.2::readEuCodedFile(file)
+#' # Get example data that are contained in the package
+#' survey <- kwb.en13508.2:::getExampleData()
 #' 
 #' # Create one plot per inspection in "survey"
 #' kwb.en13508.2::plotObservations(survey, to_pdf = FALSE)
@@ -105,7 +104,7 @@ get_extended_observations <- function(survey)
   obs <- kwb.utils::selectColumns(observations, obs_columns)
 
   # Add start and end positions and code meanings to observations
-  codes <- get_code_meanings()
+  codes <- getCodeMeanings()
   obs <- merge(obs, codes, by.x = "A", by.y = "Code", all.x = TRUE)
   obs <- merge(obs, ins, by = "inspno")
   
@@ -123,7 +122,7 @@ get_extended_observations <- function(survey)
 
   key_columns <- c("inspno", "I", code_columns)
   
-  obs <- order_by(obs, key_columns)
+  obs <- kwb.utils::orderBy(obs, key_columns)
   
   kwb.utils::moveColumnsToFront(obs, columns = c(key_columns, "ldid", "ldidno"))
 }
@@ -146,25 +145,22 @@ get_extreme_positions <- function(inspections)
 }
 
 
-# get_code_meanings ------------------------------------------------------------
-get_code_meanings <- function()
+# getCodeMeanings --------------------------------------------------------------
+getCodeMeanings <- function()
 {
+  renamings <- list(
+    Table = "CodeTable", 
+    Code = "Code",
+    Text_EN = "CodeMeaning"
+  )
+  
   # Provide table that maps codes to their meanings
-  code_meanings <- kwb.utils::resetRowNames(do.call(rbind, lapply(
-    X = sprintf("T%d", 4:7), 
-    FUN = kwb.en13508.2::getCodes, 
-    fields = c("Table", "Code", "Text_EN")
-  )))
+  code_meanings <- getCodes(
+    table = sprintf("T%d", 4:7),
+    fields = names(renamings)
+  )
   
-  stats::setNames(code_meanings, c("CodeTable", "Code", "CodeMeaning"))  
-}
-
-# order_by ---------------------------------------------------------------------
-order_by <- function(df, columns)
-{
-  keys <- kwb.utils::selectColumns(df, columns)
-  
-  kwb.utils::resetRowNames(df[do.call(order, keys), ])
+  kwb.utils::renameColumns(code_meanings, renamings)
 }
 
 # remove_point_damages ---------------------------------------------------------

@@ -1,5 +1,4 @@
 # getObservationsFromEuLines ---------------------------------------------------
-
 getObservationsFromEuLines <- function(
   eu_lines, header.info, old.version = FALSE, dbg = TRUE
 )
@@ -13,11 +12,8 @@ getObservationsFromEuLines <- function(
   # If the file does not end with #Z add "number of lines + 1" to the vector of
   # #Z-indices
   last_z_index <- if (kwb.utils::isNullOrEmpty(indices$Z)) {
-    
-    -1
-    
+    -1L
   } else {
-    
     kwb.utils::lastElement(indices$Z)
   }
 
@@ -81,7 +77,6 @@ getObservationsFromEuLines <- function(
 }
 
 # get_observations -------------------------------------------------------------
-
 get_observations <- function(caption_line, c_body, header_info)
 {
   # Select and rename elements from "header_info" into list "arguments"
@@ -127,10 +122,12 @@ get_observations <- function(caption_line, c_body, header_info)
   # to NA, otherwise let read.table skip the unknown columns
   colClasses <- if (all(is_null)) NA else unname(colClasses)
 
-  observations <- utils::read.table(
-    text = paste(c_body, collapse = "\n"), sep = arguments$sep, 
-    dec = arguments$dec, quote = arguments$quote, comment.char = "", 
-    blank.lines.skip = FALSE, stringsAsFactors = FALSE, colClasses = colClasses
+  observations <- readObservationsFromCsvText(
+    text = paste(c_body, collapse = "\n"), 
+    sep = arguments$sep, 
+    dec = arguments$dec, 
+    quote = arguments$quote, 
+    colClasses = colClasses
   )
   
   # Set the column names to the captions
@@ -139,8 +136,38 @@ get_observations <- function(caption_line, c_body, header_info)
   observations
 }
 
-# getInspectionNumbers ---------------------------------------------------------
+# readObservationsFromCsvText --------------------------------------------------
+readObservationsFromCsvText <- function(text, sep, dec, quote, colClasses, ...)
+{
+  # If colClasses is specified, reduce it to the columns that actually occur
+  if (! identical(colClasses, NA)) {
+    
+    # Get the column names from the first line
+    colNames <- strsplit(text[1L], sep)[[1L]]
+    
+    # Check that the column names are unique
+    stopifnot(anyDuplicated(colNames) == 0L)
+    
+    # Check that we know the column class for each column name
+    stopifnot(all(colNames %in% names(colClasses)))
+    
+    colClasses <- colClasses[colNames]
+  }
+  
+  utils::read.table(
+    text = text, 
+    sep = sep, 
+    dec = dec, 
+    quote = quote, 
+    comment.char = "", 
+    blank.lines.skip = FALSE, 
+    stringsAsFactors = FALSE, 
+    colClasses = colClasses,
+    ...
+  )
+}
 
+# getInspectionNumbers ---------------------------------------------------------
 getInspectionNumbers <- function(indices.C, indices.B01, indices.B, indices.Z)
 {
   # To find the number of the inspection corresponding to the observation block 
@@ -179,13 +206,11 @@ getInspectionNumbers <- function(indices.C, indices.B01, indices.B, indices.Z)
 }
 
 # getInspectionNumbers.old -----------------------------------------------------
-
 getInspectionNumbers.old <- function(
   indices.C, indices.Z, numberOfInspections, maxline
 )
 {
   block.begs <- indices.C + 1
-  
   block.ends <- indices.Z - 1
   
   missingBlockEnds <- numberOfInspections - length(block.ends)

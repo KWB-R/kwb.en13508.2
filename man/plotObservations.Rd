@@ -26,9 +26,8 @@ install.packages("ggplot2")
 devtools::install_github("guiastrennec/ggplus")
 }
 
-# Load example data
-file <- system.file("extdata/example_13508_2.txt", package = "kwb.en13508.2")
-survey <- kwb.en13508.2::readEuCodedFile(file)
+# Get example data that are contained in the package
+survey <- kwb.en13508.2:::getExampleData()
 
 # Create one plot per inspection in "survey"
 kwb.en13508.2::plotObservations(survey, to_pdf = FALSE)
