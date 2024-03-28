@@ -59,7 +59,7 @@ extractInspectionBlocks <- function(
         ),
         i, 
         kwb.utils::collapsed(row_numbers, ", "), 
-        paste(textblock, collapse = "\n"),
+        kwb.utils::collapsed(textblock, "\n"),
         attr(x, "condition")$message
       )
     }
