@@ -59,22 +59,13 @@
 <div class="section level3">
 <h3 id="modifications-to-data-files-in-the-package-0-3-0">Modifications to data files in the package<a class="anchor" aria-label="anchor" href="#modifications-to-data-files-in-the-package-0-3-0"></a></h3>
 <ul><li>add material codes to eucodes.csv and save as UTF-8</li>
-<li>add eucodes_full.csv file with main_code/char_1/char_2 combinations</li>
-<li>describe more fields in column-names.csv</li>
-<li>specify quantification 1 as numeric</li>
+<li>add eucodes_full_de.csv file with main_code/char_1/char_2 combinations</li>
+<li>in eucodes_de.csv, specify quantification 1 as numeric</li>
 </ul></div>
 <div class="section level3">
 <h3 id="modifications-to-exported-or-private-functions-in-alphabetical-order-0-3-0">Modifications to (exported or private) functions (in alphabetical order)<a class="anchor" aria-label="anchor" href="#modifications-to-exported-or-private-functions-in-alphabetical-order-0-3-0"></a></h3>
 <ul><li>extractInspectionBlocks
 <ul><li>rename argument “quoteCharacter” to “quote”</li>
-</ul></li>
-<li>extractObservationBlocks()
-<ul><li>add a last “to” value if the last EU-line is not “#Z”</li>
-</ul></li>
-<li>extractObservationData()
-<ul><li>add arguments “file”, “as.text”</li>
-<li>remove empty records from table of observations</li>
-<li>run readObservationsFromCsvText() with “colClasses” being set to the expected column types</li>
 </ul></li>
 <li>get_code_meanings()
 <ul><li>rename to getCodeMeanings()</li>
@@ -87,16 +78,9 @@
 <li>getInspectionHeaderInfo()
 <ul><li>rename to getInspectionHeaderInfo_v1()</li>
 </ul></li>
-<li>getInspectionHeaderInfo2()
-<ul><li>rename to getInspectionHeaderInfo_v2()</li>
-<li>use new argument “version” instead of old argument “getInfo”</li>
-</ul></li>
-<li>getInspectionRecords_v2()
-<ul><li>use normal console output instead of message</li>
-</ul></li>
 <li>getInspectionsFromEuLines()
-<ul><li>add argument “dbg” to control whether to show a message or not</li>
-<li>rename to getInspectionRecords_v1()</li>
+<ul><li>rename to getInspectionRecords_v1()</li>
+<li>add argument “dbg” to control whether to show a message or not</li>
 </ul></li>
 <li>getInspectionsFromEuLines.new()
 <ul><li>rename to getInspectionRecords_v2()</li>
@@ -110,22 +94,19 @@
 <li>readAndMergeEuCodedFiles()
 <ul><li>add arguments “add.inspid”, “error.file” to optionally add globally unique inspection IDs and to specify where to store related error messages</li>
 <li>add arguments “project”, “default.time”, “name.convention”</li>
-<li>clean code</li>
 <li>fix typo in warning</li>
+<li>clean code</li>
 </ul></li>
 <li>readEuCodedFile()
 <ul><li>add arguments “name.convention”, “file.encoding”, “check.encoding”</li>
 <li>change default value of argument “encoding” from “latin1” to “unknown”</li>
-<li>use new function extractObservationData() to read observation data if the original function getObservationsFromEuLines() fails</li>
-<li>pass “dbg” through to getInspectionsFromEuLines(), removeEmptyLines()<br></li>
+<li>use new function getObservationRecordsFromEuLines()</li>
+<li>pass “dbg” through to removeEmptyLines(), getInspectionRecordsFromEuLines()</li>
 <li>refactor</li>
 </ul></li>
 <li>readEuCodedFiles()
 <ul><li>let “file” be the first column</li>
 <li>in the error message, report on files that failed to be imported</li>
-</ul></li>
-<li>readObservationsFromCsvText()
-<ul><li>reduce “colClasses” to columns that actually occur</li>
 </ul></li>
 <li>removeEmptyLines()
 <ul><li>clean code</li>
@@ -148,17 +129,26 @@
 <h3 id="add-private-functions-0-3-0">Add private functions<a class="anchor" aria-label="anchor" href="#add-private-functions-0-3-0"></a></h3>
 <ul><li>createHashFromColumns()</li>
 <li>extdataFile()</li>
-<li>extractObservationBlocks()</li>
-<li>extractObservationData()</li>
+<li>extractObservationBlocks()
+<ul><li>add a last “to” value if the last EU-line is not “#Z”</li>
+</ul></li>
+<li>extractObservationData()
+<ul><li>remove empty records from table of observations</li>
+<li>run readObservationsFromCsvText() with “colClasses” being set to the expected column types or to “character” if as.text is TRUE</li>
+</ul></li>
 <li>getExampleData()</li>
 <li>getExampleFile()</li>
 <li>getFileHeaderFromEuLines()</li>
 <li>getHeaderInfo()</li>
-<li>getInspectionHeaderInfo2()</li>
+<li>getInspectionHeaderInfo_v2()</li>
 <li>getInspectionRecordsFromEuLines()</li>
-<li>getObservationRecordsFromEuLines()</li>
+<li>getObservationRecordsFromEuLines()
+<ul><li>call extractObservationData() if calling getObservationsFromEuLines() fails</li>
+</ul></li>
 <li>readFileEncodingFromHeader()</li>
-<li>readObservationsFromCsvText()</li>
+<li>readObservationsFromCsvText()
+<ul><li>reduce “colClasses” to columns that actually occur</li>
+</ul></li>
 <li>setFilename()</li>
 <li>setGlobalInspectionID()</li>
 <li>toEuFormat()</li>
@@ -166,7 +156,7 @@
 <div class="section level3">
 <h3 id="remove-private-functions-0-3-0">Remove private functions<a class="anchor" aria-label="anchor" href="#remove-private-functions-0-3-0"></a></h3>
 <ul><li>getHeaderLinesFromEuCodedLines()</li>
-<li>getHeaderInfroFromHeaderLines()</li>
+<li>getHeaderInfoFromHeaderLines()</li>
 <li>order_by()</li>
 </ul></div>
 </div>
