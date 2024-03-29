@@ -1,7 +1,7 @@
 Package: kwb.en13508.2
 Title: Read and Write CCTV Inspection Data According to Norm
     EN13508-2
-Version: 0.2.0.9000
+Version: 0.3.0
 Authors@R: 
     c(person(given = "Hauke",
              family = "Sonnenberg",

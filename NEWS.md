@@ -2,6 +2,7 @@
 
 ### General
 
+* require kwb.utils in version >= 0.15.0
 * use GitHub Actions instead of Travis and AppVeyor
 * rewrite README.md (where has the original content gone?)
 * add tests
