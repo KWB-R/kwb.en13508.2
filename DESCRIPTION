@@ -1,7 +1,7 @@
 Package: kwb.en13508.2
 Title: Read and Write CCTV Inspection Data According to Norm
     EN13508-2
-Version: 0.2.0.9000
+Version: 0.3.0
 Authors@R: 
     c(person(given = "Hauke",
              family = "Sonnenberg",
@@ -15,12 +15,14 @@ Description: functions to read and write CCTV inspections
 License: MIT + file LICENSE
 URL: https://github.com/kwb-r/kwb.en13508.2
 BugReports: https://github.com/kwb-r/kwb.en13508.2/issues
-Imports: 
-    kwb.utils
+Imports:
+    digest,
+    kwb.utils (>= 0.15.0)
 Suggests: 
-    testthat,
+    testthat (>= 3.0.0),
     ggplot2
 Remotes: 
     github::kwb-r/kwb.utils
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+RoxygenNote: 7.2.3
+Config/testthat/edition: 3

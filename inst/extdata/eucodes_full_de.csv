@@ -1,0 +1,447 @@
+"main_code","char_1","char_2","main_code_name","char_1_name","char_2_name"
+"AEC","A",,"Form","kreisförmig",
+"AEC","B",,"Form","rechteckig",
+"AEC","C",,"Form","eiförmig",
+"AEC","D",,"Form","U-förmig",
+"AEC","E",,"Form","bogenförmig",
+"AEC","F",,"Form","oval",
+"AEC","X",,"Form","lokaler Querschnitt",
+"AEC","Y",,"Form","unbekannt (bei Uebersetzung)",
+"AEC","Z",,"Form","andere Form",
+"AED","Y",,"Werkstoff","unbekannt (bei Uebersetzung)",
+"BAA","A",,"Verformung","vertikal",
+"BAA","B",,"Verformung","horizontal",
+"BAA","Y",,"Verformung","gesamter Umfang (bei Uebersetzung)",
+"BAB","A","A","Rissbildung","Oberflächenriss (Haarriss)","in Längsrichtung"
+"BAB","A","B","Rissbildung","Oberflächenriss (Haarriss)","am Rohrumfang"
+"BAB","A","C","Rissbildung","Oberflächenriss (Haarriss)","komplexe Rissbildung"
+"BAB","A","D","Rissbildung","Oberflächenriss (Haarriss)","gewundene oder spiralförmige Rissbildung"
+"BAB","A","E","Rissbildung","Oberflächenriss (Haarriss)","sternförmige Rissbildung"
+"BAB","A","Y","Rissbildung","Oberflächenriss (Haarriss)","unbekannt (bei Uebersetzung)"
+"BAB","B","A","Rissbildung","Riss","in Längsrichtung"
+"BAB","B","B","Rissbildung","Riss","am Rohrumfang"
+"BAB","B","C","Rissbildung","Riss","komplexe Rissbildung"
+"BAB","B","D","Rissbildung","Riss","gewundene oder spiralförmige Rissbildung"
+"BAB","B","E","Rissbildung","Riss","sternförmige Rissbildung"
+"BAB","B","Y","Rissbildung","Riss","unbekannt (bei Uebersetzung)"
+"BAB","C","A","Rissbildung","Klaffender Riss","in Längsrichtung"
+"BAB","C","B","Rissbildung","Klaffender Riss","am Rohrumfang"
+"BAB","C","C","Rissbildung","Klaffender Riss","komplexe Rissbildung"
+"BAB","C","D","Rissbildung","Klaffender Riss","gewundene oder spiralförmige Rissbildung"
+"BAB","C","E","Rissbildung","Klaffender Riss","sternförmige Rissbildung"
+"BAB","C","Y","Rissbildung","Klaffender Riss","unbekannt (bei Uebersetzung)"
+"BAB","Y","A","Rissbildung","unbekannt (bei Uebersetzung)","in Längsrichtung"
+"BAB","Y","B","Rissbildung","unbekannt (bei Uebersetzung)","am Rohrumfang"
+"BAB","Y","C","Rissbildung","unbekannt (bei Uebersetzung)","komplexe Rissbildung"
+"BAB","Y","D","Rissbildung","unbekannt (bei Uebersetzung)","gewundene oder spiralförmige Rissbildung"
+"BAB","Y","E","Rissbildung","unbekannt (bei Uebersetzung)","sternförmige Rissbildung"
+"BAB","Y","Y","Rissbildung","unbekannt (bei Uebersetzung)","unbekannt (bei Uebersetzung)"
+"BAC","A",,"Rohrbruch/Einsturz","Bruch",
+"BAC","B",,"Rohrbruch/Einsturz","Fehlen von Teilen",
+"BAC","C",,"Rohrbruch/Einsturz","Einsturz",
+"BAD","A","-","Defektes Mauerwerk","verschoben","wenn Charakterisierung 1 <> ""B"""
+"BAD","A","A","Defektes Mauerwerk","verschoben","weitere Mauerwerksschicht sichtbar"
+"BAD","A","B","Defektes Mauerwerk","verschoben","es ist nichts zu sehen"
+"BAD","A","Y","Defektes Mauerwerk","verschoben","unbekannt (bei Uebersetzung)"
+"BAD","B","-","Defektes Mauerwerk","fehlend","wenn Charakterisierung 1 <> ""B"""
+"BAD","B","A","Defektes Mauerwerk","fehlend","weitere Mauerwerksschicht sichtbar"
+"BAD","B","B","Defektes Mauerwerk","fehlend","es ist nichts zu sehen"
+"BAD","B","Y","Defektes Mauerwerk","fehlend","unbekannt (bei Uebersetzung)"
+"BAD","C","-","Defektes Mauerwerk","Sohle abgesackt","wenn Charakterisierung 1 <> ""B"""
+"BAD","C","A","Defektes Mauerwerk","Sohle abgesackt","weitere Mauerwerksschicht sichtbar"
+"BAD","C","B","Defektes Mauerwerk","Sohle abgesackt","es ist nichts zu sehen"
+"BAD","C","Y","Defektes Mauerwerk","Sohle abgesackt","unbekannt (bei Uebersetzung)"
+"BAD","D","-","Defektes Mauerwerk","Einsturz","wenn Charakterisierung 1 <> ""B"""
+"BAD","D","A","Defektes Mauerwerk","Einsturz","weitere Mauerwerksschicht sichtbar"
+"BAD","D","B","Defektes Mauerwerk","Einsturz","es ist nichts zu sehen"
+"BAD","D","Y","Defektes Mauerwerk","Einsturz","unbekannt (bei Uebersetzung)"
+"BAE",,,"Fehlender Mörtel",,
+"BAF","-","A","Oberflächenschaden","bei Uebersetzung in Abhaengigkeit von Quantifizierung","mechanisch"
+"BAF","-","B","Oberflächenschaden","bei Uebersetzung in Abhaengigkeit von Quantifizierung","chemisch — allgemein"
+"BAF","-","C","Oberflächenschaden","bei Uebersetzung in Abhaengigkeit von Quantifizierung","chemisch — Beschädigung im oberen Teil des Rohres"
+"BAF","-","D","Oberflächenschaden","bei Uebersetzung in Abhaengigkeit von Quantifizierung","chemisch — Beschädigung im unteren Teil des Rohres"
+"BAF","-","E","Oberflächenschaden","bei Uebersetzung in Abhaengigkeit von Quantifizierung","Ursache nicht eindeutig feststellbar"
+"BAF","-","Z","Oberflächenschaden","bei Uebersetzung in Abhaengigkeit von Quantifizierung","andere Ursachen"
+"BAF","A","A","Oberflächenschaden","erhöhte Rauheit","mechanisch"
+"BAF","A","B","Oberflächenschaden","erhöhte Rauheit","chemisch — allgemein"
+"BAF","A","C","Oberflächenschaden","erhöhte Rauheit","chemisch — Beschädigung im oberen Teil des Rohres"
+"BAF","A","D","Oberflächenschaden","erhöhte Rauheit","chemisch — Beschädigung im unteren Teil des Rohres"
+"BAF","A","E","Oberflächenschaden","erhöhte Rauheit","Ursache nicht eindeutig feststellbar"
+"BAF","A","Z","Oberflächenschaden","erhöhte Rauheit","andere Ursachen"
+"BAF","B","A","Oberflächenschaden","Abplatzung","mechanisch"
+"BAF","B","B","Oberflächenschaden","Abplatzung","chemisch — allgemein"
+"BAF","B","C","Oberflächenschaden","Abplatzung","chemisch — Beschädigung im oberen Teil des Rohres"
+"BAF","B","D","Oberflächenschaden","Abplatzung","chemisch — Beschädigung im unteren Teil des Rohres"
+"BAF","B","E","Oberflächenschaden","Abplatzung","Ursache nicht eindeutig feststellbar"
+"BAF","B","Z","Oberflächenschaden","Abplatzung","andere Ursachen"
+"BAF","C","A","Oberflächenschaden","Zuschlagstoffe sichtbar","mechanisch"
+"BAF","C","B","Oberflächenschaden","Zuschlagstoffe sichtbar","chemisch — allgemein"
+"BAF","C","C","Oberflächenschaden","Zuschlagstoffe sichtbar","chemisch — Beschädigung im oberen Teil des Rohres"
+"BAF","C","D","Oberflächenschaden","Zuschlagstoffe sichtbar","chemisch — Beschädigung im unteren Teil des Rohres"
+"BAF","C","E","Oberflächenschaden","Zuschlagstoffe sichtbar","Ursache nicht eindeutig feststellbar"
+"BAF","C","Z","Oberflächenschaden","Zuschlagstoffe sichtbar","andere Ursachen"
+"BAF","D","A","Oberflächenschaden","Zuschlagstoffe einragend","mechanisch"
+"BAF","D","B","Oberflächenschaden","Zuschlagstoffe einragend","chemisch — allgemein"
+"BAF","D","C","Oberflächenschaden","Zuschlagstoffe einragend","chemisch — Beschädigung im oberen Teil des Rohres"
+"BAF","D","D","Oberflächenschaden","Zuschlagstoffe einragend","chemisch — Beschädigung im unteren Teil des Rohres"
+"BAF","D","E","Oberflächenschaden","Zuschlagstoffe einragend","Ursache nicht eindeutig feststellbar"
+"BAF","D","Z","Oberflächenschaden","Zuschlagstoffe einragend","andere Ursachen"
+"BAF","E","A","Oberflächenschaden","Zuschlagstoffe fehlen","mechanisch"
+"BAF","E","B","Oberflächenschaden","Zuschlagstoffe fehlen","chemisch — allgemein"
+"BAF","E","C","Oberflächenschaden","Zuschlagstoffe fehlen","chemisch — Beschädigung im oberen Teil des Rohres"
+"BAF","E","D","Oberflächenschaden","Zuschlagstoffe fehlen","chemisch — Beschädigung im unteren Teil des Rohres"
+"BAF","E","E","Oberflächenschaden","Zuschlagstoffe fehlen","Ursache nicht eindeutig feststellbar"
+"BAF","E","Z","Oberflächenschaden","Zuschlagstoffe fehlen","andere Ursachen"
+"BAF","F","A","Oberflächenschaden","Bewehrung sichtbar","mechanisch"
+"BAF","F","B","Oberflächenschaden","Bewehrung sichtbar","chemisch — allgemein"
+"BAF","F","C","Oberflächenschaden","Bewehrung sichtbar","chemisch — Beschädigung im oberen Teil des Rohres"
+"BAF","F","D","Oberflächenschaden","Bewehrung sichtbar","chemisch — Beschädigung im unteren Teil des Rohres"
+"BAF","F","E","Oberflächenschaden","Bewehrung sichtbar","Ursache nicht eindeutig feststellbar"
+"BAF","F","Z","Oberflächenschaden","Bewehrung sichtbar","andere Ursachen"
+"BAF","G","A","Oberflächenschaden","Bewehrung einragend","mechanisch"
+"BAF","G","B","Oberflächenschaden","Bewehrung einragend","chemisch — allgemein"
+"BAF","G","C","Oberflächenschaden","Bewehrung einragend","chemisch — Beschädigung im oberen Teil des Rohres"
+"BAF","G","D","Oberflächenschaden","Bewehrung einragend","chemisch — Beschädigung im unteren Teil des Rohres"
+"BAF","G","E","Oberflächenschaden","Bewehrung einragend","Ursache nicht eindeutig feststellbar"
+"BAF","G","Z","Oberflächenschaden","Bewehrung einragend","andere Ursachen"
+"BAF","H","A","Oberflächenschaden","Bewehrung korrodiert","mechanisch"
+"BAF","H","B","Oberflächenschaden","Bewehrung korrodiert","chemisch — allgemein"
+"BAF","H","C","Oberflächenschaden","Bewehrung korrodiert","chemisch — Beschädigung im oberen Teil des Rohres"
+"BAF","H","D","Oberflächenschaden","Bewehrung korrodiert","chemisch — Beschädigung im unteren Teil des Rohres"
+"BAF","H","E","Oberflächenschaden","Bewehrung korrodiert","Ursache nicht eindeutig feststellbar"
+"BAF","H","Z","Oberflächenschaden","Bewehrung korrodiert","andere Ursachen"
+"BAF","I","A","Oberflächenschaden","fehlende Wand","mechanisch"
+"BAF","I","B","Oberflächenschaden","fehlende Wand","chemisch — allgemein"
+"BAF","I","C","Oberflächenschaden","fehlende Wand","chemisch — Beschädigung im oberen Teil des Rohres"
+"BAF","I","D","Oberflächenschaden","fehlende Wand","chemisch — Beschädigung im unteren Teil des Rohres"
+"BAF","I","E","Oberflächenschaden","fehlende Wand","Ursache nicht eindeutig feststellbar"
+"BAF","I","Z","Oberflächenschaden","fehlende Wand","andere Ursachen"
+"BAF","J","A","Oberflächenschaden","Korrosionserscheinungen an der Oberfläche","mechanisch"
+"BAF","J","B","Oberflächenschaden","Korrosionserscheinungen an der Oberfläche","chemisch — allgemein"
+"BAF","J","C","Oberflächenschaden","Korrosionserscheinungen an der Oberfläche","chemisch — Beschädigung im oberen Teil des Rohres"
+"BAF","J","D","Oberflächenschaden","Korrosionserscheinungen an der Oberfläche","chemisch — Beschädigung im unteren Teil des Rohres"
+"BAF","J","E","Oberflächenschaden","Korrosionserscheinungen an der Oberfläche","Ursache nicht eindeutig feststellbar"
+"BAF","J","Z","Oberflächenschaden","Korrosionserscheinungen an der Oberfläche","andere Ursachen"
+"BAF","K","A","Oberflächenschaden","Blasen (Beulen)","mechanisch"
+"BAF","K","B","Oberflächenschaden","Blasen (Beulen)","chemisch — allgemein"
+"BAF","K","C","Oberflächenschaden","Blasen (Beulen)","chemisch — Beschädigung im oberen Teil des Rohres"
+"BAF","K","D","Oberflächenschaden","Blasen (Beulen)","chemisch — Beschädigung im unteren Teil des Rohres"
+"BAF","K","E","Oberflächenschaden","Blasen (Beulen)","Ursache nicht eindeutig feststellbar"
+"BAF","K","Z","Oberflächenschaden","Blasen (Beulen)","andere Ursachen"
+"BAF","Z","A","Oberflächenschaden","andere Oberflächenschäden","mechanisch"
+"BAF","Z","B","Oberflächenschaden","andere Oberflächenschäden","chemisch — allgemein"
+"BAF","Z","C","Oberflächenschaden","andere Oberflächenschäden","chemisch — Beschädigung im oberen Teil des Rohres"
+"BAF","Z","D","Oberflächenschaden","andere Oberflächenschäden","chemisch — Beschädigung im unteren Teil des Rohres"
+"BAF","Z","E","Oberflächenschaden","andere Oberflächenschäden","Ursache nicht eindeutig feststellbar"
+"BAF","Z","Z","Oberflächenschaden","andere Oberflächenschäden","andere Ursachen"
+"BAG",,,"Einragender Anschluss",,
+"BAH","A",,"Schadhafter Anschluss","Lage des Anschlusses um das Rohr ist falsch",
+"BAH","B",,"Schadhafter Anschluss","zurückliegender Anschluss",
+"BAH","C",,"Schadhafter Anschluss","Anschluss unvollständig eingebunden",
+"BAH","D",,"Schadhafter Anschluss","Anschluss beschädigt",
+"BAH","E",,"Schadhafter Anschluss","Anschluss verstopft",
+"BAH","Y",,"Schadhafter Anschluss","unbekannt (bei Uebersetzung)",
+"BAH","Z",,"Schadhafter Anschluss","andere",
+"BAI","A","-","Einragendes Dichtungsmaterial","Dichtring","wenn Charakterisierung 1 = ""Z"""
+"BAI","A","A","Einragendes Dichtungsmaterial","Dichtring","sichtbar verschoben, jedoch nicht in die Rohrleitung hineinragend"
+"BAI","A","B","Einragendes Dichtungsmaterial","Dichtring","eintragend, aber nicht gebrochen"
+"BAI","A","C","Einragendes Dichtungsmaterial","Dichtring","einragend, aber nicht gebrochen"
+"BAI","A","D","Einragendes Dichtungsmaterial","Dichtring","einragend und gebrochen"
+"BAI","A","Y","Einragendes Dichtungsmaterial","Dichtring","unbekannt (bei Uebersetzung)"
+"BAI","Z","-","Einragendes Dichtungsmaterial","andere Dichtungsart","wenn Charakterisierung 1 = ""Z"""
+"BAI","Z","A","Einragendes Dichtungsmaterial","andere Dichtungsart","sichtbar verschoben, jedoch nicht in die Rohrleitung hineinragend"
+"BAI","Z","B","Einragendes Dichtungsmaterial","andere Dichtungsart","eintragend, aber nicht gebrochen"
+"BAI","Z","C","Einragendes Dichtungsmaterial","andere Dichtungsart","einragend, aber nicht gebrochen"
+"BAI","Z","D","Einragendes Dichtungsmaterial","andere Dichtungsart","einragend und gebrochen"
+"BAI","Z","Y","Einragendes Dichtungsmaterial","andere Dichtungsart","unbekannt (bei Uebersetzung)"
+"BAJ","A",,"Verschobene Verbindung","in Längsrichtung",
+"BAJ","B",,"Verschobene Verbindung","radial",
+"BAJ","C",,"Verschobene Verbindung","im Winkel",
+"BAK","A","A","Schadhafte Innenauskleidung","Innenauskleidung abgelöst","in Längsrichtung"
+"BAK","A","B","Schadhafte Innenauskleidung","Innenauskleidung abgelöst","radial am Umfang"
+"BAK","A","C","Schadhafte Innenauskleidung","Innenauskleidung abgelöst","komplex"
+"BAK","A","D","Schadhafte Innenauskleidung","Innenauskleidung abgelöst","spiralförmig"
+"BAK","B","A","Schadhafte Innenauskleidung","Innenauskleidung verfärbt","in Längsrichtung"
+"BAK","B","B","Schadhafte Innenauskleidung","Innenauskleidung verfärbt","radial am Umfang"
+"BAK","B","C","Schadhafte Innenauskleidung","Innenauskleidung verfärbt","komplex"
+"BAK","B","D","Schadhafte Innenauskleidung","Innenauskleidung verfärbt","spiralförmig"
+"BAK","C","A","Schadhafte Innenauskleidung","Endstelle der Auskleidung schadhaft","in Längsrichtung"
+"BAK","C","B","Schadhafte Innenauskleidung","Endstelle der Auskleidung schadhaft","radial am Umfang"
+"BAK","C","C","Schadhafte Innenauskleidung","Endstelle der Auskleidung schadhaft","komplex"
+"BAK","C","D","Schadhafte Innenauskleidung","Endstelle der Auskleidung schadhaft","spiralförmig"
+"BAK","D","A","Schadhafte Innenauskleidung","Falten in der Auskleidung","in Längsrichtung"
+"BAK","D","B","Schadhafte Innenauskleidung","Falten in der Auskleidung","radial am Umfang"
+"BAK","D","C","Schadhafte Innenauskleidung","Falten in der Auskleidung","komplex"
+"BAK","D","D","Schadhafte Innenauskleidung","Falten in der Auskleidung","spiralförmig"
+"BAK","E","A","Schadhafte Innenauskleidung","Blasen oder Beulen in der Auskleidung nach innen","in Längsrichtung"
+"BAK","E","B","Schadhafte Innenauskleidung","Blasen oder Beulen in der Auskleidung nach innen","radial am Umfang"
+"BAK","E","C","Schadhafte Innenauskleidung","Blasen oder Beulen in der Auskleidung nach innen","komplex"
+"BAK","E","D","Schadhafte Innenauskleidung","Blasen oder Beulen in der Auskleidung nach innen","spiralförmig"
+"BAK","F","A","Schadhafte Innenauskleidung","Beulen außen","in Längsrichtung"
+"BAK","F","B","Schadhafte Innenauskleidung","Beulen außen","radial am Umfang"
+"BAK","F","C","Schadhafte Innenauskleidung","Beulen außen","komplex"
+"BAK","F","D","Schadhafte Innenauskleidung","Beulen außen","spiralförmig"
+"BAK","G","A","Schadhafte Innenauskleidung","Ablösen der Innenhaut/Beschichtung","in Längsrichtung"
+"BAK","G","B","Schadhafte Innenauskleidung","Ablösen der Innenhaut/Beschichtung","radial am Umfang"
+"BAK","G","C","Schadhafte Innenauskleidung","Ablösen der Innenhaut/Beschichtung","komplex"
+"BAK","G","D","Schadhafte Innenauskleidung","Ablösen der Innenhaut/Beschichtung","spiralförmig"
+"BAK","H","A","Schadhafte Innenauskleidung","Ablösen der Abdeckung der Verbindungsnaht","in Längsrichtung"
+"BAK","H","B","Schadhafte Innenauskleidung","Ablösen der Abdeckung der Verbindungsnaht","radial am Umfang"
+"BAK","H","C","Schadhafte Innenauskleidung","Ablösen der Abdeckung der Verbindungsnaht","komplex"
+"BAK","H","D","Schadhafte Innenauskleidung","Ablösen der Abdeckung der Verbindungsnaht","spiralförmig"
+"BAK","I","A","Schadhafte Innenauskleidung","Riss oder Spalt","in Längsrichtung"
+"BAK","I","B","Schadhafte Innenauskleidung","Riss oder Spalt","radial am Umfang"
+"BAK","I","C","Schadhafte Innenauskleidung","Riss oder Spalt","komplex"
+"BAK","I","D","Schadhafte Innenauskleidung","Riss oder Spalt","spiralförmig"
+"BAK","J","A","Schadhafte Innenauskleidung","Loch in der Auskleidung","in Längsrichtung"
+"BAK","J","B","Schadhafte Innenauskleidung","Loch in der Auskleidung","radial am Umfang"
+"BAK","J","C","Schadhafte Innenauskleidung","Loch in der Auskleidung","komplex"
+"BAK","J","D","Schadhafte Innenauskleidung","Loch in der Auskleidung","spiralförmig"
+"BAK","K","A","Schadhafte Innenauskleidung","Auskleidungsverbindung defekt","in Längsrichtung"
+"BAK","K","B","Schadhafte Innenauskleidung","Auskleidungsverbindung defekt","radial am Umfang"
+"BAK","K","C","Schadhafte Innenauskleidung","Auskleidungsverbindung defekt","komplex"
+"BAK","K","D","Schadhafte Innenauskleidung","Auskleidungsverbindung defekt","spiralförmig"
+"BAK","L","A","Schadhafte Innenauskleidung","Auskleidungswerkstoff erscheint weich","in Längsrichtung"
+"BAK","L","B","Schadhafte Innenauskleidung","Auskleidungswerkstoff erscheint weich","radial am Umfang"
+"BAK","L","C","Schadhafte Innenauskleidung","Auskleidungswerkstoff erscheint weich","komplex"
+"BAK","L","D","Schadhafte Innenauskleidung","Auskleidungswerkstoff erscheint weich","spiralförmig"
+"BAK","M","A","Schadhafte Innenauskleidung","Harz fehlt im Laminat","in Längsrichtung"
+"BAK","M","B","Schadhafte Innenauskleidung","Harz fehlt im Laminat","radial am Umfang"
+"BAK","M","C","Schadhafte Innenauskleidung","Harz fehlt im Laminat","komplex"
+"BAK","M","D","Schadhafte Innenauskleidung","Harz fehlt im Laminat","spiralförmig"
+"BAK","N","A","Schadhafte Innenauskleidung","Ende der Auskleidung ist nicht abgedichtet, um das Rohr oder den Schacht aufzunehmen","in Längsrichtung"
+"BAK","N","B","Schadhafte Innenauskleidung","Ende der Auskleidung ist nicht abgedichtet, um das Rohr oder den Schacht aufzunehmen","radial am Umfang"
+"BAK","N","C","Schadhafte Innenauskleidung","Ende der Auskleidung ist nicht abgedichtet, um das Rohr oder den Schacht aufzunehmen","komplex"
+"BAK","N","D","Schadhafte Innenauskleidung","Ende der Auskleidung ist nicht abgedichtet, um das Rohr oder den Schacht aufzunehmen","spiralförmig"
+"BAK","Z","A","Schadhafte Innenauskleidung","anderer Auskleidungsschaden","in Längsrichtung"
+"BAK","Z","B","Schadhafte Innenauskleidung","anderer Auskleidungsschaden","radial am Umfang"
+"BAK","Z","C","Schadhafte Innenauskleidung","anderer Auskleidungsschaden","komplex"
+"BAK","Z","D","Schadhafte Innenauskleidung","anderer Auskleidungsschaden","spiralförmig"
+"BAL","A","-","Schadhafte Reparatur","Wand fehlt teilweise","""Art des Verlaufs"" nicht zutreffend"
+"BAL","A","A","Schadhafte Reparatur","Wand fehlt teilweise","in Längsrichtung"
+"BAL","A","B","Schadhafte Reparatur","Wand fehlt teilweise","radial am Umfang"
+"BAL","A","C","Schadhafte Reparatur","Wand fehlt teilweise","komplex"
+"BAL","A","D","Schadhafte Reparatur","Wand fehlt teilweise","spiralförmig"
+"BAL","B","-","Schadhafte Reparatur","Reparatur zur Abdichtung eines Loches ist schadhaft","""Art des Verlaufs"" nicht zutreffend"
+"BAL","B","A","Schadhafte Reparatur","Reparatur zur Abdichtung eines Loches ist schadhaft","in Längsrichtung"
+"BAL","B","B","Schadhafte Reparatur","Reparatur zur Abdichtung eines Loches ist schadhaft","radial am Umfang"
+"BAL","B","C","Schadhafte Reparatur","Reparatur zur Abdichtung eines Loches ist schadhaft","komplex"
+"BAL","B","D","Schadhafte Reparatur","Reparatur zur Abdichtung eines Loches ist schadhaft","spiralförmig"
+"BAL","C","-","Schadhafte Reparatur","Ablösen des Reparaturwerkstoffs vom Basisrohr","""Art des Verlaufs"" nicht zutreffend"
+"BAL","C","A","Schadhafte Reparatur","Ablösen des Reparaturwerkstoffs vom Basisrohr","in Längsrichtung"
+"BAL","C","B","Schadhafte Reparatur","Ablösen des Reparaturwerkstoffs vom Basisrohr","radial am Umfang"
+"BAL","C","C","Schadhafte Reparatur","Ablösen des Reparaturwerkstoffs vom Basisrohr","komplex"
+"BAL","C","D","Schadhafte Reparatur","Ablösen des Reparaturwerkstoffs vom Basisrohr","spiralförmig"
+"BAL","D","-","Schadhafte Reparatur","fehlender Reparaturwerkstoff an der Kontaktfläche","""Art des Verlaufs"" nicht zutreffend"
+"BAL","D","A","Schadhafte Reparatur","fehlender Reparaturwerkstoff an der Kontaktfläche","in Längsrichtung"
+"BAL","D","B","Schadhafte Reparatur","fehlender Reparaturwerkstoff an der Kontaktfläche","radial am Umfang"
+"BAL","D","C","Schadhafte Reparatur","fehlender Reparaturwerkstoff an der Kontaktfläche","komplex"
+"BAL","D","D","Schadhafte Reparatur","fehlender Reparaturwerkstoff an der Kontaktfläche","spiralförmig"
+"BAL","E","-","Schadhafte Reparatur","überschüssiger Reparaturwerkstoff, der ein Hindernis darstellt","""Art des Verlaufs"" nicht zutreffend"
+"BAL","E","A","Schadhafte Reparatur","überschüssiger Reparaturwerkstoff, der ein Hindernis darstellt","in Längsrichtung"
+"BAL","E","B","Schadhafte Reparatur","überschüssiger Reparaturwerkstoff, der ein Hindernis darstellt","radial am Umfang"
+"BAL","E","C","Schadhafte Reparatur","überschüssiger Reparaturwerkstoff, der ein Hindernis darstellt","komplex"
+"BAL","E","D","Schadhafte Reparatur","überschüssiger Reparaturwerkstoff, der ein Hindernis darstellt","spiralförmig"
+"BAL","F","-","Schadhafte Reparatur","Loch im Reparaturwerkstoff","""Art des Verlaufs"" nicht zutreffend"
+"BAL","F","A","Schadhafte Reparatur","Loch im Reparaturwerkstoff","in Längsrichtung"
+"BAL","F","B","Schadhafte Reparatur","Loch im Reparaturwerkstoff","radial am Umfang"
+"BAL","F","C","Schadhafte Reparatur","Loch im Reparaturwerkstoff","komplex"
+"BAL","F","D","Schadhafte Reparatur","Loch im Reparaturwerkstoff","spiralförmig"
+"BAL","G","-","Schadhafte Reparatur","Riss im Reparaturwerkstoff","""Art des Verlaufs"" nicht zutreffend"
+"BAL","G","A","Schadhafte Reparatur","Riss im Reparaturwerkstoff","in Längsrichtung"
+"BAL","G","B","Schadhafte Reparatur","Riss im Reparaturwerkstoff","radial am Umfang"
+"BAL","G","C","Schadhafte Reparatur","Riss im Reparaturwerkstoff","komplex"
+"BAL","G","D","Schadhafte Reparatur","Riss im Reparaturwerkstoff","spiralförmig"
+"BAL","Y","-","Schadhafte Reparatur","unbekannt (bei Uebersetzung)","""Art des Verlaufs"" nicht zutreffend"
+"BAL","Y","A","Schadhafte Reparatur","unbekannt (bei Uebersetzung)","in Längsrichtung"
+"BAL","Y","B","Schadhafte Reparatur","unbekannt (bei Uebersetzung)","radial am Umfang"
+"BAL","Y","C","Schadhafte Reparatur","unbekannt (bei Uebersetzung)","komplex"
+"BAL","Y","D","Schadhafte Reparatur","unbekannt (bei Uebersetzung)","spiralförmig"
+"BAL","Z","-","Schadhafte Reparatur","andere","""Art des Verlaufs"" nicht zutreffend"
+"BAL","Z","A","Schadhafte Reparatur","andere","in Längsrichtung"
+"BAL","Z","B","Schadhafte Reparatur","andere","radial am Umfang"
+"BAL","Z","C","Schadhafte Reparatur","andere","komplex"
+"BAL","Z","D","Schadhafte Reparatur","andere","spiralförmig"
+"BAM","A",,"Schadhafte Schweißnaht","in Längsrichtung",
+"BAM","B",,"Schadhafte Schweißnaht","am Umfang",
+"BAM","C",,"Schadhafte Schweißnaht","spiralförmiger Verlauf",
+"BAN",,,"Poröses Rohr",,
+"BAO",,,"Boden sichtbar",,
+"BAP",,,"Hohlraum sichtbar",,
+"BBA","A",,"Wurzeln","Pfahlwurzel",
+"BBA","B",,"Wurzeln","einzelne feine Wurzeln",
+"BBA","C",,"Wurzeln","komplexes Wurzelwerk",
+"BBA","Y",,"Wurzeln","unbekannt (bei Uebersetzung)",
+"BBB","A",,"Anhaftende Stoffe","Inkrustation",
+"BBB","B",,"Anhaftende Stoffe","Fett",
+"BBB","C",,"Anhaftende Stoffe","Fäulnis",
+"BBB","Z",,"Anhaftende Stoffe","andere",
+"BBC","A",,"Ablagerungen","feines Material",
+"BBC","B",,"Ablagerungen","grobes Material",
+"BBC","C",,"Ablagerungen","hartes oder verdichtetes Material",
+"BBC","Z",,"Ablagerungen","andere",
+"BBD","A",,"Eindringen von Bodenmaterial","Sand",
+"BBD","B",,"Eindringen von Bodenmaterial","Torf",
+"BBD","C",,"Eindringen von Bodenmaterial","Feinmaterial",
+"BBD","D",,"Eindringen von Bodenmaterial","Grobmaterial",
+"BBD","Y",,"Eindringen von Bodenmaterial","unbekannt (bei Uebersetzung)",
+"BBD","Z",,"Eindringen von Bodenmaterial","andere",
+"BBE","A",,"Andere Hindernisse","Ziegel oder Mauerwerk liegen/liegt in der Rohrsohle",
+"BBE","B",,"Andere Hindernisse","Bruchstücke einer Abwasserleitung oder eines Abwasserkanals liegen in der Rohrsohle",
+"BBE","C",,"Andere Hindernisse","anderer Gegenstand liegt in der Rohrsohle",
+"BBE","D",,"Andere Hindernisse","Gegenstand ragt durch die Wand ein",
+"BBE","E",,"Andere Hindernisse","Gegenstand in Rohrverbindung eingekeilt",
+"BBE","F",,"Andere Hindernisse","Gegenstand dringt durch einen Anschluss/Abzweig ein",
+"BBE","G",,"Andere Hindernisse","fremde Leitungen oder Kabel durchqueren die Rohrleitung",
+"BBE","H",,"Andere Hindernisse","Gegenstand/Objekt in den Rohrkörper eingebaut",
+"BBE","Y",,"Andere Hindernisse","unbekannt (bei Uebersetzung)",
+"BBE","Z",,"Andere Hindernisse","andere",
+"BBF","A",,"Infiltration","Schwitzen",
+"BBF","B",,"Infiltration","Tropfen",
+"BBF","C",,"Infiltration","Fließen",
+"BBF","D",,"Infiltration","Spritzen",
+"BBG",,,"Exfiltration",,
+"BBH","A","A","Ungeziefer","Ratte","in der Rohrleitung"
+"BBH","A","B","Ungeziefer","Ratte","in einem Anschluss"
+"BBH","A","C","Ungeziefer","Ratte","in einer offenen Rohrverbindung"
+"BBH","A","Z","Ungeziefer","Ratte","andere"
+"BBH","B","A","Ungeziefer","Küchenschabe/Kakerlake","in der Rohrleitung"
+"BBH","B","B","Ungeziefer","Küchenschabe/Kakerlake","in einem Anschluss"
+"BBH","B","C","Ungeziefer","Küchenschabe/Kakerlake","in einer offenen Rohrverbindung"
+"BBH","B","Z","Ungeziefer","Küchenschabe/Kakerlake","andere"
+"BBH","Z","A","Ungeziefer","andere","in der Rohrleitung"
+"BBH","Z","B","Ungeziefer","andere","in einem Anschluss"
+"BBH","Z","C","Ungeziefer","andere","in einer offenen Rohrverbindung"
+"BBH","Z","Z","Ungeziefer","andere","andere"
+"BCA","A","A","Anschluss","Abzweig","Anschluss offen"
+"BCA","A","B","Anschluss","Abzweig","Anschluss geschlossen"
+"BCA","B","A","Anschluss","Sattelanschluss — gebohrt","Anschluss offen"
+"BCA","B","B","Anschluss","Sattelanschluss — gebohrt","Anschluss geschlossen"
+"BCA","C","A","Anschluss","Sattelanschluss — gemeißelt","Anschluss offen"
+"BCA","C","B","Anschluss","Sattelanschluss — gemeißelt","Anschluss geschlossen"
+"BCA","D","A","Anschluss","einfacher Anschluss — gebohrt","Anschluss offen"
+"BCA","D","B","Anschluss","einfacher Anschluss — gebohrt","Anschluss geschlossen"
+"BCA","E","A","Anschluss","einfacher Anschluss — gemeißelt","Anschluss offen"
+"BCA","E","B","Anschluss","einfacher Anschluss — gemeißelt","Anschluss geschlossen"
+"BCA","F","A","Anschluss","? siehe DWA-M 152 (Nov. 2009), S. 24","Anschluss offen"
+"BCA","F","B","Anschluss","? siehe DWA-M 152 (Nov. 2009), S. 24","Anschluss geschlossen"
+"BCA","G","A","Anschluss","unbekannter Anschluss","Anschluss offen"
+"BCA","G","B","Anschluss","unbekannter Anschluss","Anschluss geschlossen"
+"BCA","Y","A","Anschluss","unbekannt (bei Uebersetzung)","Anschluss offen"
+"BCA","Y","B","Anschluss","unbekannt (bei Uebersetzung)","Anschluss geschlossen"
+"BCA","Z","A","Anschluss","andere","Anschluss offen"
+"BCA","Z","B","Anschluss","andere","Anschluss geschlossen"
+"BCB","A",,"Punktuelle Reparatur","Rohr ausgetauscht",
+"BCB","B",,"Punktuelle Reparatur","örtlich begrenzte Innenauskleidung des Rohrs",
+"BCB","C",,"Punktuelle Reparatur","Mörtelinjizierung",
+"BCB","D",,"Punktuelle Reparatur","Injizierung mit anderem Dichtmittel",
+"BCB","E",,"Punktuelle Reparatur","Loch repariert",
+"BCB","F",,"Punktuelle Reparatur","örtlich begrenzte Innenauskleidung des Anschlusses",
+"BCB","G",,"Punktuelle Reparatur","andere Reparatur des Anschlusses",
+"BCB","Y",,"Punktuelle Reparatur","unbekannt (bei Uebersetzung)",
+"BCB","Z",,"Punktuelle Reparatur","anderes grabenloses Reparaturverfahren",
+"BCC","A","A","Krümmung der Leitung","nach links","nach oben"
+"BCC","A","B","Krümmung der Leitung","nach links","nach unten"
+"BCC","A","Y","Krümmung der Leitung","nach links","unbekannt (bei Uebersetzung)"
+"BCC","B","A","Krümmung der Leitung","nach rechts","nach oben"
+"BCC","B","B","Krümmung der Leitung","nach rechts","nach unten"
+"BCC","B","Y","Krümmung der Leitung","nach rechts","unbekannt (bei Uebersetzung)"
+"BCC","Y","A","Krümmung der Leitung","unbekannt (bei Uebersetzung)","nach oben"
+"BCC","Y","B","Krümmung der Leitung","unbekannt (bei Uebersetzung)","nach unten"
+"BCC","Y","Y","Krümmung der Leitung","unbekannt (bei Uebersetzung)","unbekannt (bei Uebersetzung)"
+"BCD","A","P","Anfangsknoten","Schacht","fuer Uebersetzung von PA"
+"BCD","B","P","Anfangsknoten","Inspektionsöffnung","fuer Uebersetzung von PA"
+"BCD","C","P","Anfangsknoten","Reinigungsöffnung","fuer Uebersetzung von PA"
+"BCD","D","P","Anfangsknoten","Lampenschacht","fuer Uebersetzung von PA"
+"BCD","E","P","Anfangsknoten","Auslauf","fuer Uebersetzung von PA"
+"BCD","F","P","Anfangsknoten","Verbindung von Kanälen ohne Schacht oder Inspektionsöffnung","fuer Uebersetzung von PA"
+"BCD","X","P","Anfangsknoten","ein spezieller vom Auftraggeber definierter Typ","fuer Uebersetzung von PA"
+"BCD","Z","P","Anfangsknoten","anderes Bauwerk","fuer Uebersetzung von PA"
+"BCE","A","P","Endknoten","Schacht","fuer Uebersetzung von PE"
+"BCE","B","P","Endknoten","Inspektionsöffnung","fuer Uebersetzung von PE"
+"BCE","C","P","Endknoten","Reinigungsöffnung","fuer Uebersetzung von PE"
+"BCE","D","P","Endknoten","Lampenschacht","fuer Uebersetzung von PE"
+"BCE","E","P","Endknoten","Auslauf","fuer Uebersetzung von PE"
+"BCE","F","P","Endknoten","Verbindung von Kanälen ohne Schacht oder Inspektionsöffnung","fuer Uebersetzung von PE"
+"BCE","X","P","Endknoten","ein spezieller vom Auftraggeber definierter Typ","fuer Uebersetzung von PE"
+"BCE","Z","P","Endknoten","anderes Bauwerk","fuer Uebersetzung von PE"
+"BDA",,,"Allgemeines Foto",,
+"BDB",,,"Allgemeine Anmerkung",,
+"BDC","A","-","Inspektion abgebrochen","Hindernis","bei Uebersetzung stattdessen Anmerkung"
+"BDC","A","A","Inspektion abgebrochen","Hindernis","Inspektionsziel vor Erreichen des Endknotens erreicht"
+"BDC","A","B","Inspektion abgebrochen","Hindernis","Inspektion auf Anweisung des Auftraggebers abgebrochen"
+"BDC","A","C","Inspektion abgebrochen","Hindernis","die Inspektion der Leitung/des Kanals ist bei Berücksichtigung einer früheren Teilinspektion abgeschlossen"
+"BDC","A","D","Inspektion abgebrochen","Hindernis","die Inspektion der Leitung/des Kanals ist bei Berücksichtigung einer früheren Teilinspektion nicht abgeschlossen"
+"BDC","A","E","Inspektion abgebrochen","Hindernis","es ist nicht bekannt, ob die Inspektion der gesamten Leitung bei Berücksichtigung einer früheren Teilinspektion abgeschlossen ist"
+"BDC","A","Z","Inspektion abgebrochen","Hindernis","andere"
+"BDC","B","-","Inspektion abgebrochen","hoher Wasserstand","bei Uebersetzung stattdessen Anmerkung"
+"BDC","B","A","Inspektion abgebrochen","hoher Wasserstand","Inspektionsziel vor Erreichen des Endknotens erreicht"
+"BDC","B","B","Inspektion abgebrochen","hoher Wasserstand","Inspektion auf Anweisung des Auftraggebers abgebrochen"
+"BDC","B","C","Inspektion abgebrochen","hoher Wasserstand","die Inspektion der Leitung/des Kanals ist bei Berücksichtigung einer früheren Teilinspektion abgeschlossen"
+"BDC","B","D","Inspektion abgebrochen","hoher Wasserstand","die Inspektion der Leitung/des Kanals ist bei Berücksichtigung einer früheren Teilinspektion nicht abgeschlossen"
+"BDC","B","E","Inspektion abgebrochen","hoher Wasserstand","es ist nicht bekannt, ob die Inspektion der gesamten Leitung bei Berücksichtigung einer früheren Teilinspektion abgeschlossen ist"
+"BDC","B","Z","Inspektion abgebrochen","hoher Wasserstand","andere"
+"BDC","C","-","Inspektion abgebrochen","Versagen der Ausrüstung","bei Uebersetzung stattdessen Anmerkung"
+"BDC","C","A","Inspektion abgebrochen","Versagen der Ausrüstung","Inspektionsziel vor Erreichen des Endknotens erreicht"
+"BDC","C","B","Inspektion abgebrochen","Versagen der Ausrüstung","Inspektion auf Anweisung des Auftraggebers abgebrochen"
+"BDC","C","C","Inspektion abgebrochen","Versagen der Ausrüstung","die Inspektion der Leitung/des Kanals ist bei Berücksichtigung einer früheren Teilinspektion abgeschlossen"
+"BDC","C","D","Inspektion abgebrochen","Versagen der Ausrüstung","die Inspektion der Leitung/des Kanals ist bei Berücksichtigung einer früheren Teilinspektion nicht abgeschlossen"
+"BDC","C","E","Inspektion abgebrochen","Versagen der Ausrüstung","es ist nicht bekannt, ob die Inspektion der gesamten Leitung bei Berücksichtigung einer früheren Teilinspektion abgeschlossen ist"
+"BDC","C","Z","Inspektion abgebrochen","Versagen der Ausrüstung","andere"
+"BDC","Y","-","Inspektion abgebrochen","fuer Uebersetzung von IAB","bei Uebersetzung stattdessen Anmerkung"
+"BDC","Y","A","Inspektion abgebrochen","fuer Uebersetzung von IAB","Inspektionsziel vor Erreichen des Endknotens erreicht"
+"BDC","Y","B","Inspektion abgebrochen","fuer Uebersetzung von IAB","Inspektion auf Anweisung des Auftraggebers abgebrochen"
+"BDC","Y","C","Inspektion abgebrochen","fuer Uebersetzung von IAB","die Inspektion der Leitung/des Kanals ist bei Berücksichtigung einer früheren Teilinspektion abgeschlossen"
+"BDC","Y","D","Inspektion abgebrochen","fuer Uebersetzung von IAB","die Inspektion der Leitung/des Kanals ist bei Berücksichtigung einer früheren Teilinspektion nicht abgeschlossen"
+"BDC","Y","E","Inspektion abgebrochen","fuer Uebersetzung von IAB","es ist nicht bekannt, ob die Inspektion der gesamten Leitung bei Berücksichtigung einer früheren Teilinspektion abgeschlossen ist"
+"BDC","Y","Z","Inspektion abgebrochen","fuer Uebersetzung von IAB","andere"
+"BDC","Z","-","Inspektion abgebrochen","andere","bei Uebersetzung stattdessen Anmerkung"
+"BDC","Z","A","Inspektion abgebrochen","andere","Inspektionsziel vor Erreichen des Endknotens erreicht"
+"BDC","Z","B","Inspektion abgebrochen","andere","Inspektion auf Anweisung des Auftraggebers abgebrochen"
+"BDC","Z","C","Inspektion abgebrochen","andere","die Inspektion der Leitung/des Kanals ist bei Berücksichtigung einer früheren Teilinspektion abgeschlossen"
+"BDC","Z","D","Inspektion abgebrochen","andere","die Inspektion der Leitung/des Kanals ist bei Berücksichtigung einer früheren Teilinspektion nicht abgeschlossen"
+"BDC","Z","E","Inspektion abgebrochen","andere","es ist nicht bekannt, ob die Inspektion der gesamten Leitung bei Berücksichtigung einer früheren Teilinspektion abgeschlossen ist"
+"BDC","Z","Z","Inspektion abgebrochen","andere","andere"
+"BDD","-",,"Wasserspiegel","unbekannt (bei Uebersetzung)",
+"BDD","A",,"Wasserspiegel","klar",
+"BDD","B",,"Wasserspiegel","Anwendung des Kodes nicht fortgeführt",
+"BDD","C",,"Wasserspiegel","trüb",
+"BDD","D",,"Wasserspiegel","gefärbt",
+"BDD","E",,"Wasserspiegel","trüb und gefärbt",
+"BDD","Y",,"Wasserspiegel","unbekannt (bei Uebersetzung)",
+"BDE","A","A","Zufluss aus einem Anschluss","klar","falsch angeschlossen, da Schmutzwasser in Regenwasserleitung/- kanal abfließt"
+"BDE","A","B","Zufluss aus einem Anschluss","klar","falsch angeschlossen, da Regenwasser in Schmutzwasserleitung/- kanal abfließt"
+"BDE","A","C","Zufluss aus einem Anschluss","klar","kein Fehlanschluss erkennbar"
+"BDE","A","Y","Zufluss aus einem Anschluss","klar","unbekannt (bei Uebersetzung)"
+"BDE","B","A","Zufluss aus einem Anschluss","Anwendung des Kodes nicht fortgeführt","falsch angeschlossen, da Schmutzwasser in Regenwasserleitung/- kanal abfließt"
+"BDE","B","B","Zufluss aus einem Anschluss","Anwendung des Kodes nicht fortgeführt","falsch angeschlossen, da Regenwasser in Schmutzwasserleitung/- kanal abfließt"
+"BDE","B","C","Zufluss aus einem Anschluss","Anwendung des Kodes nicht fortgeführt","kein Fehlanschluss erkennbar"
+"BDE","B","Y","Zufluss aus einem Anschluss","Anwendung des Kodes nicht fortgeführt","unbekannt (bei Uebersetzung)"
+"BDE","C","A","Zufluss aus einem Anschluss","trüb","falsch angeschlossen, da Schmutzwasser in Regenwasserleitung/- kanal abfließt"
+"BDE","C","B","Zufluss aus einem Anschluss","trüb","falsch angeschlossen, da Regenwasser in Schmutzwasserleitung/- kanal abfließt"
+"BDE","C","C","Zufluss aus einem Anschluss","trüb","kein Fehlanschluss erkennbar"
+"BDE","C","Y","Zufluss aus einem Anschluss","trüb","unbekannt (bei Uebersetzung)"
+"BDE","D","A","Zufluss aus einem Anschluss","gefärbt","falsch angeschlossen, da Schmutzwasser in Regenwasserleitung/- kanal abfließt"
+"BDE","D","B","Zufluss aus einem Anschluss","gefärbt","falsch angeschlossen, da Regenwasser in Schmutzwasserleitung/- kanal abfließt"
+"BDE","D","C","Zufluss aus einem Anschluss","gefärbt","kein Fehlanschluss erkennbar"
+"BDE","D","Y","Zufluss aus einem Anschluss","gefärbt","unbekannt (bei Uebersetzung)"
+"BDE","E","A","Zufluss aus einem Anschluss","trüb und gefärbt","falsch angeschlossen, da Schmutzwasser in Regenwasserleitung/- kanal abfließt"
+"BDE","E","B","Zufluss aus einem Anschluss","trüb und gefärbt","falsch angeschlossen, da Regenwasser in Schmutzwasserleitung/- kanal abfließt"
+"BDE","E","C","Zufluss aus einem Anschluss","trüb und gefärbt","kein Fehlanschluss erkennbar"
+"BDE","E","Y","Zufluss aus einem Anschluss","trüb und gefärbt","unbekannt (bei Uebersetzung)"
+"BDE","Y","A","Zufluss aus einem Anschluss","unbekannt (bei Uebersetzung)","falsch angeschlossen, da Schmutzwasser in Regenwasserleitung/- kanal abfließt"
+"BDE","Y","B","Zufluss aus einem Anschluss","unbekannt (bei Uebersetzung)","falsch angeschlossen, da Regenwasser in Schmutzwasserleitung/- kanal abfließt"
+"BDE","Y","C","Zufluss aus einem Anschluss","unbekannt (bei Uebersetzung)","kein Fehlanschluss erkennbar"
+"BDE","Y","Y","Zufluss aus einem Anschluss","unbekannt (bei Uebersetzung)","unbekannt (bei Uebersetzung)"
+"BDE","YY","A","Zufluss aus einem Anschluss","nicht erkennbar","falsch angeschlossen, da Schmutzwasser in Regenwasserleitung/- kanal abfließt"
+"BDE","YY","B","Zufluss aus einem Anschluss","nicht erkennbar","falsch angeschlossen, da Regenwasser in Schmutzwasserleitung/- kanal abfließt"
+"BDE","YY","C","Zufluss aus einem Anschluss","nicht erkennbar","kein Fehlanschluss erkennbar"
+"BDE","YY","Y","Zufluss aus einem Anschluss","nicht erkennbar","unbekannt (bei Uebersetzung)"
+"BDF","A",,"Atmosphäre in der Leitung","Sauerstoffmangel",
+"BDF","B",,"Atmosphäre in der Leitung","Schwefelwasserstoff",
+"BDF","C",,"Atmosphäre in der Leitung","Methan",
+"BDF","Z",,"Atmosphäre in der Leitung","andere",
+"BDG","A",,"Keine Sicht","Kamera unter Wasser",
+"BDG","B",,"Keine Sicht","Verschlammung",
+"BDG","C",,"Keine Sicht","Dämpfe",
+"BDG","Z",,"Keine Sicht","andere",
