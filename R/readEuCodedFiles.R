@@ -38,7 +38,7 @@ readEuCodedFiles <- function(
       silent = TRUE
     )
     
-    # Return NULL if an error occurred
+    # Return the error object if an error occurred
     if (kwb.utils::isTryError(inspectionData)) {
       return(inspectionData)
     }
