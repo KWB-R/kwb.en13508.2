@@ -48,10 +48,134 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.2.0.9000" id="kwben135082-0209000">kwb.en13508.2 0.2.0.9000<a class="anchor" aria-label="anchor" href="#kwben135082-0209000"></a></h2>
-<ul><li>getObservationsFromEuLines: Order columns by name, put column “inspno” first.</li>
-<li>Added a NEWS.md file to track changes to the package.</li>
-<li>see <a href="http://style.tidyverse.org/news.html" class="external-link uri">http://style.tidyverse.org/news.html</a> for writing a good NEWS.md</li>
+<h2 class="page-header" data-toc-text="0.3.0" id="kwben135082-v030-2024-03-28">kwb.en13508.2 v0.3.0 (2024-03-28)<a class="anchor" aria-label="anchor" href="#kwben135082-v030-2024-03-28"></a></h2>
+<div class="section level3">
+<h3 id="general-0-3-0">General<a class="anchor" aria-label="anchor" href="#general-0-3-0"></a></h3>
+<ul><li>use GitHub Actions instead of Travis and AppVeyor</li>
+<li>rewrite README.md (where has the original content gone?)</li>
+<li>add tests</li>
+<li>move function definitions between files</li>
+</ul></div>
+<div class="section level3">
+<h3 id="modifications-to-data-files-in-the-package-0-3-0">Modifications to data files in the package<a class="anchor" aria-label="anchor" href="#modifications-to-data-files-in-the-package-0-3-0"></a></h3>
+<ul><li>add material codes to eucodes.csv and save as UTF-8</li>
+<li>add eucodes_full.csv file with main_code/char_1/char_2 combinations</li>
+<li>describe more fields in column-names.csv</li>
+<li>specify quantification 1 as numeric</li>
+</ul></div>
+<div class="section level3">
+<h3 id="modifications-to-exported-or-private-functions-in-alphabetical-order-0-3-0">Modifications to (exported or private) functions (in alphabetical order)<a class="anchor" aria-label="anchor" href="#modifications-to-exported-or-private-functions-in-alphabetical-order-0-3-0"></a></h3>
+<ul><li>extractInspectionBlocks
+<ul><li>rename argument “quoteCharacter” to “quote”</li>
+</ul></li>
+<li>extractObservationBlocks()
+<ul><li>add a last “to” value if the last EU-line is not “#Z”</li>
+</ul></li>
+<li>extractObservationData()
+<ul><li>add arguments “file”, “as.text”</li>
+<li>remove empty records from table of observations</li>
+<li>run readObservationsFromCsvText() with “colClasses” being set to the expected column types</li>
+</ul></li>
+<li>get_code_meanings()
+<ul><li>rename to getCodeMeanings()</li>
+</ul></li>
+<li>getCodes()
+<ul><li>allow “table” to be a vector of table names</li>
+<li>stop if table name does not exist</li>
+<li>reset the row names</li>
+</ul></li>
+<li>getInspectionHeaderInfo()
+<ul><li>rename to getInspectionHeaderInfo_v1()</li>
+</ul></li>
+<li>getInspectionHeaderInfo2()
+<ul><li>rename to getInspectionHeaderInfo_v2()</li>
+<li>use new argument “version” instead of old argument “getInfo”</li>
+</ul></li>
+<li>getInspectionRecords_v2()
+<ul><li>use normal console output instead of message</li>
+</ul></li>
+<li>getInspectionsFromEuLines()
+<ul><li>add argument “dbg” to control whether to show a message or not</li>
+<li>rename to getInspectionRecords_v1()</li>
+</ul></li>
+<li>getInspectionsFromEuLines.new()
+<ul><li>rename to getInspectionRecords_v2()</li>
+</ul></li>
+<li>getObservationsFromEuLines()
+<ul><li>order columns by name, put column “inspno” first</li>
+</ul></li>
+<li>mergeInspectionData()
+<ul><li>add arguments “warn”, “naToEmpty”</li>
+</ul></li>
+<li>readAndMergeEuCodedFiles()
+<ul><li>add arguments “add.inspid”, “error.file” to optionally add globally unique inspection IDs and to specify where to store related error messages</li>
+<li>add arguments “project”, “default.time”, “name.convention”</li>
+<li>clean code</li>
+<li>fix typo in warning</li>
+</ul></li>
+<li>readEuCodedFile()
+<ul><li>add arguments “name.convention”, “file.encoding”, “check.encoding”</li>
+<li>change default value of argument “encoding” from “latin1” to “unknown”</li>
+<li>use new function extractObservationData() to read observation data if the original function getObservationsFromEuLines() fails</li>
+<li>pass “dbg” through to getInspectionsFromEuLines(), removeEmptyLines()<br></li>
+<li>refactor</li>
+</ul></li>
+<li>readEuCodedFiles()
+<ul><li>let “file” be the first column</li>
+<li>in the error message, report on files that failed to be imported</li>
+</ul></li>
+<li>readObservationsFromCsvText()
+<ul><li>reduce “colClasses” to columns that actually occur</li>
+</ul></li>
+<li>removeEmptyLines()
+<ul><li>clean code</li>
+</ul></li>
+<li>textblockToDataframe()
+<ul><li>rename argument “quoteCharacter” to “quote”</li>
+</ul></li>
+<li>warnOnDifferingHeaders()
+<ul><li>improve output</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="add-exported-functions-0-3-0">Add exported functions<a class="anchor" aria-label="anchor" href="#add-exported-functions-0-3-0"></a></h3>
+<ul><li>getLineDamageInfo()
+<ul><li>moved from kwb.rerau</li>
+<li>allow for C-codes (change in continuous defect) in this function</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="add-private-functions-0-3-0">Add private functions<a class="anchor" aria-label="anchor" href="#add-private-functions-0-3-0"></a></h3>
+<ul><li>createHashFromColumns()</li>
+<li>extdataFile()</li>
+<li>extractObservationBlocks()</li>
+<li>extractObservationData()</li>
+<li>getExampleData()</li>
+<li>getExampleFile()</li>
+<li>getFileHeaderFromEuLines()</li>
+<li>getHeaderInfo()</li>
+<li>getInspectionHeaderInfo2()</li>
+<li>getInspectionRecordsFromEuLines()</li>
+<li>getObservationRecordsFromEuLines()</li>
+<li>readFileEncodingFromHeader()</li>
+<li>readObservationsFromCsvText()</li>
+<li>setFilename()</li>
+<li>setGlobalInspectionID()</li>
+<li>toEuFormat()</li>
+</ul></div>
+<div class="section level3">
+<h3 id="remove-private-functions-0-3-0">Remove private functions<a class="anchor" aria-label="anchor" href="#remove-private-functions-0-3-0"></a></h3>
+<ul><li>getHeaderLinesFromEuCodedLines()</li>
+<li>getHeaderInfroFromHeaderLines()</li>
+<li>order_by()</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.2.0.9000" id="kwben135082-v0209000-2019-09-09">kwb.en13508.2 v0.2.0.9000 (2019-09-09)<a class="anchor" aria-label="anchor" href="#kwben135082-v0209000-2019-09-09"></a></h2>
+<ul><li>Add a NEWS.md file to track changes to the package.<br>
+See <a href="http://style.tidyverse.org/news.html" class="external-link uri">http://style.tidyverse.org/news.html</a> for writing a good NEWS.md</li>
+<li>Harmonise with <a href="https://kwb-r.github.io/kwb.pkgbuild" class="external-link">kwb.pkgbuild</a>
+</li>
 </ul></div>
   </div>
 
