@@ -13,14 +13,14 @@ getInspectionRecordsFromEuLines <- function(
   }
   
   inspections <- if (simple.algorithm) {
-    getInspectionRecords_v1(eu_lines, header.info, dbg = dbg > 1L)
+    extractInspectionData_v1(eu_lines, header.info, dbg = dbg > 1L)
   } # else NULL
   
   # If the inspections could not be read with the simple algorithm (due to
   # changing header rows) or if the user requests it, try it again with
   # another algorithm
   if (is.null(inspections)) {
-    inspections <- getInspectionRecords_v2(
+    inspections <- extractInspectionData_v2(
       eu_lines, header.info, dbg = dbg
     )
   }

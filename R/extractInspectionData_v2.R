@@ -1,6 +1,6 @@
-# getInspectionRecords_v2 ------------------------------------------------------
+# extractInspectionData_v2 -----------------------------------------------------
 #' @importFrom kwb.utils removeColumns
-getInspectionRecords_v2 <- function(
+extractInspectionData_v2 <- function(
   eu_lines, header.info, dbg = TRUE, version = 2L
 )
 {

@@ -1,6 +1,6 @@
-test_that("getInspectionRecords_v1() works", {
+test_that("extractInspectionData_v1() works", {
 
-  f <- kwb.en13508.2:::getInspectionRecords_v1
+  f <- kwb.en13508.2:::extractInspectionData_v1
   
   expect_error(f())
 

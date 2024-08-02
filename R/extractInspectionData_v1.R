@@ -1,5 +1,5 @@
-# getInspectionRecords_v1 ------------------------------------------------------
-getInspectionRecords_v1 <- function(eu_lines, header.info, dbg = TRUE)
+# extractInspectionData_v1 -----------------------------------------------------
+extractInspectionData_v1 <- function(eu_lines, header.info, dbg = TRUE)
 {
   inspections.complete <- NULL
   
