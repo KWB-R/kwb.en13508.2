@@ -1,5 +1,5 @@
-# getObservationRecordsFromEuLines ---------------------------------------------
-getObservationRecordsFromEuLines <- function(
+# extractObservationData -------------------------------------------------------
+extractObservationData <- function(
     eu_lines, 
     header.info, 
     dbg,

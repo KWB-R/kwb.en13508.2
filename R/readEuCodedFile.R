@@ -30,7 +30,7 @@
 #'   "known". The default is \code{TRUE}, i.e. the check is performed and an
 #'   error is thrown if the encoding is not in the list of known encodings.
 #' @param \dots further arguments to be passed to 
-#'   \code{kwb.en13508.2:::getObservationRecordsFromEuLines}
+#'   \code{kwb.en13508.2:::extractObservationData}
 #' @return list with elements \code{header.info}, \code{inspections},
 #'   \code{observations}
 #' @importFrom kwb.utils catAndRun readLinesWithEncoding
@@ -108,7 +108,7 @@ readEuCodedFile <- function(
   observations <- run(
     "Extracting observation records",
     kwb.utils::callWith(
-      getObservationRecordsFromEuLines, 
+      extractObservationData, 
       eu_lines = eu_lines, 
       header.info = header.info, 
       dbg = dbg,

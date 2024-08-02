@@ -53,7 +53,7 @@ encoding string that is given in the \code{#A1} header of the file is
 error is thrown if the encoding is not in the list of known encodings.}
 
 \item{\dots}{further arguments to be passed to 
-\code{kwb.en13508.2:::getObservationRecordsFromEuLines}}
+\code{kwb.en13508.2:::extractObservationData}}
 }
 \value{
 list with elements \code{header.info}, \code{inspections},
