@@ -1,13 +1,66 @@
 # getObservationsFromEuLines ---------------------------------------------------
 getObservationsFromEuLines <- function(
-  eu_lines, header.info, old.version = FALSE, dbg = TRUE
+    eu_lines, header.info, old.version = FALSE, dbg = TRUE
 )
+{
+  #kwb.utils::assignPackageObjects("kwb.en13508.2")
+  #header.info <- kwb.en13508.2::euCodedFileHeader()
+  
+  # Create accessor function to header info fields
+  header_field <- kwb.utils::createAccessor(header.info)
+  
+  # Get information on the row numbers where the different blocks start
+  indices <- getBlockIndices(eu_lines, dbg = dbg)
+  
+  # Column separator
+  sep <- header_field("separator")
+  
+  # Try to get the C-Block captions (if they are unique, otherwise rais error!)
+  captions <- tryToGetUniqueCaptions(eu_lines[indices$C], sep)
+  
+  # Try to find the column types for the given captions
+  colClasses <- guessColClasses(captions, codes = inspectionDataFieldCodes())
+  
+  observations <- readObservationsFromCsvText(
+    text = eu_lines[-c(indices$A, indices$B, indices$B + 1L, indices$C, indices$Z)], 
+    sep = sep, 
+    dec = header_field("decimal"), 
+    quote = header_field("quote"), 
+    colClasses = unname(colClasses)
+  )
+  
+  # Set the column names to the captions
+  names(observations) <- if (identical(colClasses, NA)) {
+    captions
+  } else {
+    captions[!sapply(colClasses, is.null)]
+  }
+  
+  indices$B01 <- indices$B[grep("^#B01=", eu_lines[indices$B])]
+  
+  # Try to generate a vector of inspection numbers assigning to each observation
+  # the number of inspection that it belongs to 
+  result <- addInspectionNumbers(
+    observations = observations, 
+    indices = indices, 
+    maxline = length(eu_lines),
+    old.version = old.version,
+    dbg = dbg
+  )
+  
+  kwb.utils::moveColumnsToFront(result[, order(names(result))], "inspno")
+}
+
+# getBlockIndices --------------------------------------------------------------
+getBlockIndices <- function(eu_lines, dbg = TRUE)
 {
   block_letters <- c("A", "B", "C", "Z")
   
   patterns <- paste0("^#", block_letters)
   
-  indices <- stats::setNames(lapply(patterns, grep, eu_lines), block_letters)
+  indices <- lapply(patterns, grep, eu_lines)
+  
+  names(indices) <- block_letters
   
   # If the file does not end with #Z add "number of lines + 1" to the vector of
   # #Z-indices
@@ -16,7 +69,7 @@ getObservationsFromEuLines <- function(
   } else {
     kwb.utils::lastElement(indices$Z)
   }
-
+  
   n_lines <- length(eu_lines)
   
   if (last_z_index != n_lines) {
@@ -28,79 +81,30 @@ getObservationsFromEuLines <- function(
     )
   }
   
-  #kwb.utils::assignPackageObjects("kwb.en13508.2")  
-  c_headers <- getValueFromKeyValueString(eu_lines[indices$C])
-  
-  stopifnot(kwb.utils::allAreEqual(c_headers))
-  
-  indices_remove <- c(indices$A, indices$B, indices$B + 1, indices$C, indices$Z)
-  
-  #header.info <- kwb.en13508.2::euCodedFileHeader()
-  observations <- get_observations(
-    caption_line = c_headers[1], 
-    c_body = eu_lines[-indices_remove], 
-    header_info = header.info
-  )
-  
-  indices$B01 <- indices$B[grep("^#B01=", eu_lines[indices$B])]
-  
-  n_inspections <- length(indices$B01)
-  
-  # Try to generate a vector of inspection numbers assigning to each observation
-  # the number of inspection that it belongs to 
-  inspection_numbers <- try(if (old.version) {
-    
-    getInspectionNumbers.old(
-      indices$C, indices$Z, n_inspections, maxline = length(eu_lines)
-    )
-    
-  } else {
-    
-    getInspectionNumbers(indices$C, indices$B01, indices$B, indices$Z)
-  })
-  
-  stopifnot(length(inspection_numbers) == nrow(observations))
-  
-  if (is.null(inspection_numbers)) {
-    
-    message(
-      "I could not determine the inspection numbers so I put NA into ",
-      "column 'inspno'!"
-    )
-    
-    inspection_numbers <- NA
-  }
-  
-  result <- kwb.utils::setColumns(observations, inspno = inspection_numbers)
-  
-  kwb.utils::moveColumnsToFront(result[, order(names(result))], "inspno")
+  indices
 }
 
-# get_observations -------------------------------------------------------------
-get_observations <- function(caption_line, c_body, header_info)
+# tryToGetUniqueCaptions -------------------------------------------------------
+tryToGetUniqueCaptions <- function(header_lines, sep)
 {
-  # Select and rename elements from "header_info" into list "arguments"
-  elements <- c(sep = "separator", dec = "decimal", quote = "quote")
-
-  arguments <- get_elements(header_info, elements)
-
-  # Split the caption line into column captions using the separator  
-  captions <- strsplit(caption_line, arguments$sep)[[1]]
-
-  # Get codes of inspection data columns
-  codes <- inspectionDataFieldCodes()
+  headers <- getValueFromKeyValueString(header_lines)
   
-  # Try to find the column types for the given captions
-  colClasses <- sapply(captions, FUN = function(x) codes[[x]]$class)
+  stopifnot(kwb.utils::allAreEqual(headers))
+  
+  # Split the caption line into column captions using the separator  
+  strsplit(headers[1L], sep)[[1L]]
+}
 
+# guessColClasses --------------------------------------------------------------
+guessColClasses <- function(captions, codes)
+{
+  colClasses <- sapply(captions, function(x) codes[[x]]$class)
+  
   # Which columns are unknown (the type is NULL)
   is_null <- sapply(colClasses, is.null)
-
-  # Are all columns unknown?
-  all_null <- all(is_null)
   
-  if (all_null) {
-    
+  # If all column names are unknown, read all columns by setting colClasses to NA
+  if (all(is_null)) {
     warning(
       "None of the column names of the C-blocks is known.\n", 
       "Expected column names are:\n  ", paste0(
@@ -108,9 +112,11 @@ get_observations <- function(caption_line, c_body, header_info)
         collapse = "\n  "
       ), call. = FALSE
     )
-    
-  } else if (sum(is_null)) {
-    
+    return(NA)
+  } 
+  
+  # read.table() will skip the unknown columns
+  if (any(is_null)) {
     warning(
       "The following columns of the 'C-blocks' are skipped since their ", 
       "meaning is unknown:\n", kwb.utils::stringList(names(which(is_null))), 
@@ -118,22 +124,7 @@ get_observations <- function(caption_line, c_body, header_info)
     )
   }
   
-  # If all column names are unknown, read all columns by setting colClasses
-  # to NA, otherwise let read.table skip the unknown columns
-  colClasses <- if (all(is_null)) NA else unname(colClasses)
-
-  observations <- readObservationsFromCsvText(
-    text = paste(c_body, collapse = "\n"), 
-    sep = arguments$sep, 
-    dec = arguments$dec, 
-    quote = arguments$quote, 
-    colClasses = colClasses
-  )
-  
-  # Set the column names to the captions
-  names(observations) <- if (all(is_null)) captions else captions[! is_null]
-  
-  observations
+  colClasses
 }
 
 # readObservationsFromCsvText --------------------------------------------------
@@ -169,74 +160,4 @@ readObservationsFromCsvText <- function(text, sep, dec, quote, colClasses, ...)
     colClasses = colClasses,
     dot.args
   )
-}
-
-# getInspectionNumbers ---------------------------------------------------------
-getInspectionNumbers <- function(indices.C, indices.B01, indices.B, indices.Z)
-{
-  # To find the number of the inspection corresponding to the observation block 
-  # look for the "nearest" #B01-index "up" of the #C-indices and return the
-  # position of this matching index within indices.B01
-  inspectionID <- sapply(indices.C, FUN = function(index.C) {
-    
-    which.max(indices.B01[indices.B01 < index.C])
-  })
-  
-  # Find the "nearest" #B-index (either #B01 or #B02 or ...) "up" of the
-  # #C-indices
-  nearest.index.B <- sapply(indices.C, FUN = function(index.C) {
-    
-    max(indices.B[indices.B < index.C])
-  })
-  
-  # Find the "nearest" #Z-index "down" of the #C indices
-  nearest.index.Z <- sapply(indices.C, FUN = function(index.C) {
-    
-    min(indices.Z[indices.Z > index.C])
-  })
-  
-  # For each #C-index we need to have an inspection ID
-  stopifnot(length(indices.C) == length(inspectionID))
-  
-  # For each #C-index we need to have a corresponding #Z-index
-  stopifnot(length(indices.C) == length(nearest.index.Z))
-  
-  # How often does each inspection ID need to be repeated in order to fill the
-  # column "inspno" (inspection number = inspection ID)
-  times <- nearest.index.Z - indices.C - 1
-  
-  # Repeat the inspection IDs, each as often as there are lines in the #C-block
-  rep(inspectionID, times = times)
-}
-
-# getInspectionNumbers.old -----------------------------------------------------
-getInspectionNumbers.old <- function(
-  indices.C, indices.Z, numberOfInspections, maxline
-)
-{
-  block.begs <- indices.C + 1
-  block.ends <- indices.Z - 1
-  
-  missingBlockEnds <- numberOfInspections - length(block.ends)
-  
-  if (missingBlockEnds == 1) {
-    
-    block.ends <- c(block.ends, maxline)
-    
-  } else if (missingBlockEnds > 0) {
-    
-    stop(
-      "I found ", numberOfInspections, " inspections (starting with '#B01') ",
-      "but not the corresponding number of end indicators '#Z' (",
-      missingBlockEnds, ")"
-    )
-  }
-  
-  if (length(block.ends) == length(block.begs)) {
-    
-    obs.lengths <- block.ends - block.begs + 1
-    
-    rep(seq_len(length(obs.lengths)), times = obs.lengths)
-    
-  } # else NULL implicitly
 }
