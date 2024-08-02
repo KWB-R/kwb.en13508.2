@@ -12,6 +12,9 @@ getObservationRecordsFromEuLines <- function(
     silent = TRUE
   )
   
+  dot.args <- list(...)
+  #dot.args <- list() # for debugging!
+  
   if (kwb.utils::isTryError(observations)) {
     observations <- kwb.utils::callWith(
       extractObservationData,
@@ -19,7 +22,7 @@ getObservationRecordsFromEuLines <- function(
       headerInfo = getHeaderInfo(eu_lines), 
       header.info = header.info,
       file = file,
-      if (interactive()) list() else list(...)
+      dot.args
     )
   }
   

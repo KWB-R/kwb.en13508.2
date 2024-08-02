@@ -102,6 +102,9 @@ readEuCodedFile <- function(
     )
   )
   
+  dot.args <- list(...)
+  #dot.args <- list() # for debugging!
+  
   observations <- run(
     "Extracting observation records",
     kwb.utils::callWith(
@@ -110,7 +113,7 @@ readEuCodedFile <- function(
       header.info = header.info, 
       dbg = dbg,
       file = input.file,
-      if (interactive()) list() else list(...)
+      dot.args
     )
   )
   

@@ -31,6 +31,9 @@ readAndMergeEuCodedFiles <- function(
   error.file = NULL
 )
 {
+  dot.args <- list(...)
+  #dot.args <- list() # for debugging!
+  
   # by setting simple.algorithm = FALSE we get unique column names, e.g. "ADE"
   # and "ADE.1"
   inspection.data.list <- kwb.utils::callWith(
@@ -39,7 +42,7 @@ readAndMergeEuCodedFiles <- function(
     dbg = dbg, 
     name.convention = name.convention,
     simple.algorithm = FALSE, 
-    if (interactive()) list() else list(...)
+    dot.args
   )
   
   result <- mergeInspectionData(inspection.data.list)
