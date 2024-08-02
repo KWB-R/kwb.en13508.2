@@ -7,35 +7,33 @@ extractObservationData_1 <- function(
   #header.info <- kwb.en13508.2::euCodedFileHeader()
   
   # Create accessor function to header info fields
-  header_field <- kwb.utils::createAccessor(header.info)
+  fromHeader <- kwb.utils::createAccessor(header.info)
   
   # Get information on the row numbers where the different blocks start
   indices <- getBlockIndices(eu_lines, dbg = dbg)
   
   # Column separator
-  sep <- header_field("separator")
+  sep <- fromHeader("separator")
   
   # Try to get the C-Block captions (if they are unique, otherwise rais error!)
   captions <- tryToGetUniqueCaptions(eu_lines[indices$C], sep)
+  
+  tableHeader <- paste(captions, collapse = sep)
+  rowsToRemove <- c(indices$A, indices$B, indices$B + 1L, indices$C, indices$Z)
+  tableBody <- eu_lines[-rowsToRemove]
   
   # Try to find the column types for the given captions
   colClasses <- getColClasses(codes = inspectionDataFieldCodes(), captions)
   
   observations <- readObservationsFromCsvText(
-    text = eu_lines[-c(indices$A, indices$B, indices$B + 1L, indices$C, indices$Z)], 
+    text = c(tableHeader, tableBody), 
     sep = sep, 
-    dec = header_field("decimal"), 
-    quote = header_field("quote"), 
-    colClasses = unname(colClasses)
+    dec = fromHeader("decimal"), 
+    quote = fromHeader("quote"), 
+    colClasses = colClasses,
+    header = TRUE
   )
-  
-  # Set the column names to the captions
-  names(observations) <- if (identical(colClasses, NA)) {
-    captions
-  } else {
-    captions[!sapply(colClasses, is.null)]
-  }
-  
+
   indices$B01 <- indices$B[grep("^#B01=", eu_lines[indices$B])]
   
   # Try to generate a vector of inspection numbers assigning to each observation
@@ -143,7 +141,7 @@ getColClasses2 <- function(codes, as.text)
 readObservationsFromCsvText <- function(text, sep, dec, quote, colClasses, ...)
 {
   # If colClasses is specified, reduce it to the columns that actually occur
-  if (! identical(colClasses, NA)) {
+  if (!identical(colClasses, NA)) {
     
     # Get the column names from the first line
     colNames <- strsplit(text[1L], sep)[[1L]]
