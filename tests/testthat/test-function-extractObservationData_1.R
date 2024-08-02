@@ -1,7 +1,7 @@
 #kwb.utils::assignPackageObjects("kwb.en13508.2")
-test_that("getObservationsFromEuLines() works", {
+test_that("extractObservationData_1() works", {
 
-  f <- kwb.en13508.2:::getObservationsFromEuLines
+  f <- kwb.en13508.2:::extractObservationData_1
   
   expect_error(f())
   

@@ -7,13 +7,16 @@ getObservationRecordsFromEuLines <- function(
     ...
 )
 {
-  observations <- try(
-    getObservationsFromEuLines(eu_lines, header.info, dbg = dbg), 
-    silent = TRUE
-  )
-  
   dot.args <- list(...)
   #dot.args <- list() # for debugging!
+  
+  observations <- try(silent = TRUE, {
+    extractObservationData_1(
+      eu_lines, 
+      header.info, 
+      dbg = dbg
+    )
+  })
   
   if (kwb.utils::isTryError(observations)) {
     observations <- kwb.utils::callWith(
