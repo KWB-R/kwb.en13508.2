@@ -77,8 +77,8 @@ plotObservations <- function(survey, to_pdf = TRUE, matrix_dim = c(7, 1))
 # get_extended_observations ----------------------------------------------------
 get_extended_observations <- function(survey)
 {
-  inspections <- kwb.utils::selectElements(survey, "inspections")
-  observations <- kwb.utils::selectElements(survey, "observations")
+  inspections <- get_elements(survey, "inspections")
+  observations <- get_elements(survey, "observations")
 
   # Provide column "inspno" if not existing
   if (is.null(inspections$inspno)) {

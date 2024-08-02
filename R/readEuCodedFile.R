@@ -133,7 +133,7 @@ readEuCodedFile <- function(
 # readFileEncodingFromHeader ---------------------------------------------------
 readFileEncodingFromHeader <- function(file)
 {
-  kwb.utils::selectElements(
+  get_elements(
     x = getFileHeaderFromEuLines(readLines(kwb.utils::safePath(file), n = 6L)), 
     elements = "encoding"
   )
