@@ -98,7 +98,11 @@ readEuCodedFile <- function(
   inspections <- run(
     "Extracting inspection records",
     extractInspectionData(
-      eu_lines, header.info, read.inspections, simple.algorithm, dbg
+      eu_lines = eu_lines, 
+      header.info = header.info, 
+      read.inspections = read.inspections, 
+      simple.algorithm = simple.algorithm, 
+      dbg = dbg
     )
   )
   

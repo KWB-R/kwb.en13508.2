@@ -12,8 +12,8 @@ extractObservationData <- function(
   
   observations <- try(silent = TRUE, {
     extractObservationData_1(
-      eu_lines, 
-      header.info, 
+      eu_lines = eu_lines, 
+      header.info = header.info, 
       dbg = dbg
     )
   })
