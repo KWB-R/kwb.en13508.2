@@ -1,5 +1,5 @@
-# getInspectionRecordsFromEuLines ----------------------------------------------
-getInspectionRecordsFromEuLines <- function(
+# extractInspectionData --------------------------------------------------------
+extractInspectionData <- function(
     eu_lines, header.info, read.inspections, simple.algorithm, dbg
 )
 {
