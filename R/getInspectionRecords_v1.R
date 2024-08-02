@@ -19,7 +19,7 @@ getInspectionRecords_v1 <- function(eu_lines, header.info, dbg = TRUE)
     
     if (kwb.utils::allAreEqual(b.captions)) {
       
-      inspections <- extractInspectionData(
+      inspections <- csvLinesToInspectionData(
         b.lines = eu_lines[indices.B + 1L],
         header.info = header.info,
         captions = b.captions[[1L]]
@@ -53,8 +53,8 @@ getInspectionRecords_v1 <- function(eu_lines, header.info, dbg = TRUE)
   inspections.complete
 }
 
-# extractInspectionData --------------------------------------------------------
-extractInspectionData <- function(b.lines, header.info, captions)
+# csvLinesToInspectionData -----------------------------------------------------
+csvLinesToInspectionData <- function(b.lines, header.info, captions)
 {
   inspections <- kwb.utils::csvTextToDataFrame(
     text = paste(b.lines, collapse = "\n"),

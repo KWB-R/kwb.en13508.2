@@ -4,13 +4,11 @@ getInspectionRecordsFromEuLines <- function(
 )
 {
   if (!read.inspections) {
-    
     warning(
       "I (yet) cannot read the inspection data (#B-blocks). ",
       "So I just returned the number of inspections instead of a ",
       "data frame with all information on the inspection!"
     )
-    
     return(length(grep("^#B01", eu_lines)))
   }
   
