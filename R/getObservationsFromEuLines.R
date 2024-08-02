@@ -127,6 +127,18 @@ guessColClasses <- function(captions, codes)
   colClasses
 }
 
+# getColClasses2 ---------------------------------------------------------------
+getColClasses2 <- function(codes, as.text)
+{
+  colClasses <- sapply(codes, get_elements, "class")
+  
+  if (as.text) {
+    colClasses[] <- "character"
+  }
+
+  colClasses  
+}
+
 # readObservationsFromCsvText --------------------------------------------------
 readObservationsFromCsvText <- function(text, sep, dec, quote, colClasses, ...)
 {

@@ -26,16 +26,8 @@ extractObservationData <- function(
 
   keys <- unique(fetch("uniqueKey")[fetch("type") == "C"])
   
-  colClasses <- sapply(
-    X = inspectionDataFieldCodes(), 
-    FUN = kwb.utils::selectElements, 
-    elements = "class"
-  )
-  
-  if (as.text) {
-    colClasses[] <- "character"
-  }
-  
+  colClasses <- getColClasses2(codes = inspectionDataFieldCodes(), as.text)
+
   dataBlocks <- lapply(keys, function(key) {
     
     #key <- keys[1L]
