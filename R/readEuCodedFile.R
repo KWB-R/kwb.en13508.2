@@ -108,6 +108,7 @@ readEuCodedFile <- function(
   
   dot.args <- list(...)
   #dot.args <- list() # for debugging!
+  #dot.args <- list(as.text = TRUE)
   
   observations <- run(
     "Extracting observation records",

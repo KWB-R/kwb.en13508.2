@@ -4,7 +4,6 @@ extractObservationData_1 <- function(
 )
 {
   #kwb.utils::assignPackageObjects("kwb.en13508.2")
-  #header.info <- kwb.en13508.2::euCodedFileHeader()
   
   # Create accessor function to header info fields
   fromHeader <- kwb.utils::createAccessor(header.info)
@@ -33,7 +32,7 @@ extractObservationData_1 <- function(
     colClasses = colClasses,
     header = TRUE
   )
-
+  
   indices$B01 <- indices$B[grep("^#B01=", eu_lines[indices$B])]
   
   # Try to generate a vector of inspection numbers assigning to each observation
@@ -133,7 +132,7 @@ getColClasses2 <- function(codes, as.text)
   if (as.text) {
     colClasses[] <- "character"
   }
-
+  
   colClasses  
 }
 
@@ -156,9 +155,9 @@ readObservationsFromCsvText <- function(text, sep, dec, quote, colClasses, ...)
   }
   
   dot.args <- list(...)
-  #dot.args <- list() # for debugging!
+  #dot.args <- list(header = TRUE) # for debugging!
   
-  kwb.utils::callWith(
+  result <- try(kwb.utils::callWith(
     utils::read.table,
     text = text, 
     sep = sep, 
@@ -169,5 +168,46 @@ readObservationsFromCsvText <- function(text, sep, dec, quote, colClasses, ...)
     stringsAsFactors = FALSE, 
     colClasses = colClasses,
     dot.args
+  ))
+  
+  if (!kwb.utils::isTryError(result)) {
+    return(result)
+  }
+  
+  result <- kwb.utils::callWith(
+    utils::read.table,
+    text = text, 
+    sep = sep, 
+    dec = dec, 
+    quote = quote, 
+    comment.char = "", 
+    blank.lines.skip = FALSE, 
+    stringsAsFactors = FALSE, 
+    colClasses = NA,
+    dot.args
   )
+  
+  convertTypes(result, codes = inspectionDataFieldCodes())
+}
+
+# convertTypes -----------------------------------------------------------------
+convertTypes <- function(data, codes)
+{
+  target_classes <- sapply(
+    get_elements(codes, names(data)), get_elements, "class"
+  )
+  
+  given_classes <- sapply(data, "class")
+  
+  columns_convert <- names(which(given_classes != target_classes))
+  
+  for (column in columns_convert) {
+    target_class <- target_classes[column]
+    data[[column]] <- kwb.utils::catAndRun(
+      sprintf("Converting column '%s' to %s", column, target_class),
+      do.call(paste0("as.", target_class), list(data[[column]]))
+    )
+  }
+  
+  data
 }
