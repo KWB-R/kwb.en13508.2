@@ -19,7 +19,7 @@ getObservationsFromEuLines <- function(
   captions <- tryToGetUniqueCaptions(eu_lines[indices$C], sep)
   
   # Try to find the column types for the given captions
-  colClasses <- guessColClasses(captions, codes = inspectionDataFieldCodes())
+  colClasses <- getColClasses(codes = inspectionDataFieldCodes(), captions)
   
   observations <- readObservationsFromCsvText(
     text = eu_lines[-c(indices$A, indices$B, indices$B + 1L, indices$C, indices$Z)], 
@@ -95,8 +95,8 @@ tryToGetUniqueCaptions <- function(header_lines, sep)
   strsplit(headers[1L], sep)[[1L]]
 }
 
-# guessColClasses --------------------------------------------------------------
-guessColClasses <- function(captions, codes)
+# getColClasses ----------------------------------------------------------------
+getColClasses <- function(codes, captions)
 {
   colClasses <- sapply(captions, function(x) codes[[x]]$class)
   
