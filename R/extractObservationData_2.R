@@ -1,4 +1,4 @@
-# extractObservationData -------------------------------------------------------
+# extractObservationData_2 -----------------------------------------------------
 
 #' Extract Observations from EN13508.2-coded file
 #'  
@@ -13,7 +13,7 @@
 #'   separator that is given in \code{header.info}
 #' @return data frame with columns \code{A}, \code{B}, \code{C}, ... as defined 
 #'   in EN13508.2 and a column \code{inspno} referring to the inspection number.
-extractObservationData <- function(
+extractObservationData_2 <- function(
     euLines, 
     headerInfo, 
     header.info, 

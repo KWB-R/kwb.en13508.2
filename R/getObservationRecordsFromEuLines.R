@@ -17,7 +17,7 @@ getObservationRecordsFromEuLines <- function(
   
   if (kwb.utils::isTryError(observations)) {
     observations <- kwb.utils::callWith(
-      extractObservationData,
+      extractObservationData_2,
       euLines = eu_lines, 
       headerInfo = getHeaderInfo(eu_lines), 
       header.info = header.info,

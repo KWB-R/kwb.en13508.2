@@ -1,7 +1,7 @@
 #library(testthat)
-test_that("extractObservationData() works", {
+test_that("extractObservationData_2() works", {
 
-  f <- kwb.en13508.2:::extractObservationData
+  f <- kwb.en13508.2:::extractObservationData_2
   
   expect_error(f())
 
