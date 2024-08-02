@@ -104,12 +104,13 @@ readEuCodedFile <- function(
   
   observations <- run(
     "Extracting observation records",
-    getObservationRecordsFromEuLines(
+    kwb.utils::callWith(
+      getObservationRecordsFromEuLines, 
       eu_lines = eu_lines, 
       header.info = header.info, 
       dbg = dbg,
       file = input.file,
-      ...
+      if (interactive()) list() else list(...)
     )
   )
   

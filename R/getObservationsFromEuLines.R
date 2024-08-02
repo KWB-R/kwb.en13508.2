@@ -154,7 +154,8 @@ readObservationsFromCsvText <- function(text, sep, dec, quote, colClasses, ...)
     colClasses <- colClasses[colNames]
   }
   
-  utils::read.table(
+  kwb.utils::callWith(
+    utils::read.table,
     text = text, 
     sep = sep, 
     dec = dec, 
@@ -163,7 +164,7 @@ readObservationsFromCsvText <- function(text, sep, dec, quote, colClasses, ...)
     blank.lines.skip = FALSE, 
     stringsAsFactors = FALSE, 
     colClasses = colClasses,
-    ...
+    if (interactive()) list() else list(...)
   )
 }
 

@@ -33,10 +33,12 @@ readEuCodedFiles <- function(
       "input file %d/%d: %s\n", i, length(input.files), input.file
     ))
     
-    inspectionData <- try(
-      readEuCodedFile(input.file, dbg = dbg, ...),
-      silent = TRUE
-    )
+    inspectionData <- try(silent = TRUE, kwb.utils::callWith(
+      readEuCodedFile,
+      input.file = input.file, 
+      dbg = dbg, 
+      if (interactive()) list() else list(...)
+    ))
     
     # Return the error object if an error occurred
     if (kwb.utils::isTryError(inspectionData)) {
