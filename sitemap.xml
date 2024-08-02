@@ -1,84 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/euCodedFileHeader.html</loc>
-  </url>
-  <url>
-    <loc>/reference/extractObservationBlocks.html</loc>
-  </url>
-  <url>
-    <loc>/reference/extractObservationData.html</loc>
-  </url>
-  <url>
-    <loc>/reference/getCodes.html</loc>
-  </url>
-  <url>
-    <loc>/reference/getHeaderLinesFromHeaderInfo.html</loc>
-  </url>
-  <url>
-    <loc>/reference/getLineDamageInfo.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mergeInspectionData.html</loc>
-  </url>
-  <url>
-    <loc>/reference/numberOfInspections.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotObservations.html</loc>
-  </url>
-  <url>
-    <loc>/reference/readAndMergeEuCodedFiles.html</loc>
-  </url>
-  <url>
-    <loc>/reference/readEuCodedFile.html</loc>
-  </url>
-  <url>
-    <loc>/reference/readEuCodedFiles.html</loc>
-  </url>
-  <url>
-    <loc>/reference/readPackageFile.html</loc>
-  </url>
-  <url>
-    <loc>/reference/setGlobalInspectionID.html</loc>
-  </url>
-  <url>
-    <loc>/reference/toEuFormat.html</loc>
-  </url>
-  <url>
-    <loc>/reference/toEuFormat_v1.html</loc>
-  </url>
-  <url>
-    <loc>/reference/toEuFormat_v2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/valuesToCsv.html</loc>
-  </url>
-  <url>
-    <loc>/reference/writeEuCodedFile.html</loc>
-  </url>
-  <url>
-    <loc>/reference/writeEuCodedFiles.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/LICENSE.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/euCodedFileHeader.html</loc></url>
+<url><loc>/reference/extractObservationBlocks.html</loc></url>
+<url><loc>/reference/extractObservationData.html</loc></url>
+<url><loc>/reference/getCodes.html</loc></url>
+<url><loc>/reference/getHeaderLinesFromHeaderInfo.html</loc></url>
+<url><loc>/reference/getLineDamageInfo.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/mergeInspectionData.html</loc></url>
+<url><loc>/reference/numberOfInspections.html</loc></url>
+<url><loc>/reference/plotObservations.html</loc></url>
+<url><loc>/reference/readAndMergeEuCodedFiles.html</loc></url>
+<url><loc>/reference/readEuCodedFile.html</loc></url>
+<url><loc>/reference/readEuCodedFiles.html</loc></url>
+<url><loc>/reference/readPackageFile.html</loc></url>
+<url><loc>/reference/setGlobalInspectionID.html</loc></url>
+<url><loc>/reference/toEuFormat.html</loc></url>
+<url><loc>/reference/toEuFormat_v1.html</loc></url>
+<url><loc>/reference/toEuFormat_v2.html</loc></url>
+<url><loc>/reference/valuesToCsv.html</loc></url>
+<url><loc>/reference/writeEuCodedFile.html</loc></url>
+<url><loc>/reference/writeEuCodedFiles.html</loc></url>
 </urlset>
+
