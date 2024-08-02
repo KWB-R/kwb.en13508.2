@@ -38,21 +38,16 @@ getInspectionNumbers <- function(indices.C, indices.B01, indices.B, indices.Z)
   # To find the number of the inspection corresponding to the observation block 
   # look for the "nearest" #B01-index "up" of the #C-indices and return the
   # position of this matching index within indices.B01
-  inspectionID <- sapply(indices.C, FUN = function(index.C) {
-    
-    which.max(indices.B01[indices.B01 < index.C])
-  })
+  if (length(indices.B01) == 0L) {
+    indices.B01 <- indices.C - 1L
+  }
   
-  # Find the "nearest" #B-index (either #B01 or #B02 or ...) "up" of the
-  # #C-indices
-  nearest.index.B <- sapply(indices.C, FUN = function(index.C) {
-    
-    max(indices.B[indices.B < index.C])
+  inspectionID <- sapply(indices.C, FUN = function(index.C) {
+    which.max(indices.B01[indices.B01 < index.C])
   })
   
   # Find the "nearest" #Z-index "down" of the #C indices
   nearest.index.Z <- sapply(indices.C, FUN = function(index.C) {
-    
     min(indices.Z[indices.Z > index.C])
   })
   
@@ -64,7 +59,7 @@ getInspectionNumbers <- function(indices.C, indices.B01, indices.B, indices.Z)
   
   # How often does each inspection ID need to be repeated in order to fill the
   # column "inspno" (inspection number = inspection ID)
-  times <- nearest.index.Z - indices.C - 1
+  times <- nearest.index.Z - indices.C - 1L
   
   # Repeat the inspection IDs, each as often as there are lines in the #C-block
   rep(inspectionID, times = times)
