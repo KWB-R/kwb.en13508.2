@@ -1,5 +1,7 @@
 # extractObservationData -------------------------------------------------------
-extractObservationData <- function(text, header.info, dbg, file = "", ...)
+extractObservationData <- function(
+    text, header.info, dbg = TRUE, file = "", ...
+)
 {
   dot.args <- list(...)
   #dot.args <- list() # for debugging!
@@ -14,14 +16,12 @@ extractObservationData <- function(text, header.info, dbg, file = "", ...)
       )
     }, 
     error = {
-      kwb.utils::callWith(
-        extractObservationData_2,
+      do.call(extractObservationData_2, c(dot.args, list(
         text = text, 
         headerInfo = getHeaderInfo(text), 
         header.info = header.info,
-        file = file,
-        dot.args
-      )      
+        file = file
+      )))
     }
   )
   
