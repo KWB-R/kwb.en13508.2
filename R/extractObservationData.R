@@ -1,11 +1,5 @@
 # extractObservationData -------------------------------------------------------
-extractObservationData <- function(
-    text, 
-    header.info, 
-    dbg,
-    file = "",
-    ...
-)
+extractObservationData <- function(text, header.info, dbg, file = "", ...)
 {
   dot.args <- list(...)
   #dot.args <- list() # for debugging!
