@@ -112,14 +112,12 @@ readEuCodedFile <- function(
   
   observations <- run(
     "Extracting observation records",
-    kwb.utils::callWith(
-      extractObservationData, 
+    do.call(extractObservationData, c(dot.args, list(
       text = eu_lines, 
       header.info = header.info, 
       dbg = dbg,
-      file = input.file,
-      dot.args
-    )
+      file = input.file
+    )))
   )
   
   if (name.convention != "norm") {
