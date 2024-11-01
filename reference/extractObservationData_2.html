@@ -54,11 +54,12 @@
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">extractObservationData_2</span><span class="op">(</span></span>
-<span>  <span class="va">euLines</span>,</span>
+<span>  <span class="va">text</span>,</span>
 <span>  <span class="va">headerInfo</span>,</span>
 <span>  <span class="va">header.info</span>,</span>
 <span>  file <span class="op">=</span> <span class="st">""</span>,</span>
-<span>  as.text <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  as.text <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  dbg <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -66,7 +67,7 @@
     <h2>Arguments</h2>
 
 
-<dl><dt id="arg-eulines">euLines<a class="anchor" aria-label="anchor" href="#arg-eulines"></a></dt>
+<dl><dt id="arg-text">text<a class="anchor" aria-label="anchor" href="#arg-text"></a></dt>
 <dd><p>text lines read from EN13508.2-coded file</p></dd>
 
 
@@ -80,7 +81,7 @@
 
 
 <dt id="arg-file">file<a class="anchor" aria-label="anchor" href="#arg-file"></a></dt>
-<dd><p>optional. Name of the file from which <code>euLines</code> were read.</p></dd>
+<dd><p>optional. Name of the file from which <code>text</code> were read.</p></dd>
 
 
 <dt id="arg-as-text">as.text<a class="anchor" aria-label="anchor" href="#arg-as-text"></a></dt>
@@ -88,6 +89,10 @@
 type. The default is <code>FALSE</code>, i.e. columns that are expected to
 contain numeric values are converted to numeric, respecting the decimal
 separator that is given in <code>header.info</code></p></dd>
+
+
+<dt id="arg-dbg">dbg<a class="anchor" aria-label="anchor" href="#arg-dbg"></a></dt>
+<dd><p>whether or not to show debug messages</p></dd>
 
 </dl></div>
     <div id="value">
@@ -108,7 +113,7 @@ separator that is given in <code>header.info</code></p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
