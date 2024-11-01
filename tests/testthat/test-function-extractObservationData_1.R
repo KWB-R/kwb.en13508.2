@@ -1,10 +1,10 @@
 #library(testthat)
 test_that("extractObservationData_1() works", {
 
-  header.info <- kwb.en13508.2::euCodedFileHeader()
+  header <- kwb.en13508.2::euCodedFileHeader()
   
   f <- function(text) {
-    kwb.en13508.2:::extractObservationData_1(text, header.info, dbg = FALSE)
+    kwb.en13508.2:::extractObservationData_1(text, header, dbg = FALSE)
   }
   
   expect_error(f())
