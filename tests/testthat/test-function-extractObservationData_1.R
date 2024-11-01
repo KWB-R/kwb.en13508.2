@@ -3,26 +3,26 @@ test_that("extractObservationData_1() works", {
 
   header.info <- kwb.en13508.2::euCodedFileHeader()
   
-  f <- function(eu_lines) {
-    kwb.en13508.2:::extractObservationData_1(eu_lines, header.info, dbg = FALSE)
+  f <- function(text) {
+    kwb.en13508.2:::extractObservationData_1(text, header.info, dbg = FALSE)
   }
   
   expect_error(f())
   
-  result <- f(eu_lines = c(
+  result <- f(text = c(
     "#C=A;B", 
     "1;2"
   ))
   expect_identical(result, data.frame(inspno = 1L, A = "1", B = "2"))
 
-  expect_error(f(eu_lines = c(
+  expect_error(f(text = c(
     "#C=A;B", 
     "1;2", 
     "#C=A;C", 
     "2;4"
   )))
   
-  result <- f(eu_lines = c(
+  result <- f(text = c(
     "#B01=", 
     "#C=A;B", 
     "1;3", 

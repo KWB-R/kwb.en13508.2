@@ -1,6 +1,6 @@
 # extractObservationData_1 -----------------------------------------------------
 extractObservationData_1 <- function(
-    eu_lines, header.info, old.version = FALSE, dbg = TRUE
+    text, header.info, old.version = FALSE, dbg = TRUE
 )
 {
   #kwb.utils::assignPackageObjects("kwb.en13508.2")
@@ -9,17 +9,17 @@ extractObservationData_1 <- function(
   fromHeader <- kwb.utils::createAccessor(header.info)
   
   # Get information on the row numbers where the different blocks start
-  indices <- getBlockIndices(eu_lines, dbg = dbg)
+  indices <- getBlockIndices(text, dbg = dbg)
   
   # Column separator
   sep <- fromHeader("separator")
   
   # Try to get the C-Block captions (if they are unique, otherwise rais error!)
-  captions <- tryToGetUniqueCaptions(eu_lines[indices$C], sep)
+  captions <- tryToGetUniqueCaptions(text[indices$C], sep)
   
   tableHeader <- paste(captions, collapse = sep)
   rowsToRemove <- c(indices$A, indices$B, indices$B + 1L, indices$C, indices$Z)
-  tableBody <- eu_lines[-rowsToRemove]
+  tableBody <- text[-rowsToRemove]
   
   # Try to find the column types for the given captions
   colClasses <- getColClasses(codes = inspectionDataFieldCodes(), captions)
@@ -33,14 +33,14 @@ extractObservationData_1 <- function(
     header = TRUE
   )
   
-  indices$B01 <- indices$B[grep("^#B01=", eu_lines[indices$B])]
+  indices$B01 <- indices$B[grep("^#B01=", text[indices$B])]
   
   # Try to generate a vector of inspection numbers assigning to each observation
   # the number of inspection that it belongs to 
   result <- addInspectionNumbers(
     observations = observations, 
     indices = indices, 
-    maxline = length(eu_lines),
+    maxline = length(text),
     old.version = old.version,
     dbg = dbg
   )
@@ -49,13 +49,13 @@ extractObservationData_1 <- function(
 }
 
 # getBlockIndices --------------------------------------------------------------
-getBlockIndices <- function(eu_lines, dbg = TRUE)
+getBlockIndices <- function(text, dbg = TRUE)
 {
   block_letters <- c("A", "B", "C", "Z")
   
   patterns <- paste0("^#", block_letters)
   
-  indices <- lapply(patterns, grep, eu_lines)
+  indices <- lapply(patterns, grep, text)
   
   names(indices) <- block_letters
   
@@ -67,7 +67,7 @@ getBlockIndices <- function(eu_lines, dbg = TRUE)
     kwb.utils::lastElement(indices$Z)
   }
   
-  n_lines <- length(eu_lines)
+  n_lines <- length(text)
   
   if (last_z_index != n_lines) {
     

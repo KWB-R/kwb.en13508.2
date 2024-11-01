@@ -1,10 +1,8 @@
 # getInspectionHeaderInfo_v1 ---------------------------------------------------
-getInspectionHeaderInfo_v1 <- function(eu_lines)
+getInspectionHeaderInfo_v1 <- function(text)
 {
-  pattern <- "^#B(\\d\\d)=(.*)$"
-  
   # Get list of matching sub expressions
-  matches <- kwb.utils::subExpressionMatches(pattern, eu_lines)
+  matches <- kwb.utils::subExpressionMatches("^#B(\\d\\d)=(.*)$", text)
   
   # Indices of header lines
   header_indices <- which(! sapply(matches, is.null))
@@ -23,13 +21,9 @@ getInspectionHeaderInfo_v1 <- function(eu_lines)
   # For each different type of header, determine the line numbers in which it
   # occurs
   header_rows <- lapply(unique_headers, function(header) {
-    
     indices <- which(header_lines == header)
-    
     header_number <- unique(header_numbers[indices])
-    
     stopifnot(length(header_number) == 1L)
-    
     list(line = header_number, rows = header_indices[indices])
   })
   

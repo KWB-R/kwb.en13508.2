@@ -5,7 +5,7 @@
 \title{Extract Observations from EN13508.2-coded file}
 \usage{
 extractObservationData_2(
-  euLines,
+  text,
   headerInfo,
   header.info,
   file = "",
@@ -13,14 +13,14 @@ extractObservationData_2(
 )
 }
 \arguments{
-\item{euLines}{text lines read from EN13508.2-coded file}
+\item{text}{text lines read from EN13508.2-coded file}
 
 \item{headerInfo}{data frame with information about header lines}
 
 \item{header.info}{list as returned by
 \code{kwb.en13508.2:::getFileHeaderFromEuLines}}
 
-\item{file}{optional. Name of the file from which \code{euLines} were read.}
+\item{file}{optional. Name of the file from which \code{text} were read.}
 
 \item{as.text}{whether or not to keep columns in their original (character) 
 type. The default is \code{FALSE}, i.e. columns that are expected to

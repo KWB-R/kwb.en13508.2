@@ -98,7 +98,7 @@ readEuCodedFile <- function(
   inspections <- run(
     "Extracting inspection records",
     extractInspectionData(
-      eu_lines = eu_lines, 
+      text = eu_lines, 
       header.info = header.info, 
       read.inspections = read.inspections, 
       simple.algorithm = simple.algorithm, 
@@ -114,7 +114,7 @@ readEuCodedFile <- function(
     "Extracting observation records",
     kwb.utils::callWith(
       extractObservationData, 
-      eu_lines = eu_lines, 
+      text = eu_lines, 
       header.info = header.info, 
       dbg = dbg,
       file = input.file,

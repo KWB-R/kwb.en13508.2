@@ -1,25 +1,25 @@
-# eu_lines <- readLines(kwb.en13508.2:::getExampleFile())
+# text <- readLines(kwb.en13508.2:::getExampleFile())
 # 
 # microbenchmark::microbenchmark(
-#   x = kwb.en13508.2:::getInspectionHeaderInfo_v1(eu_lines),
-#   y = kwb.en13508.2:::getInspectionHeaderInfo_v2(eu_lines),
+#   x = kwb.en13508.2:::getInspectionHeaderInfo_v1(text),
+#   y = kwb.en13508.2:::getInspectionHeaderInfo_v2(text),
 #   times = 1000,
 #   check = "identical"
 # )
 
 # getInspectionHeaderInfo_v2 ---------------------------------------------------
-getInspectionHeaderInfo_v2 <- function(eu_lines)
+getInspectionHeaderInfo_v2 <- function(text)
 {
   pattern <- "^#B(\\d\\d)=(.*)$"
   
   # Get data frame with one row per line and matching sub expressions
   matches <- kwb.utils::extractSubstring(
     pattern = pattern, 
-    x = eu_lines, 
+    x = text, 
     index = c(number = 1L, fields = 2L)
   )
   
-  matches$row <- seq_along(eu_lines)
+  matches$row <- seq_along(text)
   
   # Indices of header lines
   header_indices <- which(nzchar(matches$fields))

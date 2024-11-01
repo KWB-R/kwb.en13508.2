@@ -4,10 +4,10 @@
 \alias{extractObservationBlocks}
 \title{Extract Lines Between #C-Header and #Z End Tag}
 \usage{
-extractObservationBlocks(euLines, headerInfo, uniqueKey)
+extractObservationBlocks(text, headerInfo, uniqueKey)
 }
 \arguments{
-\item{euLines}{text lines read from EN13508.2-coded file}
+\item{text}{text lines read from EN13508.2-coded file}
 
 \item{headerInfo}{data frame with information about header lines}
 

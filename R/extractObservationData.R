@@ -1,6 +1,6 @@
 # extractObservationData -------------------------------------------------------
 extractObservationData <- function(
-    eu_lines, 
+    text, 
     header.info, 
     dbg,
     file = "",
@@ -10,24 +10,26 @@ extractObservationData <- function(
   dot.args <- list(...)
   #dot.args <- list() # for debugging!
   
-  observations <- try(silent = TRUE, {
-    extractObservationData_1(
-      eu_lines = eu_lines, 
-      header.info = header.info, 
-      dbg = dbg
-    )
-  })
-  
-  if (kwb.utils::isTryError(observations)) {
-    observations <- kwb.utils::callWith(
-      extractObservationData_2,
-      euLines = eu_lines, 
-      headerInfo = getHeaderInfo(eu_lines), 
-      header.info = header.info,
-      file = file,
-      dot.args
-    )
-  }
+  observations <- tryCatch(
+    silent = TRUE, 
+    expr = {
+      extractObservationData_1(
+        text = text, 
+        header.info = header.info, 
+        dbg = dbg
+      )
+    }, 
+    error = {
+      kwb.utils::callWith(
+        extractObservationData_2,
+        text = text, 
+        headerInfo = getHeaderInfo(text), 
+        header.info = header.info,
+        file = file,
+        dot.args
+      )      
+    }
+  )
   
   kwb.utils::catIf(dbg, paste(nrow(observations), "observations extracted. "))
   

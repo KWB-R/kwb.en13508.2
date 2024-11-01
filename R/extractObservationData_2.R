@@ -2,11 +2,11 @@
 
 #' Extract Observations from EN13508.2-coded file
 #'  
-#' @param euLines text lines read from EN13508.2-coded file
+#' @param text text lines read from EN13508.2-coded file
 #' @param headerInfo data frame with information about header lines
 #' @param header.info list as returned by
 #'   \code{kwb.en13508.2:::getFileHeaderFromEuLines}
-#' @param file optional. Name of the file from which \code{euLines} were read.
+#' @param file optional. Name of the file from which \code{text} were read.
 #' @param as.text whether or not to keep columns in their original (character) 
 #'   type. The default is \code{FALSE}, i.e. columns that are expected to
 #'   contain numeric values are converted to numeric, respecting the decimal
@@ -14,7 +14,7 @@
 #' @return data frame with columns \code{A}, \code{B}, \code{C}, ... as defined 
 #'   in EN13508.2 and a column \code{inspno} referring to the inspection number.
 extractObservationData_2 <- function(
-    euLines, 
+    text, 
     headerInfo, 
     header.info, 
     file = "",
@@ -31,7 +31,7 @@ extractObservationData_2 <- function(
   dataBlocks <- lapply(keys, function(key) {
     
     #key <- keys[1L]
-    blocks <- extractObservationBlocks(euLines, headerInfo, key)
+    blocks <- extractObservationBlocks(text, headerInfo, key)
     
     rowsWithKey <- which(fetch("uniqueKey") == key)
     
@@ -68,13 +68,13 @@ extractObservationData_2 <- function(
 
 #' Extract Lines Between #C-Header and #Z End Tag
 #' 
-#' @param euLines text lines read from EN13508.2-coded file
+#' @param text text lines read from EN13508.2-coded file
 #' @param headerInfo data frame with information about header lines
 #' @param uniqueKey identifier of C-header row, as given in 
 #'   \code{headerInfo$uniqueKey}
 #' @return list of vectors of character representing the "body" lines
 #'   below the #C-headers of type specified in \code{uniqueKey}
-extractObservationBlocks <- function(euLines, headerInfo, uniqueKey)
+extractObservationBlocks <- function(text, headerInfo, uniqueKey)
 {
   keys <- get_columns(headerInfo, "uniqueKey")
   types <- get_columns(headerInfo, "type")
@@ -95,13 +95,13 @@ extractObservationBlocks <- function(euLines, headerInfo, uniqueKey)
   # Add a last "to" value if the last EU-line is not "#Z"
   if (length(to) != length(from)) {
     stopifnot(length(to) == length(from) - 1L)
-    to <- c(to, length(euLines))
+    to <- c(to, length(text))
   }
   
   mapply(
     from = from,
     to = to,
-    FUN = function(from, to) euLines[from:to], 
+    FUN = function(from, to) text[from:to], 
     SIMPLIFY = FALSE
   )
 }
