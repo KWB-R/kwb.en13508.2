@@ -36,7 +36,7 @@ readObservationsFromCsvText <- function(
       utils::read.table, c(common_args, list(colClasses = colClasses))
     ), 
     silent = TRUE, 
-    error = {
+    error = function(e) {
       data <- do.call(utils::read.table, c(common_args, list(colClasses = NA)))
       convertTypes(data, dbg = dbg, classes = sapply(
         X = get_elements(inspectionDataFieldCodes(), names(data)), 

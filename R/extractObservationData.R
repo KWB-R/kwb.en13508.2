@@ -15,7 +15,7 @@ extractObservationData <- function(
         dbg = dbg
       )
     }, 
-    error = {
+    error = function(e) {
       do.call(extractObservationData_2, c(dot.args, list(
         text = text, 
         headerInfo = getHeaderInfo(text), 
