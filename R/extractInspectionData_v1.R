@@ -1,69 +1,45 @@
 # extractInspectionData_v1 -----------------------------------------------------
-extractInspectionData_v1 <- function(eu_lines, header.info, dbg = TRUE)
+extractInspectionData_v1 <- function(text, header.info, dbg = TRUE)
 {
-  inspections.complete <- NULL
+  b_indices <- function(b_number) {
+    grep(sprintf("^#B%02d", b_number), text)
+  }
   
-  header.line.number <- 1L
+  inspections <- NULL
+  b_number <- 1L
+  sep <- kwb.utils::selectElements(header.info, "separator")
   
-  continue <- TRUE
-  
-  indices.B <- grep("^#B01", eu_lines)
-  
-  aborted <- FALSE
-  
-  while (! aborted && length(indices.B) > 0L) {
+  while (length(indices <- b_indices(b_number))) {
     
-    b.caption.lines <- getValueFromKeyValueString(eu_lines[indices.B])
+    captions <- strsplit(getValueFromKeyValueString(text[indices]), sep)
     
-    b.captions <- strsplit(b.caption.lines, header.info$separator)
-    
-    if (kwb.utils::allAreEqual(b.captions)) {
-      
-      inspections <- csvLinesToInspectionData(
-        b.lines = eu_lines[indices.B + 1L],
-        header.info = header.info,
-        captions = b.captions[[1L]]
-      )
-      
-      inspections.complete <- kwb.utils::safeColumnBind(
-        inspections.complete, inspections
-      )
-      
-    } else {
-      
+    if (!kwb.utils::allAreEqual(captions)) {
       if (dbg) {
         message(
           "The #B-header lines differ within the file -> I will change the ",
           "algorithm..."
         )
       }
-      
-      aborted <- TRUE
-    }    
+      return(NULL)
+    }
+
+    if (any(indices == length(text))) {
+      stop("No value line available after #B-header line (end of text block)!")
+    }
     
-    header.line.number <- header.line.number + 1L
+    partial_inspections <- utils::read.table(
+      text = paste(text[indices + 1L], collapse = "\n"),
+      sep = sep, 
+      dec = kwb.utils::selectElements(header.info, "decimal"), 
+      quote = kwb.utils::selectElements(header.info, "quote"),
+      comment.char = "",
+      stringsAsFactors = FALSE
+    )
     
-    indices.B <- grep(sprintf("^#B%02d", header.line.number), eu_lines)
+    names(partial_inspections) <- captions[[1L]]
+    inspections <- kwb.utils::safeColumnBind(inspections, partial_inspections)
+    b_number <- b_number + 1L
   }  
   
-  if (aborted) {
-    return(NULL)
-  }
-  
-  inspections.complete
-}
-
-# csvLinesToInspectionData -----------------------------------------------------
-csvLinesToInspectionData <- function(b.lines, header.info, captions)
-{
-  inspections <- kwb.utils::csvTextToDataFrame(
-    text = paste(b.lines, collapse = "\n"),
-    sep = header.info$separator, 
-    dec = header.info$decimal, 
-    quote = header.info$quote,
-    comment.char = "",
-    stringsAsFactors = FALSE
-  )
-  
-  stats::setNames(inspections, captions)
+  inspections
 }
