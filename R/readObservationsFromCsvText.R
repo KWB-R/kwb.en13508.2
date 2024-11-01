@@ -38,13 +38,12 @@ readObservationsFromCsvText <- function(
     silent = TRUE, 
     error = {
       data <- do.call(utils::read.table, c(common_args, list(colClasses = NA)))
-      convertTypes(data, classes = sapply(
+      convertTypes(data, dbg = dbg, classes = sapply(
         X = get_elements(inspectionDataFieldCodes(), names(data)), 
         FUN = get_elements, 
         elements = "class"
       ))
-    },
-    dbg = dbg
+    }
   )
 }
 
