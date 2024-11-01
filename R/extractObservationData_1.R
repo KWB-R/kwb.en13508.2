@@ -5,14 +5,11 @@ extractObservationData_1 <- function(
 {
   #kwb.utils::assignPackageObjects("kwb.en13508.2")
   
-  # Create accessor function to header info fields
-  fromHeader <- kwb.utils::createAccessor(header.info)
-  
   # Get information on the row numbers where the different blocks start
   indices <- getBlockIndices(text, dbg = dbg)
   
   # Column separator
-  sep <- fromHeader("separator")
+  sep <- kwb.utils::selectElements(header.info, "separator")
   
   # Try to get the C-Block captions (if they are unique, otherwise rais error!)
   captions <- tryToGetUniqueCaptions(text[indices$C], sep)
@@ -27,10 +24,11 @@ extractObservationData_1 <- function(
   observations <- readObservationsFromCsvText(
     text = c(tableHeader, tableBody), 
     sep = sep, 
-    dec = fromHeader("decimal"), 
-    quote = fromHeader("quote"), 
+    dec = kwb.utils::selectElements(header.info, "decimal"), 
+    quote = kwb.utils::selectElements(header.info, "quote"), 
     colClasses = colClasses,
-    header = TRUE
+    header = TRUE,
+    dbg = dbg
   )
   
   indices$B01 <- indices$B[grep("^#B01=", text[indices$B])]
@@ -122,38 +120,4 @@ getColClasses <- function(codes, captions)
   }
   
   colClasses
-}
-
-# getColClasses2 ---------------------------------------------------------------
-getColClasses2 <- function(codes, as.text)
-{
-  colClasses <- sapply(codes, get_elements, "class")
-  
-  if (as.text) {
-    colClasses[] <- "character"
-  }
-  
-  colClasses  
-}
-
-# convertTypes -----------------------------------------------------------------
-convertTypes <- function(data, codes)
-{
-  target_classes <- sapply(
-    get_elements(codes, names(data)), get_elements, "class"
-  )
-  
-  given_classes <- sapply(data, "class")
-  
-  columns_convert <- names(which(given_classes != target_classes))
-  
-  for (column in columns_convert) {
-    target_class <- target_classes[column]
-    data[[column]] <- kwb.utils::catAndRun(
-      sprintf("Converting column '%s' to %s", column, target_class),
-      do.call(paste0("as.", target_class), list(data[[column]]))
-    )
-  }
-  
-  data
 }

@@ -1,3 +1,4 @@
+#library(testthat)
 test_that("getExampleData() works", {
 
   f <- kwb.en13508.2:::getExampleData

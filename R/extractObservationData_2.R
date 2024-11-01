@@ -11,6 +11,7 @@
 #'   type. The default is \code{FALSE}, i.e. columns that are expected to
 #'   contain numeric values are converted to numeric, respecting the decimal
 #'   separator that is given in \code{header.info}
+#' @param dbg whether or not to show debug messages
 #' @return data frame with columns \code{A}, \code{B}, \code{C}, ... as defined 
 #'   in EN13508.2 and a column \code{inspno} referring to the inspection number.
 extractObservationData_2 <- function(
@@ -18,7 +19,8 @@ extractObservationData_2 <- function(
     headerInfo, 
     header.info, 
     file = "",
-    as.text = FALSE
+    as.text = FALSE,
+    dbg = TRUE
 )
 {
   # Create accessor function to headerInfo
@@ -49,7 +51,8 @@ extractObservationData_2 <- function(
       dec = get_elements(header.info, "decimal"), 
       quote = get_elements(header.info, "quote"), 
       colClasses = colClasses, 
-      header = TRUE
+      header = TRUE,
+      dbg = dbg
     )
     
     result[["inspno"]] <- rep(fetch("inspno")[rowsWithKey], blockLengths)
@@ -62,6 +65,18 @@ extractObservationData_2 <- function(
   inspectionData <- kwb.utils::orderBy(inspectionData, c("inspno", "I"))
   
   kwb.utils::moveColumnsToFront(inspectionData, "inspno")
+}
+
+# getColClasses2 ---------------------------------------------------------------
+getColClasses2 <- function(codes, as.text)
+{
+  classes <- sapply(codes, get_elements, "class")
+  
+  if (as.text) {
+    classes[] <- "character"
+  }
+  
+  classes  
 }
 
 # extractObservationBlocks -----------------------------------------------------

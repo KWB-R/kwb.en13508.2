@@ -54,8 +54,6 @@ readEuCodedFile <- function(
   
   name.convention <- match.arg(name.convention, c("norm", "camel", "snake"))
   
-  run <- function(...) kwb.utils::catAndRun(dbg = dbg, ...)
-  
   # If not explicitly given, use the encoding as given in the #A1 header
   if (is.null(file.encoding)) {
     file.encoding <- readFileEncodingFromHeader(input.file)
@@ -75,7 +73,8 @@ readEuCodedFile <- function(
     stopOnInvalidEncoding(file.encoding)
   }
   
-  eu_lines <- run(
+  eu_lines <- kwb.utils::catAndRun(
+    dbg = dbg,
     sprintf("Reading %s assuming %s encoding", input.file, file.encoding), 
     kwb.utils::readLinesWithEncoding(
       file = input.file, 
@@ -85,17 +84,20 @@ readEuCodedFile <- function(
     )
   )
   
-  eu_lines <- run(
+  eu_lines <- kwb.utils::catAndRun(
+    dbg = dbg,
     "Removing empty lines (if any)",
     removeEmptyLines(eu_lines, dbg = dbg)
   )
   
-  header.info <- run(
+  header.info <- kwb.utils::catAndRun(
+    dbg = dbg,
     "Extracting file header", 
     getFileHeaderFromEuLines(eu_lines, warn)
   )
   
-  inspections <- run(
+  inspections <- kwb.utils::catAndRun(
+    dbg = dbg,
     "Extracting inspection records",
     extractInspectionData(
       text = eu_lines, 
@@ -110,7 +112,8 @@ readEuCodedFile <- function(
   #dot.args <- list() # for debugging!
   #dot.args <- list(as.text = TRUE)
   
-  observations <- run(
+  observations <- kwb.utils::catAndRun(
+    dbg = dbg,
     "Extracting observation records",
     do.call(extractObservationData, c(dot.args, list(
       text = eu_lines, 

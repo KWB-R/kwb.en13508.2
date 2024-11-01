@@ -9,7 +9,8 @@ extractObservationData_2(
   headerInfo,
   header.info,
   file = "",
-  as.text = FALSE
+  as.text = FALSE,
+  dbg = TRUE
 )
 }
 \arguments{
@@ -26,6 +27,8 @@ extractObservationData_2(
 type. The default is \code{FALSE}, i.e. columns that are expected to
 contain numeric values are converted to numeric, respecting the decimal
 separator that is given in \code{header.info}}
+
+\item{dbg}{whether or not to show debug messages}
 }
 \value{
 data frame with columns \code{A}, \code{B}, \code{C}, ... as defined 

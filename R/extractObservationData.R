@@ -20,7 +20,8 @@ extractObservationData <- function(
         text = text, 
         headerInfo = getHeaderInfo(text), 
         header.info = header.info,
-        file = file
+        file = file,
+        dbg = dbg
       )))
     }
   )
