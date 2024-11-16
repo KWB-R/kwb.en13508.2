@@ -42,22 +42,17 @@ setGlobalInspectionID <- function(
   
   # The following function requires the column "inspection_time". If this 
   # column does not exist, create it with a default value
-  timeColumn <- get_elements(elements = name.convention, list(
-    norm = "ABG",
-    camel = "InspTime",
-    snake = "inspection_time"
-  ))
-  
-  inspections[[timeColumn]] <- fillTimeVector(
-    x = if (timeColumn %in% names(inspections)) {
-      inspections[[timeColumn]]
-    } else {
-      character(nrow(inspections))
-    },
-    hhmm = default.time, 
+  inspections <- checkOrAddInspectionTime(
+    data = inspections, 
+    column = get_elements(elements = name.convention, list(
+      norm = "ABG",
+      camel = "InspTime",
+      snake = "inspection_time"
+    )),
+    hhmm = default.time,
     seed = 123L
   )
-  
+
   # Create the inspection IDs and store them in column "inspection_id"
   hashes <- createHashFromColumns(
     data = inspections, 
@@ -91,6 +86,18 @@ setGlobalInspectionID <- function(
     inspections = id_first(inspections),
     observations = id_first(observations)
   )
+}
+
+# checkOrAddInspectionTime -----------------------------------------------------
+checkOrAddInspectionTime <- function(data, column, ...)
+{
+  x <- if (column %in% names(data)) {
+    data[[column]]
+  } else {
+    character(nrow(data))
+  }  
+  data[[column]] <- fillTimeVector(x, ...)
+  data
 }
 
 # fillTimeVector ---------------------------------------------------------------
