@@ -32,38 +32,27 @@ setGlobalInspectionID <- function(
     )
   }
   
-  # Just a shortcut
   removeEmpty <- function(x) kwb.utils::removeEmptyColumns(x, dbg = FALSE)
-  
   inspections <- removeEmpty(get_elements(inspection.data, "inspections"))
   observations <- removeEmpty(get_elements(inspection.data, "observations"))
+  
+  # Columns from which to generate the hash code
+  columns <- get_elements(elements = name.convention, list(
+    norm = c("project", "ABF", "ABG", "AAD", "AAF"),
+    camel = c("project", "InspDate", "InspTime", "Node1Ref", "Node2Ref"),
+    snake = c("project", "inspection_date", "inspection_time", "node_1_ref", "node_2_ref")
+  ))
   
   inspections[["project"]] <- project
   
   # The following function requires the column "inspection_time". If this 
   # column does not exist, create it with a default value
   inspections <- checkOrAddInspectionTime(
-    data = inspections, 
-    column = get_elements(elements = name.convention, list(
-      norm = "ABG",
-      camel = "InspTime",
-      snake = "inspection_time"
-    )),
-    hhmm = default.time,
-    seed = 123L
+    data = inspections, column = columns[3L], hhmm = default.time, seed = 123L
   )
 
   # Create the inspection IDs and store them in column "inspection_id"
-  hashes <- createHashFromColumns(
-    data = inspections, 
-    # Columns from which to generate the hash code
-    columns = get_elements(elements = name.convention, list(
-      norm = c("project", "ABF", "ABG", "AAD", "AAF"),
-      camel = c("project", "InspDate", "InspTime", "Node1Ref", "Node2Ref"),
-      snake = c("project", "inspection_date", "inspection_time", "node_1_ref", "node_2_ref")
-    )), 
-    silent = TRUE
-  )
+  hashes <- createHashFromColumns(inspections, columns, silent = TRUE)
   
   # Check for duplicates in the hashes
   stop_on_hash_duplicates(hashes, error.file = error.file)
@@ -78,7 +67,6 @@ setGlobalInspectionID <- function(
   
   observations <- kwb.utils::removeColumns(observations, "inspno")
   
-  # Just a shortcut
   id_first <- function(x) kwb.utils::moveColumnsToFront(x, "inspection_id")
   
   list(
