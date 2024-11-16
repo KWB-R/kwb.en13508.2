@@ -33,8 +33,8 @@ setGlobalInspectionID <- function(
   }
   
   # Just a shortcut
-  removeEmpty <- function(df) kwb.utils::removeEmptyColumns(df, dbg = FALSE)
-
+  removeEmpty <- function(x) kwb.utils::removeEmptyColumns(x, dbg = FALSE)
+  
   inspections <- removeEmpty(get_elements(inspection.data, "inspections"))
   observations <- removeEmpty(get_elements(inspection.data, "observations"))
   
@@ -48,69 +48,33 @@ setGlobalInspectionID <- function(
     snake = "inspection_time"
   ))
   
-  inspections <- kwb.utils::hsAddMissingCols(inspections, timeColumn)
-  
-  hasNoTime <- kwb.utils::isNaOrEmpty(inspections[[timeColumn]])
-  
-  if (any(hasNoTime)) {
-    
-    n_missing <- sum(hasNoTime)
-    
-    message(sprintf(
-      "Setting %d missing inspection times to '%s' (plus random seconds).",
-      n_missing, 
-      default.time
-    ))
-    
-    # We have to fix the random number generator otherwise the times are not
-    # reproducible!
-    set.seed(123L)
-    
-    # Generate a random number for the seconds
-    inspections[[timeColumn]][hasNoTime] <- sprintf(
-      "%s:%02d", 
-      default.time, 
-      sample(0:59, size = n_missing, replace = TRUE)
-    )
-  }
-
-  # Columns from which to generate the hash code
-  columns <- get_elements(elements = name.convention, list(
-    norm = c(
-      "project", 
-      "ABF", 
-      "ABG", 
-      "AAD", 
-      "AAF"
-    ),
-    camel = c(
-      "project", 
-      "InspDate", 
-      "InspTime", 
-      "Node1Ref", 
-      "Node2Ref"
-    ),
-    snake = c(
-      "project", 
-      "inspection_date", 
-      "inspection_time", 
-      "node_1_ref", 
-      "node_2_ref"
-    )
-  ))
+  inspections[[timeColumn]] <- fillTimeVector(
+    x = if (timeColumn %in% names(inspections)) {
+      inspections[[timeColumn]]
+    } else {
+      character(nrow(inspections))
+    },
+    hhmm = default.time, 
+    seed = 123L
+  )
   
   # Create the inspection IDs and store them in column "inspection_id"
   hashes <- createHashFromColumns(
     data = inspections, 
-    columns = columns, 
+    # Columns from which to generate the hash code
+    columns = get_elements(elements = name.convention, list(
+      norm = c("project", "ABF", "ABG", "AAD", "AAF"),
+      camel = c("project", "InspDate", "InspTime", "Node1Ref", "Node2Ref"),
+      snake = c("project", "inspection_date", "inspection_time", "node_1_ref", "node_2_ref")
+    )), 
     silent = TRUE
   )
   
   # Check for duplicates in the hashes
   stop_on_hash_duplicates(hashes, error.file = error.file)
-
+  
   inspections[["inspection_id"]] <- hashes
-
+  
   i <- kwb.utils::selectColumns(observations, "inspno")
   
   observations[["inspection_id"]] <- kwb.utils::selectColumns(
@@ -118,15 +82,40 @@ setGlobalInspectionID <- function(
   )[i]
   
   observations <- kwb.utils::removeColumns(observations, "inspno")
-
+  
   # Just a shortcut
   id_first <- function(x) kwb.utils::moveColumnsToFront(x, "inspection_id")
-
+  
   list(
     header.info = get_elements(inspection.data, "header.info"),
     inspections = id_first(inspections),
     observations = id_first(observations)
   )
+}
+
+# fillTimeVector ---------------------------------------------------------------
+fillTimeVector <- function(x, hhmm = "22:22", seed = NULL, silent = FALSE)
+{
+  if (any(isEmpty <- kwb.utils::isNaOrEmpty(x))) {
+    
+    if (!silent) {
+      message(sprintf(
+        "Setting %d missing inspection times to '%s' (plus random seconds).",
+        sum(isEmpty), hhmm
+      ))
+    }
+    
+    # Fix the random number generator to be reproducible
+    if (!is.null(seed)) {
+      set.seed(seed)
+    }
+    
+    # Generate a random number for the seconds. 
+    seconds <- sample(0:59, size = sum(isEmpty), replace = TRUE)
+    x[isEmpty] <- sprintf("%s:%02d", hhmm, seconds)
+  }
+  
+  x
 }
 
 # stop_on_hash_duplicates ------------------------------------------------------
