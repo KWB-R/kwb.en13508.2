@@ -51,16 +51,29 @@ setGlobalInspectionID <- function(
     data = inspections, column = columns[3L], hhmm = default.time, seed = 123L
   )
   
-  # Create inspection_ids and check if they have duplicated values
-  inspection_ids <- createHashFromColumns(inspections, columns, silent = TRUE)
-  stop_on_hash_duplicates(inspection_ids, error.file = error.file)
+  # Create new inspection_ids and check if they have duplicated values
+  new_ids <- createHashFromColumns(inspections, columns, silent = TRUE)
+  stop_on_hash_duplicates(new_ids, error.file = error.file)
   
-  updated <- setInspectionId(inspections, observations, inspection_ids)
+  # Set inspection ids
+  INSPNO <- "inspno"
+  INSPID <- "inspection_id"
   
-  list(
-    header.info = get_elements(inspection.data, "header.info"),
-    inspections = updated$inspections,
-    observations = updated$observations
+  if (! INSPNO %in% names(inspections)) {
+    inspections[[INSPNO]] <- seq_len(nrow(inspections))
+  }
+  
+  use_inspection_id <- function(x) {
+    x[[INSPID]] <- kwb.utils::selectColumns(x, INSPNO)
+    kwb.utils::moveColumnsToFront(kwb.utils::removeColumns(x, INSPNO), INSPID)
+  }
+  
+  c(
+    list(header.info = get_elements(inspection.data, "header.info")),
+    replaceInspectionId(new_ids = new_ids, inspection.data = list(
+      inspections = use_inspection_id(inspections),
+      observations = use_inspection_id(observations)
+    ))
   )
 }
 
@@ -125,44 +138,58 @@ stop_on_hash_duplicates <- function(hashes, error.file = NULL)
   }
 }
 
-# setInspectionId --------------------------------------------------------------
+# replaceInspectionId ----------------------------------------------------------
 
-#' Add column inspection_id to table of inspections and observations
+#' Replace values in columns inspection_id
 #' 
-#' @param inspections data frame where each row represents an inspection
-#' @param observations data frame where each row represents an observation. The 
-#'   data frame must have a column "inspno" that refers to a row in the data 
-#'   frame \code{inspections}.
-#' @param inspection_ids vector of as many inspection ids as there are rows in 
-#'   \code{inspections}
-#' @return list with elements \code{inspections} and \code{observations} each of
-#'   which has a new column "inspection_id" as its first column.
+#' @param inspection.data list with inspections data frame in element 
+#'   \code{inspections} and observations data frame in element 
+#'   \code{observations}. Both data frames must have a column 
+#'   \code{inspection_id}.
+#' @param new_ids vector of as many inspection ids as there are rows in 
+#'   \code{inspection.data$inspections} to be given to the inspections in that
+#'   data frame. The first element is given to the first row, the second to the
+#'   second row, and so on.
+#' @return list with data frames in elements \code{inspections} and 
+#'   \code{observations}. In each data frame the values in column 
+#'   \code{inspection_id} are updated according to the \code{new_ids}.
 #' @importFrom kwb.utils moveColumnsToFront removeColumns selectColumns
 #' @export
 #' @examples
-#' inspections <- data.frame(pipe_id = 1:3)
-#' observations <- data.frame(
-#'   inspno = c(1, 1, 2, 2, 3, 3),
-#'    observation = c("start", "end", "start", "end", "start", "end")
+#' inspection.data <- list(
+#'   inspections = data.frame(
+#'     inspection_id = 1:3,
+#'     pipe_id = 1:3
+#'   ),
+#'   observations = data.frame(
+#'     inspection_id = c(1, 1, 2, 2, 3, 3),
+#'     observation = c("start", "end", "start", "end", "start", "end")
+#'   )
 #' )
-#' setInspectionId(inspections, observations, paste0("id_", 1:3))
+#' replaceInspectionId(inspection.data, new_ids = paste0("id_", 1:3))
 #' 
-setInspectionId <- function(inspections, observations, inspection_ids)
+replaceInspectionId <- function(inspection.data, new_ids)
 {
-  stopifnot(length(inspection_ids) == nrow(inspections))
-  stopifnot(!anyDuplicated(inspection_ids))
+  inspections <- get_elements(inspection.data, "inspections")
+  observations <- get_elements(inspection.data, "observations")
+  
+  stopifnot(length(new_ids) == nrow(inspections))
+  stopifnot(!anyDuplicated(new_ids))
   
   INSPID <- "inspection_id"
-  INSPNO <- "inspno"
   
-  inspection_numbers <- kwb.utils::selectColumns(observations, INSPNO)
-  inspections[[INSPID]] <- inspection_ids
-  observations[[INSPID]] <- inspection_ids[inspection_numbers]
+  indices <- match(
+    kwb.utils::selectColumns(observations, INSPID),
+    kwb.utils::selectColumns(inspections, INSPID)
+  )
   
-  id_first <- function(x) kwb.utils::moveColumnsToFront(x, INSPID)
+  stopifnot(!anyNA(indices))
+  
+  observations[[INSPID]] <- new_ids[indices]
+  inspections[[INSPID]] <- new_ids
   
   list(
-    inspections = id_first(inspections),
-    observations = id_first(kwb.utils::removeColumns(observations, INSPNO))
+    inspections = inspections, 
+    observations = observations
   )
 }
