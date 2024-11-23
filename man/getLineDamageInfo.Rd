@@ -4,12 +4,25 @@
 \alias{getLineDamageInfo}
 \title{Get Information on Line Damages}
 \usage{
-getLineDamageInfo(observations, dbg = TRUE)
+getLineDamageInfo(
+  observations,
+  I = observations$I,
+  J = observations$J,
+  inspno = observations$inspno,
+  dbg = TRUE
+)
 }
 \arguments{
 \item{observations}{data frame with observations. Required columns: \code{I}
 (= horizontal or vertical position), \code{J} (= code for line damage),
 \code{inspno} (number of inspection to which the observation belongs)}
+
+\item{I}{Numeric vector of positions of observations}
+
+\item{J}{Vector of character of same length as \code{I} containing the codes 
+used to indicate continuous defects}
+
+\item{inspno}{vector of inspection identifiers of same length as \code{I}}
 
 \item{dbg}{if \code{TRUE}, debug messages are shown}
 }

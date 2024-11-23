@@ -5,8 +5,9 @@ test_that("getLineDamageInfo() works", {
   f <- kwb.en13508.2::getLineDamageInfo
   
   expect_error(f())
-
-  expect_message(result <- f(data.frame()))
+  expect_error(f(data.frame()), "No positions")
+  expect_error(f(data.frame(I = 1:10)), "No inspection identifiers")
+  expect_message(result <- f(data.frame(inspno = 1:10, I = 1:10)))
   expect_null(result)
 
   observations <- read.csv(text = "
