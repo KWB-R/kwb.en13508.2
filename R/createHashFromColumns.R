@@ -1,11 +1,12 @@
 # createHashFromColumns --------------------------------------------------------
 createHashFromColumns <- function(
-    data, columns, nchars = 8L, silent = FALSE, makeUnique = FALSE
+    data, columns, nchars = 8L, silent = FALSE, makeUnique = FALSE, 
+    allowDuplicates = FALSE
 )
 {
   duplicates <- kwb.utils::findPartialDuplicates(data, columns)
   
-  if (!is.null(duplicates)) {
+  if (!is.null(duplicates) && !allowDuplicates) {
     if (!silent) {
       message(
         "Cannot create unique hashes due to duplicates in the key columns (",
@@ -25,7 +26,7 @@ createHashFromColumns <- function(
   
   keys <- kwb.utils::pasteColumns(data, columns, "|")
 
-  if (!makeUnique) {
+  if (!allowDuplicates && !makeUnique) {
     stopifnot(!anyDuplicated(keys))
   }
   
@@ -35,7 +36,9 @@ createHashFromColumns <- function(
     hashes <- kwb.utils::makeUnique(hashes, warn = FALSE)
   }
   
-  stopifnot(!anyDuplicated(hashes))
+  if (!allowDuplicates) {
+    stopifnot(!anyDuplicated(hashes))
+  }
 
   hashes
 }
