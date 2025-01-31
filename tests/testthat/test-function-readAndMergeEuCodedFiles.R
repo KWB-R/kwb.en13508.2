@@ -8,8 +8,8 @@ test_that("readAndMergeEuCodedFiles() works", {
   file <- kwb.en13508.2:::getExampleFile()
   files <- c(file, file)
     
-  result_camel <- f(files, name.convention = "camel")
-  result_snake <- f(files, name.convention = "snake")
+  result_camel <- f(files, name.convention = "camel", dbg = FALSE)
+  result_snake <- f(files, name.convention = "snake", dbg = FALSE)
   
   check_top_level <- function(x) {
     expect_identical(names(x), c("header.info", "inspections", "observations"))

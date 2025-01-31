@@ -23,7 +23,7 @@ getCodes <- function(table = NULL, fields = NULL)
     
     subtables <- split(codes, get_columns(codes, "Table"))
     
-    codes <- kwb.utils::selectElements(subtables, table)
+    codes <- get_elements(subtables, table)
     
     if (length(table) > 1L) {
       codes <- kwb.utils::safeRowBindAll(codes)

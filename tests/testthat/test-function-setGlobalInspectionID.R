@@ -27,4 +27,22 @@ test_that("setGlobalInspectionID() works", {
   ))
 
   expect_true(file.exists(error.file))
+  expect_true(length(readLines(error.file)) > 0L)
+  
+  expect_message(regexp = "Setting .* inspection times", f(
+    inspection.data = list(
+      inspections = data.frame(
+        inspection_date = c("2024-01-03", "2024-01-03"),
+        node_1_ref = c("A", "B"),
+        node_2_ref = c("B", "A")
+      ),
+      observations = data.frame(
+        inspno = 1L
+      ),
+      header.info = list()
+    ),
+    project = "Lausanne", 
+    name.convention = "snake"
+  ))
+  
 })

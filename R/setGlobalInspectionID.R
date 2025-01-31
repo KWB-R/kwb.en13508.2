@@ -32,101 +32,86 @@ setGlobalInspectionID <- function(
     )
   }
   
-  # Just a shortcut
-  removeEmpty <- function(df) kwb.utils::removeEmptyColumns(df, dbg = FALSE)
-
+  removeEmpty <- function(x) kwb.utils::removeEmptyColumns(x, dbg = FALSE)
   inspections <- removeEmpty(get_elements(inspection.data, "inspections"))
   observations <- removeEmpty(get_elements(inspection.data, "observations"))
+  
+  # Columns from which to generate the hash code
+  columns <- get_elements(elements = name.convention, list(
+    norm = c("project", "ABF", "ABG", "AAD", "AAF"),
+    camel = c("project", "InspDate", "InspTime", "Node1Ref", "Node2Ref"),
+    snake = c("project", "inspection_date", "inspection_time", "node_1_ref", "node_2_ref")
+  ))
   
   inspections[["project"]] <- project
   
   # The following function requires the column "inspection_time". If this 
   # column does not exist, create it with a default value
-  timeColumn <- get_elements(elements = name.convention, list(
-    norm = "ABG",
-    camel = "InspTime",
-    snake = "inspection_time"
-  ))
+  inspections <- checkOrAddInspectionTime(
+    data = inspections, column = columns[3L], hhmm = default.time, seed = 123L
+  )
   
-  inspections <- kwb.utils::hsAddMissingCols(inspections, timeColumn)
+  # Create new inspection_ids and check if they have duplicated values
+  new_ids <- createHashFromColumns(inspections, columns, silent = TRUE)
+  stop_on_hash_duplicates(new_ids, error.file = error.file)
   
-  hasNoTime <- kwb.utils::isNaOrEmpty(inspections[[timeColumn]])
+  # Set inspection ids
+  INSPNO <- "inspno"
+  INSPID <- "inspection_id"
   
-  if (any(hasNoTime)) {
-    
-    n_missing <- sum(hasNoTime)
-    
-    message(sprintf(
-      "Setting %d missing inspection times to '%s' (plus random seconds).",
-      n_missing, 
-      default.time
-    ))
-    
-    # We have to fix the random number generator otherwise the times are not
-    # reproducible!
-    set.seed(123L)
-    
-    # Generate a random number for the seconds
-    inspections[[timeColumn]][hasNoTime] <- sprintf(
-      "%s:%02d", 
-      default.time, 
-      sample(0:59, size = n_missing, replace = TRUE)
-    )
+  if (! INSPNO %in% names(inspections)) {
+    inspections[[INSPNO]] <- seq_len(nrow(inspections))
   }
-
-  # Columns from which to generate the hash code
-  columns <- get_elements(elements = name.convention, list(
-    norm = c(
-      "project", 
-      "ABF", 
-      "ABG", 
-      "AAD", 
-      "AAF"
-    ),
-    camel = c(
-      "project", 
-      "InspDate", 
-      "InspTime", 
-      "Node1Ref", 
-      "Node2Ref"
-    ),
-    snake = c(
-      "project", 
-      "inspection_date", 
-      "inspection_time", 
-      "node_1_ref", 
-      "node_2_ref"
-    )
-  ))
   
-  # Create the inspection IDs and store them in column "inspection_id"
-  hashes <- createHashFromColumns(
-    data = inspections, 
-    columns = columns, 
-    silent = TRUE
+  use_inspection_id <- function(x) {
+    x[[INSPID]] <- kwb.utils::selectColumns(x, INSPNO)
+    kwb.utils::moveColumnsToFront(kwb.utils::removeColumns(x, INSPNO), INSPID)
+  }
+  
+  c(
+    list(header.info = get_elements(inspection.data, "header.info")),
+    replaceInspectionId(new_ids = new_ids, inspection.data = list(
+      inspections = use_inspection_id(inspections),
+      observations = use_inspection_id(observations)
+    ))
   )
+}
+
+# checkOrAddInspectionTime -----------------------------------------------------
+checkOrAddInspectionTime <- function(data, column, ...)
+{
+  x <- if (column %in% names(data)) {
+    data[[column]]
+  } else {
+    character(nrow(data))
+  }  
+  data[[column]] <- fillTimeVector(x, ...)
+  data
+}
+
+# fillTimeVector ---------------------------------------------------------------
+fillTimeVector <- function(x, hhmm = "22:22", seed = NULL, silent = FALSE)
+{
+  if (any(isEmpty <- kwb.utils::isNaOrEmpty(x))) {
+    
+    if (!silent) {
+      message(sprintf(
+        "Setting %d missing inspection times to '%s' (plus random seconds).",
+        sum(isEmpty), hhmm
+      ))
+    }
+    
+    # Fix the random number generator to be reproducible
+    if (!is.null(seed)) {
+      set.seed(seed)
+    }
+    
+    # Generate a random number for the seconds. 
+    seconds <- sample(0:59, size = sum(isEmpty), replace = TRUE)
+    x[isEmpty] <- sprintf("%s:%02d", hhmm, seconds)
+  }
   
-  # Check for duplicates in the hashes
-  stop_on_hash_duplicates(hashes, error.file = error.file)
-
-  inspections[["inspection_id"]] <- hashes
-
-  i <- kwb.utils::selectColumns(observations, "inspno")
-  
-  observations[["inspection_id"]] <- kwb.utils::selectColumns(
-    inspections, "inspection_id"
-  )[i]
-  
-  observations <- kwb.utils::removeColumns(observations, "inspno")
-
-  # Just a shortcut
-  id_first <- function(x) kwb.utils::moveColumnsToFront(x, "inspection_id")
-
-  list(
-    header.info = get_elements(inspection.data, "header.info"),
-    inspections = id_first(inspections),
-    observations = id_first(observations)
-  )
+  x
 }
 
 # stop_on_hash_duplicates ------------------------------------------------------
@@ -151,4 +136,60 @@ stop_on_hash_duplicates <- function(hashes, error.file = NULL)
       call. = FALSE
     )
   }
+}
+
+# replaceInspectionId ----------------------------------------------------------
+
+#' Replace values in columns inspection_id
+#' 
+#' @param inspection.data list with inspections data frame in element 
+#'   \code{inspections} and observations data frame in element 
+#'   \code{observations}. Both data frames must have a column 
+#'   \code{inspection_id}.
+#' @param new_ids vector of as many inspection ids as there are rows in 
+#'   \code{inspection.data$inspections} to be given to the inspections in that
+#'   data frame. The first element is given to the first row, the second to the
+#'   second row, and so on.
+#' @return list with data frames in elements \code{inspections} and 
+#'   \code{observations}. In each data frame the values in column 
+#'   \code{inspection_id} are updated according to the \code{new_ids}.
+#' @importFrom kwb.utils moveColumnsToFront removeColumns selectColumns
+#' @export
+#' @examples
+#' inspection.data <- list(
+#'   inspections = data.frame(
+#'     inspection_id = 1:3,
+#'     pipe_id = 1:3
+#'   ),
+#'   observations = data.frame(
+#'     inspection_id = c(1, 1, 2, 2, 3, 3),
+#'     observation = c("start", "end", "start", "end", "start", "end")
+#'   )
+#' )
+#' replaceInspectionId(inspection.data, new_ids = paste0("id_", 1:3))
+#' 
+replaceInspectionId <- function(inspection.data, new_ids)
+{
+  inspections <- get_elements(inspection.data, "inspections")
+  observations <- get_elements(inspection.data, "observations")
+  
+  stopifnot(length(new_ids) == nrow(inspections))
+  stopifnot(!anyDuplicated(new_ids))
+  
+  INSPID <- "inspection_id"
+  
+  indices <- match(
+    kwb.utils::selectColumns(observations, INSPID),
+    kwb.utils::selectColumns(inspections, INSPID)
+  )
+  
+  stopifnot(!anyNA(indices))
+  
+  observations[[INSPID]] <- new_ids[indices]
+  inspections[[INSPID]] <- new_ids
+  
+  list(
+    inspections = inspections, 
+    observations = observations
+  )
 }

@@ -1,3 +1,24 @@
+## kwb.en13508.2 v0.4.0 (2025-01-31)
+
+major changes
+
+public
+- new: replaceInspectionId()
+
+private
+- new: addInspectionNumbers()
+- new: getInspectionNumbers()
+- new: getInspectionNumbers.old()
+- new: extractInspectionData_v1()
+- createHashFromColumns(): add args "makeUnique", "allowDuplicates""
+- getInspectionRecordsFromEuLines(): rename to extractInspectionData() 
+- getInspectionRecords_v2(): 
+  - rename to extractInspectionData_v2(), 
+  - rename arg "eu_lines" to "text"
+- extractObservationData(): rename to extractObservationData_2()
+
+plus many more changes...
+
 ## kwb.en13508.2 v0.3.0 (2024-03-28)
 
 ### General

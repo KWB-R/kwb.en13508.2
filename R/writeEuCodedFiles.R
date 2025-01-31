@@ -94,7 +94,7 @@ writeEuCodedFile <- function(
   output.lines <- kwb.utils::catAndRun(
     "Formatting lines",
     dbg = dbg, 
-    toEuFormat(inspection.data, version, dbg = dbg)
+    toEuFormat(inspection.data, version, dbg = dbg, ...)
   )
   
   if (is.null(output.file)) {

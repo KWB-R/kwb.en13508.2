@@ -1,7 +1,7 @@
 Package: kwb.en13508.2
 Title: Read and Write CCTV Inspection Data According to Norm
     EN13508-2
-Version: 0.3.0
+Version: 0.4.0
 Authors@R: 
     c(person(given = "Hauke",
              family = "Sonnenberg",
@@ -24,5 +24,5 @@ Suggests:
 Remotes: 
     github::kwb-r/kwb.utils
 Encoding: UTF-8
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Config/testthat/edition: 3

@@ -120,7 +120,7 @@ getHeaderLinesFromHeaderInfo <- function(header.info)
 {
   elements <- c("encoding", "language", "separator", "decimal", "quote", "year")
   
-  values <- unlist(kwb.utils::selectElements(header.info, elements))
+  values <- unlist(get_elements(header.info, elements))
   
   paste(sprintf("#A%d", seq_along(values)), values, sep = "=")
 }

@@ -1,7 +1,7 @@
 # getFileHeaderFromEuLines -----------------------------------------------------
-getFileHeaderFromEuLines <- function(eu_lines, warn = TRUE)
+getFileHeaderFromEuLines <- function(text, warn = TRUE)
 {
-  a.lines <- grep("^#A", eu_lines, value = TRUE)
+  a.lines <- grep("^#A", text, value = TRUE)
   
   # original_fields <- do.call(kwb.utils::toLookupList, kwb.utils::toKeysAndValues(
   #   kwb.utils::collapsed(gsub("^#", "", a.lines), "@"),

@@ -1,17 +1,17 @@
-# getInspectionRecords_v2 ------------------------------------------------------
+# extractInspectionData_v2 -----------------------------------------------------
 #' @importFrom kwb.utils removeColumns
-getInspectionRecords_v2 <- function(
-  eu_lines, header.info, dbg = TRUE, version = 2L
+extractInspectionData_v2 <- function(
+    text, header.info, dbg = TRUE, version = 2L
 )
 {
   headerInfos <- if (version == 1L) {
-    getInspectionHeaderInfo_v1(eu_lines)
+    getInspectionHeaderInfo_v1(text)
   } else if (version == 2L) {
-    getInspectionHeaderInfo_v2(eu_lines)
+    getInspectionHeaderInfo_v2(text)
   }
  
   inspectionBlocks <- extractInspectionBlocks(
-    eu_lines = eu_lines, 
+    text = text, 
     headerInfos = headerInfos, 
     sep = get_elements(header.info, "separator"), 
     dec = get_elements(header.info, "decimal"), 
@@ -30,7 +30,7 @@ getInspectionRecords_v2 <- function(
 # extractInspectionBlocks ------------------------------------------------------
 #' @importFrom kwb.utils collapsed isTryError stopFormatted
 extractInspectionBlocks <- function(
-  eu_lines, headerInfos, sep, dec, quote, dbg = TRUE
+  text, headerInfos, sep, dec, quote, dbg = TRUE
 )
 {
   blocks <- list()
@@ -43,7 +43,7 @@ extractInspectionBlocks <- function(
     #i <- 5
     row_numbers <- headerInfos[[i]]$rows + 1L
     
-    textblock <- eu_lines[row_numbers]
+    textblock <- text[row_numbers]
     
     x <- try(silent = TRUE, textblockToDataframe(
       textblock, sep, dec, quote, captionLine = unique_headers[i], 

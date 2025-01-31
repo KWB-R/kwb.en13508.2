@@ -1,29 +1,30 @@
 # getHeaderInfo ----------------------------------------------------------------
-getHeaderInfo <- function(euLines)
+getHeaderInfo <- function(text)
 {
   # Indices of header lines (starting with #A, #B, #C, or #Z
-  headerIndices <- grep("^#[ABCZ]", euLines)
+  indices <- grep("^#[ABCZ]", text)
 
   # Corresponding header lines
-  headerLines <- euLines[headerIndices]
+  headers <- text[indices]
   
-  keyValue = strsplit(headerLines, "=")
+  key_value = strsplit(headers, "=")
   
-  keys <- sapply(keyValue, "[", 1L)
+  keys <- sapply(key_value, "[", 1L)
   
   values <- character(length(keys))
-  hasValue <- lengths(keyValue) > 1L
-  values[hasValue] <- sapply(keyValue[hasValue], "[", 2L)
+  has_value <- lengths(key_value) > 1L
+  values[has_value] <- sapply(key_value[has_value], "[", 2L)
   
-  headerInfo <- kwb.utils::noFactorDataFrame(
-    row = headerIndices,
-    type = substr(headerLines, 2L, 2L),
+  header_info <- data.frame(
+    row = indices,
+    type = substr(headers, 2L, 2L),
     key = keys,
-    uniqueKey = "",
-    value = values
+    uniqueKey = rep("", length(indices)),
+    value = values,
+    stringsAsFactors = FALSE
   )
   
-  setUniqueKey <- function(data, type) {
+  set_unique_key <- function(data, type) {
     isType <- data$type == type
     uniqueValues <- unique(data$value[isType])
     key <- paste0(tolower(type), match(data$value[isType], uniqueValues))
@@ -31,18 +32,18 @@ getHeaderInfo <- function(euLines)
     data
   }
   
-  headerInfo <- setUniqueKey(headerInfo, "B")  
-  headerInfo <- setUniqueKey(headerInfo, "C")  
+  header_info <- set_unique_key(header_info, "B")  
+  header_info <- set_unique_key(header_info, "C")
 
   # Set inspection number in column "inspno"
-  changes <- kwb.utils::findChanges(headerInfo$type)
-  bStarts <- changes$starts_at[changes$value == "B"]
+  changes <- kwb.utils::findChanges(header_info$type)
+  b_starts <- changes$starts_at[changes$value == "B"]
     
-  inspectionNumbers <- rep(NA_integer_, nrow(headerInfo))
-  inspectionNumbers[bStarts] <- seq_along(bStarts)
-  inspectionNumbers <- kwb.utils::naToLastNonNa(inspectionNumbers)
+  inspection_numbers <- rep(NA_integer_, nrow(header_info))
+  inspection_numbers[b_starts] <- seq_along(b_starts)
+  inspection_numbers <- kwb.utils::naToLastNonNa(inspection_numbers)
   
-  headerInfo[["inspno"]] <- inspectionNumbers
+  header_info[["inspno"]] <- inspection_numbers
   
-  headerInfo
+  header_info
 }
