@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">kwb.en13508.2</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -53,7 +53,13 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">getLineDamageInfo</span><span class="op">(</span><span class="va">observations</span>, dbg <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">getLineDamageInfo</span><span class="op">(</span></span>
+<span>  <span class="va">observations</span>,</span>
+<span>  I <span class="op">=</span> <span class="va">observations</span><span class="op">$</span><span class="va">I</span>,</span>
+<span>  J <span class="op">=</span> <span class="va">observations</span><span class="op">$</span><span class="va">J</span>,</span>
+<span>  inspno <span class="op">=</span> <span class="va">observations</span><span class="op">$</span><span class="va">inspno</span>,</span>
+<span>  dbg <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -64,6 +70,19 @@
 <dd><p>data frame with observations. Required columns: <code>I</code>
 (= horizontal or vertical position), <code>J</code> (= code for line damage),
 <code>inspno</code> (number of inspection to which the observation belongs)</p></dd>
+
+
+<dt id="arg-i">I<a class="anchor" aria-label="anchor" href="#arg-i"></a></dt>
+<dd><p>Numeric vector of positions of observations</p></dd>
+
+
+<dt id="arg-j">J<a class="anchor" aria-label="anchor" href="#arg-j"></a></dt>
+<dd><p>Vector of character of same length as <code>I</code> containing the codes
+used to indicate continuous defects</p></dd>
+
+
+<dt id="arg-inspno">inspno<a class="anchor" aria-label="anchor" href="#arg-inspno"></a></dt>
+<dd><p>vector of inspection identifiers of same length as <code>I</code></p></dd>
 
 
 <dt id="arg-dbg">dbg<a class="anchor" aria-label="anchor" href="#arg-dbg"></a></dt>
